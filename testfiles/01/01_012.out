@@ -1,0 +1,9 @@
+Welcome
+Please select the following:
+admin
+user
+Please enter your name:
+Please enter the account number to withdraw from:
+Please enter the amount to withdraw:
+Withdrawal failed, you must enter a number divisible by 5
+You have successfully logged out

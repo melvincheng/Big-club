@@ -1,0 +1,825 @@
+==============================
+withdrawal
+	Scenario: Standard user withdraws a valid amount of funds from their account;
+	Test Step: Enter withdrawal command; Enter valid account number; Enter valid amount to withdraw;
+	Input file:
+		login
+		user
+		Billy-Bob Thornton
+		withdrawal
+		10001
+		230.00
+		logout
+	Expected output: "withdrawalal of $230.00 was successful"
+	Output file:
+		Welcome
+		Please select the following:
+		admin
+		user
+		Please enter your name:
+		Please enter the account number to withdraw from:
+		Please enter the amount to withdraw:
+		Withdrawal of $230.00 was successful
+		Please enter a transaction:
+		You have successfully logged out
+
+	Scenario: Standard user attempts to withdraw more than $500 from their account;
+	Test Step: Enter withdrawal command; Enter valid account number; Enter large amount to withdraw;
+	Input file:
+		login
+		user
+		Billy-Bob Thornton
+		withdrawal
+		10001
+		530.00
+		logout
+	Expected output: "Withdrawal of $530.00 failed; withdrawal amount must be within the range of $0-$500"
+	Output file:
+		Welcome
+		Please select the following:
+		admin
+		user
+		Please enter your name:
+		Please enter the account number to withdraw from:
+		Please enter the amount to withdraw:
+		Withdrawal of $530.00 failed; withdrawal amount must be within the range of $0-$500
+		Please enter a transaction:
+		You have successfully logged out
+
+	Scenario: Standard user attempts to withdraw more than $500 from their account in one session;
+	Test Step: Enter withdrawal command; Enter valid account number; Enter large amount to withdraw;
+	Input file:
+		login
+		user
+		Billy-Bob Thornton
+		withdrawal
+		10001
+		230.00
+		withdrawal
+		10001
+		255.00
+		logout
+	Expected output: "Withdrawal of $255.00 failed; cannot withdraw more than $500.00 in a single session"
+	Output file:
+		Welcome
+		Please select the following:
+		admin
+		user
+		Please enter your name:
+		Please enter the account number to withdraw from:
+		Please enter the amount to withdraw:
+		Withdrawal of $230.00 was successful
+		Please enter the account number to withdraw from:
+		Please enter the amount to withdraw:
+		Withdrawal of $255.00 failed; cannot withdraw more than $500.00 in a single session
+		Please enter a transaction:
+		You have successfully logged out
+
+	Scenario: Standard user attempts to withdraw an invalid amount from their account;
+	Test Step: Enter withdrawal command; Enter valid account number; Enter invalid amount to withdraw;
+	Input file:
+		login
+		user
+		Billy-Bob Thornton
+		withdrawal
+		10001
+		b
+		logout
+	Expected output: "Withdrawal failed, value must be a numeric value between $0-$500"
+	Output file:
+		Welcome
+		Please select the following:
+		admin
+		user
+		Please enter your name:
+		Please enter the account number to withdraw from:
+		Please enter the amount to withdraw:
+		Withdrawal failed, value must be a numeric value between $0-$500
+		Please enter a transaction:
+		You have successfully logged out
+
+	Scenario: Standard user attempts to withdraw from another account;
+	Test Step: Enter withdraw command; Enter another account number;
+	Input file:
+		login
+		user
+		Billy-Bob Thornton
+		withdrawal
+		10002
+		logout
+	Expected output: "Withdrawal failed, you must be the owner of the account you are withdrawing from"
+	Output file:
+		Welcome
+		Please select the following:
+		admin
+		user
+		Please enter your name:
+		Please enter the account number to withdraw from:
+		Withdrawal failed, you must be the owner of the account you are withdrawing from
+		Please enter a transaction:
+		You have successfully logged out
+
+	Scenario: Standard user attempts to withdraw from an invalid account;
+	Test Step: Enter withdrawal command; Enter invalid account number;
+	Input file:
+		login
+		user
+		Billy-Bob Thornton
+		withdrawal
+		b
+		logout
+	Expected output: "Withdrawal failed, account does not exist"
+	Output file:
+		Welcome
+		Please select the following:
+		admin
+		user
+		Please enter your name:
+		Please enter the account number to withdraw from:
+		Withdrawal failed, account does not exist
+		Please enter a transaction:
+		You have successfully logged out
+
+	Scenario: Standard user attempts to withdraw more than their account balance;
+	Test Step: Enter withdrawal command; Enter valid account number; Enter excessive amount to withdraw;
+	Input file:
+		login
+		user
+		Billy-Bob Thornton
+		withdrawal
+		10001
+		400.00
+		logout
+	Expected output: "Cannot withdraw $400.00, you have insufficient funds"
+	Output file:
+		Welcome
+		Please select the following:
+		admin
+		user
+		Please enter your name:
+		Please enter the account number to withdraw from:
+		Please enter the amount to withdraw:
+		Cannot withdraw $400.00, you have insufficient funds
+		Please enter a transaction:
+		You have successfully logged out
+
+	Scenario: Standard user attempts to withdraw from a disabled account;
+	Test Step: Enter withdrawal command; Enter disabled account number;
+	Input file:
+		login
+		user
+		Billy-Bob Thornton
+		withdrawal
+		10003
+		logout
+	Expected output: "Withdraw failed, 10003 is disabled"
+	Output file:
+		Welcome
+		Please select the following:
+		admin
+		user
+		Please enter your name:
+		Please enter the account number to withdraw from:
+		Withdraw failed, 10003 is disabled
+		Please enter a transaction:
+		You have successfully logged out
+
+	Scenario: admin attempts to withdraw more than $500 from an account;
+	Test Step: Enter withdrawal command; Enter valid holder name; Enter valid account number; Enter large amount to withdraw;
+	Input file:
+		login
+		admin
+		withdrawal
+		Billy-Bob Thornton
+		10001
+		530.00
+		logout
+	Expected output: "Withdrawal of $530.00 was successful"
+	Output file:
+		Welcome
+		Please select the following:
+		admin
+		user
+		Please enter the account holder's name
+		Please enter the account number to withdraw from:
+		Please enter the amount to withdraw:
+		Withdrawal of $530.00 was successful
+		Please enter a transaction:
+		You have successfully logged out
+
+	Scenario: Standard user withdraws their account balance but is prevented because of transaction fees
+	Test Step: Enter withdraw command; Enter valid account number; Enter account balance to withdraw;
+	Input file:
+		login
+		user
+		Billy-Bob Thornton
+		withdrawal
+		10001
+		500.00
+		logout
+	Expected output: "Withdrawal failed, you must have at least $0.00 after transaction fees in your account"
+	Output file:
+		Welcome
+		Please select the following:
+		admin
+		user
+		Please enter your name:
+		Please enter the account number to withdraw from:
+		Please enter the amount to withdraw:
+		Withdrawal failed, you must have at least $0.00 after transaction fees in your account
+		You have successfully logged out
+
+	Scenario: admin user withdraws someone's account balance
+	Test Step: Enter withdraw command; Enter valid account number; Enter account balance to withdraw;
+	Input file:
+		login
+		admin
+		withdrawal
+		Billy-Bob Thornton
+		10001
+		230.00
+		logout
+	Expected output: "Withdrawal of $230.00 was successful"
+	Output file:
+		Welcome
+		Please select the following:
+		admin
+		user
+		Please enter the account number to withdraw from:
+		Please enter the amount to withdraw:
+		Withdrawal of $230.00 was successful
+		You have successfully logged out
+
+	Scenario: Standard user withdraws a number that is not divisible by 5
+	Test Step: Enter withdraw command; Enter valid account number; Enter a value not divisible by 5 to withdraw;
+	Input file:
+		login
+		user
+		Billy-Bob Thornton
+		withdrawal
+		10001
+		273.00
+		logout
+	Expected output: "Withdrawal failed, you must enter a number divisible by 5"
+	Output file:
+		Welcome
+		Please select the following:
+		admin
+		user
+		Please enter your name:
+		Please enter the account number to withdraw from:
+		Please enter the amount to withdraw:
+		Withdrawal failed, you must enter a number divisible by 5
+		You have successfully logged out
+
+==============================
+Transfer
+	Scenario: Standard user transfers a valid amount of funds from their account to another while having sufficient funds
+	Test Step:enter transfer command; enter account number to transfer from;
+		enter account number to transfer to; enter valid amount to transfer.
+	Input file:
+		login
+		user
+		Billy-Bob Thornton
+		transfer
+		10001
+		10002
+		275.00
+		logout
+	Expected output: "Transfer from 10001 to 10002 of $275 successful"
+	Output file:
+		Please select the following:
+		admin
+		user
+		Please enter your name:
+		Please enter a transaction:
+		Please enter the account number to transfer from:
+		Please enter the account number to transfer to:
+		Please enter the amount you wish to transfer:
+		Transfer to 10001 from 10002 of $275 successful
+		Please enter a transaction:
+		You have successfully logged out
+
+	Scenario: admin transfers a valid amount of funds from their account to another while having sufficient funds
+	Test Step: Enter transfer command; Enter account holder name;
+		enter account number to transfer from; enter account number to transfer to;
+		enter valid amount to transfer.
+	Input file:
+		login
+		admin
+		transfer
+		Billy-Bob Thornton
+		10001
+		10002
+		275.00
+	Expected output: "Transfer to 10001 from 10002 of $275 successful"
+	Output file:
+		Please select the following:
+		admin
+		user
+		Please enter a transaction:
+		Please enter the account holder's name:
+		Please enter the account number to transfer from:
+		Please enter the account number to transfer to:
+		Please enter the amount you wish to transfer:
+		Transfer to 10001 from 10002 of $275 successful
+		Please enter a transaction:
+		You have successfully logged out
+
+	Scenario: Standard user transfers an invalid amount of funds from their account to another
+	Test Step: Enter transfer command, Enter account number to transfer from;
+		enter account number to transfer to; enter invalid amount to transfer
+	Input file:
+		login
+		user
+		Billy-Bob Thornton
+		transfer
+		10001
+		10002
+		1100.00
+	Expected output: "Invalid amount, you can only transfer funds between $0-$500"
+	Output file:
+		Welcome
+		Please select the following:
+		admin
+		user
+		Please enter your name:
+		Please enter a transaction:
+		Please enter the name of the account holder:
+		Please enter the account number to transfer from:
+		Please enter the account number to transfer to:
+		Please enter the amount you wish to transfer:
+		Invalid amount, you can only transfer funds between $0-$1000
+		Please enter a transaction:
+		You have successfully logged out
+
+	Scenario: Standard user Attempts to transfer funds from an invalid account
+	Test Step; Enter transfer command, Enter invalid account number;
+	Input file:
+		login
+		user
+		Billy-Bob Thornton
+		transfer
+		b
+		logout
+	Expected output: "Transfer from b failed, you have to be the owner of the account,
+		the account may not exist, or the account is disabled"
+	Output file:
+		Please select the following:
+		admin
+		user
+		Please enter your name:
+		Please enter a transaction:
+		Please enter account holder's name:
+		Please enter the account number to transfer from:
+		Transfer from b failed, you have to be the owner of the account, the account may not exist, or the account is disabled
+		Please enter a transaction:
+		You have successfully logged out
+
+	Scenario: Standard user Attempts to transfer funds to an invalid account
+	Test Step; Enter transfer command, Enter valid account number, enter invalid account number;
+	Input file:
+		login
+		user
+		Billy-Bob Thornton
+		transfer
+		10001
+		b
+		logout
+	Expected output: "Transfer to b failed, you have to be the owner of the account,
+		the account may not exist, or the account is disabled"
+	Output file:
+		Welcome
+		Please select the following:
+		admin
+		user
+		Please enter your name:
+		Please enter a transaction:
+		Please enter account holder's name:
+		Please enter the account number to transfer from:
+		Please enter the account number to transfer to:
+		Transfer to b failed, you have to be the owner of the account, the account may not exist, or the account is disabled
+		Please enter a transaction:
+		You have successfully logged out
+
+	Scenario: Standard user attempts to transfer funds to a disabled account
+	Test Step: Enter transfer command, enter disabled account number;
+	Input file:
+		login
+		user
+		Billy-Bob Thornton
+		transfer
+		10001
+		10003
+		logout
+	Expected output: "Transfer unsuccessful, 10003 is disabled"
+	Output file:
+		Welcome
+		Please select the following:
+		admin
+		user
+		Please enter your name:
+		Please enter a transaction:
+		Please enter account holder's name:
+		Please enter the account number to transfer from:
+		Please enter the account number to transfer to:
+		Transfer unsuccessful, 10003 is disabled
+		Please enter a transaction:
+		You have successfully logged out
+
+	Scenario: Standard user attempts to transfer more than $1000 in a single session
+	Test Step:enter transfer command; enter account number to transfer from;
+		enter account number to transfer to; enter valid amount to transfer; repeat with a large amount
+	Input file:
+		login
+		user
+		Billy-Bob Thornton
+		transfer
+		10001
+		10002
+		500.00
+		transfer
+		10001
+		10002
+		600.00
+		logout
+	Expected output: "Transfer unsuccessful, can not transfer more than $1000.00 in a single session"
+	Output file:
+		Welcome
+		Please select the following:
+		admin
+		user
+		Please enter your name:
+		Please enter a transaction:
+		Please enter account holder's name:
+		Please enter the account number to transfer from:
+		Please enter the account number to transfer to:
+		Please enter the amount you wish to transfer:
+		Transfer to 10001 from 10002 of $500.00 successful
+		Please enter the account number to transfer from:
+		Please enter the account number to transfer to:
+		Please enter the amount you wish to transfer:
+		Transfer unsuccessful, can not transfer more than $1000.00 in a single session
+		Please enter a transaction:
+		You have successfully logged out
+
+	Scenario: Standard user transfers their account balance of funds from their account to another
+	Test Step:enter transfer command; enter account number to transfer from;
+		enter account number to transfer to; enter account balance to transfer.
+	Input file:
+		login
+		user
+		Billy-Bob Thornton
+		transfer
+		10001
+		10002
+		500.00
+		logout
+	Expected output: "Transfer failed, your account must have at least $0.00 after transaction fees"
+	Output file:
+		Please select the following:
+		admin
+		user
+		Please enter your name:
+		Please enter the account number to transfer from
+		Please enter the account number to transfer to
+		Please enter the amount you wish to transfer
+		Transfer failed, your account must have at least $0.00 after transaction fees
+		You have successfully logged out
+
+	Scenario: admin user transfers a whole account balance of funds from one account to another
+	Test Step:enter transfer command; enter account number to transfer from;
+		enter account number to transfer to; enter account balance to transfer.
+	Input file:
+		login
+		admin
+		transfer
+		Billy-Bob Thornton
+		10001
+		10002
+		500.00
+		logout
+	Expected output: "Transfer from 10001 to 10002 of $500.00 was successful"
+	Output file:
+		Please select the following:
+		admin
+		user
+		Please enter the account number to transfer from
+		Please enter the account number to transfer to
+		Please enter the amount you wish to transfer
+		Transfer from 10001 to 10002 of $500.00 was successful
+		You have successfully logged out
+
+Paybill
+============
+	Scenario: Standard user pays a bill correctly
+	Test Step: enter paybill command; enter valid account number; enter valid company; enter amount to pay; save info to transaction file
+	Input file:
+		login
+		user
+		Billy-Bob Thornton
+		paybill
+		10001
+		Credit Card Company Q
+		200.00
+		logout
+	Expected Output: "Payment to Credit Card Company Q of $1500 was succesful"
+	Output file:
+		Welcome
+		Please select the following:
+		admin
+		user
+		Please enter your name:
+		Please enter a transaction:
+		Enter the account number:
+		Enter the company to whom you wish the pay the bill to:
+		Enter the amount you wish to pay:
+		Payment to Credit Card Company Q of $200 was succesful
+		Please enter a transaction:
+		You have successfully logged out
+
+	Scenario: Any user pays a bill without sufficient funds
+	Test Step: enter paybill command; enter valid account number; enter valid company; enter amount to pay
+	Input file:
+		login
+		admin
+		paybill
+		10001
+		Credit Card Company Q
+		1500.00
+		logout
+	Expected Output: "Payment to Credit Card Company Q of $1500 failed, you do not have at least $1500 in your account."
+	Output file:
+		Welcome
+		Please select the following:
+		admin
+		user
+		Please enter a transaction:
+		Enter the account number:
+		Enter the company to whom you wish the pay the bill to:
+		Enter the amount you wish to pay:
+		Payment to Credit Card Company Q of $1500 failed, you do not have at least $1500 in your account.
+		Please enter a transaction:
+		You have successfully logged out
+
+	Scenario: Any user pays a bill to an invalid company
+		Test Step: enter paybill command; enter valid account number; enter invalid company
+	Input file:
+		login
+		admin
+		paybill
+		10001
+		Hi-Def TV
+		logout
+	Expected Output: "Hi-Def TV is not a valid company to pay a bill to"
+	Output file:
+		Welcome
+		Please select the following:
+		admin
+		user
+		Please enter a transaction:
+		Enter the account number:
+		Enter the company to whom you wish the pay the bill to:
+		Hi-Def TV is not a valid company to pay a bill to:
+		Please enter a transaction:
+		You have successfully logged out
+
+	Scenario: Standard user pays a bill from an invalid account number
+		Test Step: enter paybill command; enter invalid account number
+	Input file:
+		login
+		user
+		Billy-Bob Thornton
+		paybill
+		oklaoji
+		logout
+	Expected Output: "Invalid account number: oklaoji"
+	Output file:
+		Welcome
+		Please select the following:
+		admin
+		user
+		Please enter your name:
+		Please enter a transaction:
+		Enter the account number:
+		Invalid account number: oklaoji
+		Please enter a transaction:
+		You have successfully logged out
+
+	Scenario: Standard user pays a bill with an amount greater than $2000
+	Test Step: enter paybill command; enter valid account number; enter valid company; enter an amount larger than 2000 to pay
+	Input file:
+		login
+		user
+		Billy-Bob Thornton
+		paybill
+		10001
+		Credit Card Company Q
+		2100.00
+		logout
+	Expected Output: "You may not pay more than $2000 to a bill holder in a session."
+	Output file:
+		Welcome
+		Please select the following:
+		admin
+		user
+		Please enter your name:
+		Please enter a transaction:
+		Enter the account number:
+		Enter the company to whom you wish the pay the bill to:
+		Enter the amount you wish to pay:
+		You may not pay more than $2000 to a bill holder in a session.
+		Please enter a transaction:
+		You have successfully logged out
+
+	Scenario: user attempts to pay from a disabled account;
+	Test Step: enter paybill command; enter disabled account number;
+	Input file:
+		login
+		user
+		Billy-Bob Thornton
+		paybill
+		10003
+		logout
+	Expected Output: "Payment failed, 10003 is disabled"
+	Output file:
+		Welcome
+		Please select the following:
+		admin
+		user
+		Please enter your name:
+		Please enter a transaction:
+		Enter the account holder's name:
+		Enter the account number:
+		Enter the company to whom you wish the pay the bill to:
+		Enter the amount you wish to pay:
+		Payment failed, 10003 is disabled
+		Please enter a transaction:
+		You have successfully logged out
+
+	Scenario: Standard user pays a bill with their entire bank balance
+	Test Step: enter paybill command; enter valid account number; enter valid company; enter bank balance to pay; save info to transaction file
+	Input file:
+		login
+		user
+		Billy-Bob Thornton
+		paybill
+		10001
+		Credit Card Company Q
+		400.00
+		logout
+	Expected Output: "Payment failed, you must have at least $0.00 after transaction fees in your account"
+	Output file:
+		Please select the following:
+		admin
+		user
+		Please enter your name:
+		Enter the account number:
+		Enter the company to whom you wish the pay the bill to:
+		Enter the amount you wish to pay:
+		Payment failed, you must have at least $0.00 after transaction fees in your account
+		Please enter a transaction:
+		You have successfully logged out
+
+	Scenario: admin user pays a bill with an entire account balance
+	Test Step: enter paybill command; enter valid account number; enter valid company; enter bank balance to pay; save info to transaction file
+	Input file:
+		login
+		admin
+		paybill
+		Billy-Bob Thornton
+		10001
+		Credit Card Company Q
+		400.00
+		logout
+	Expected Output: "Payment of $400.00 to Credit Card Company Q was successful"
+	Output file:
+		Please select the following:
+		admin
+		user
+		Please enter a transaction
+		Enter the account number:
+		Enter the company to whom you wish the pay the bill to:
+		Enter the amount you wish to pay:
+		Payment of $400.00 to Credit Card Company Q was successful
+		Please enter a transaction
+		You have successfully logged out
+
+Deposit
+========
+	Scenario:Standard user deposits money into an account correctly
+	Test Step: enter deposit command; enter valid account number; enter valid amount to deposit; Save info to transaction file;
+	Input file:
+		login
+		user
+		Billy-Bob Thornton
+		deposit
+		10001
+		250.00
+		logout
+	Expected output:"Deposit successful, your deposit will be on hold until your next session"
+	Output file:
+		Welcome
+		Please select the following:
+		admin
+		user
+		Please enter your name:
+		Please enter a transaction:
+		Enter the account number:
+		Enter the amount in dollars to deposit:
+		Deposit successful, your deposit will be on hold until your next session"
+		Please enter a transaction:
+		You have successfully logged out
+
+	Scenario:Standard user attemps to deposit an invalid amount of money
+	Test Step: enter deposit command; enter valid account number; enter invalid amount to deposit;
+	Input file:
+		login
+		user
+		Billy-Bob Thornton
+		deposit
+		10001
+		b
+		logout
+	Expected output:"Deposit failed, you must enter a numerical value."
+	Output file:
+		Welcome
+		Please select the following:
+		admin
+		user
+		Please enter your name:
+		Please enter a transaction:
+		Enter the account number:
+		Enter the amount in dollars to deposit:
+		Deposit failed, you must enter a numerical value.
+		Please enter a transaction:
+		You have successfully logged out
+
+	Scenario:Standard user attemps to deposit to an invalid account
+	Test Step: enter deposit command; enter invalid account number;
+	Input file:
+		login
+		user
+		Billy-Bob Thornton
+		deposit
+		b
+		logout
+	Expected output:"Deposit failed, you entered an invalid account number"
+	Output file:
+		Welcome
+		Please select the following:
+		admin
+		user
+		Please enter your name:
+		Please enter a transaction:
+		Enter the account number:
+		Deposit failed, you entered an invalid account number
+		Please enter a transaction:
+		You have successfully logged out
+		
+	Scenario:Standard user attempts to deposit to a disabled account
+	Test Step: enter deposit command; enter disabled account number
+	Input file:
+		login
+		user
+		Billy-Bob Thornton
+		deposit
+		10003
+		logout
+	Expected output:"Deposit failed, 10003 is disabled"
+	Output file:
+		Welcome
+		Please select the following:
+		admin
+		user
+		Please enter your name:
+		Please enter a transaction:
+		Please enter account holder's name:
+		Enter the account number:
+		Deposit failed, 10003 is disabled
+		Please enter a transaction:
+		You have successfully logged out
+
+	Scenario: Standard user deposits a number less than the transaction fee from an empty account
+	Test Step: Enter deposit command; Enter valid account number; Enter a value smaller than the account transaction fee;
+	Input file:
+		login
+		user
+		Billy-Bob Thornton
+		deposit
+		10001
+		0.01
+		logout
+	Expected output: "Deposit failed, you must have at least $0.00 after transaction fees"
+	Output file:
+		Welcome
+		Please select the following:
+		admin
+		user
+		Please enter your name:
+		Please enter a transaction:
+		Please enter the account number to deposit to:
+		Please enter the amount to deposit:
+		Deposit failed, you must have at least $0.00 after transaction fees
+		Please enter a transaction:
+		You have successfully logged out

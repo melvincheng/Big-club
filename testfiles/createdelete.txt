@@ -1,0 +1,307 @@
+Create
+
+	Scenario: Creating an account as an admin (good name, good balance)
+			Test Step:
+				- Login as an admin
+				- Input create transaction
+			Input File
+				login
+				admin
+				create
+				Billy-Bob Thornton
+				99999.99
+				logout
+			Expected Output:
+				Welcome
+				Please select the following:
+				admin
+				user
+				Please enter a transaction:
+				Please input Account Name:
+				Please input your Initial Balance:
+				A new account was made under the name:
+				Billy-Bob Thornton
+				with a current balance of:
+				99999.99
+				Here is your bank account number:
+				10004
+				Please enter a transaction:
+				You have successfully logged out
+			Transaction Output:
+				10                      00000 00000.00 A
+				05 Billy-Bob Thornton   10004 99999.99
+				00                      00000 00000.00 A
+
+	Scenario: Creating an account as an admin (No name is given)
+			Test Step:
+				- Login as an admin
+				- Input create transaction
+			Input File
+				login
+				admin
+				create
+
+				99999.99
+				logout
+			Expected Output:
+				Welcome
+				Please select the following:
+				admin
+				user
+				Please enter a transaction:
+				Please input Account Name:
+				No name was given
+				Please enter a transaction:
+				You have successfully logged out
+			Transaction Output:
+				10                      00000 00000.00 A
+				00                      00000 00000.00 A
+
+	Scenario: Creating an account as an admin (Name is too long)
+			Test Step:
+				- Login as an admin
+				- Input create transaction
+			Input File
+				login
+				admin
+				create
+				Billy-Bob Thorntonstein
+				99999.99
+				logout
+			Expected Output:
+				Welcome
+				Please select the following:
+				admin
+				user
+				Please enter a transaction:
+				Please input Account Name:
+				I'm sorry, your name is too long. Please shorten it to 20 characters or less.
+				Please enter a transaction:
+				You have successfully logged out
+			Transaction Output:
+				10                      00000 00000.00 A
+				00                      00000 00000.00 A
+
+	Scenario: Creating an account as an admin (Name has non-alphabetic characters)
+			Test Step:
+				- Login as an admin
+				- Input create transaction
+			Input File
+				login
+				admin
+				create
+				Billy-Bob Thornt@n
+				99999.99
+				logout
+			Expected Output:
+				Welcome
+				Please select the following:
+				admin
+				user
+				Please enter a transaction:
+				Please input Account Name:
+				I'm sorry, your name is unrecognizable and cannot be used (get rid of all numbers and symbols)
+				Please enter a transaction:
+				You have successfully logged out
+			Transaction Output:
+				10                      00000 00000.00 A
+				00                      00000 00000.00 A
+
+	Scenario: Creating an account as an admin (No Balance is given)
+			Test Step:
+				- Login as an admin
+				- Input create transaction
+			Input File
+				login
+				admin
+				create
+				Billy-Bob Thornton
+
+				logout
+			Expected Output:
+				Welcome
+				Please select the following:
+				admin
+				user
+				Please enter a transaction:
+				Please input Account Name:
+				Please input Initial Balance:
+				Nothing was input
+				An initial balance of 00000.00 has been administered
+				A new account was made under the name:
+				Billy-Bob Thornton
+				with a current balance of:
+				00000.00
+				Here is your bank account number:
+				NNNNN
+				Please enter a transaction:
+				You have successfully logged out
+			Transaction Output:
+				10                      00000 00000.00 A
+				05 Billy-Bob Thornton   10004 00000.00
+				00                      00000 00000.00 A
+
+	Scenario: Creating an account as an admin (unrecognized balance)
+			Test Step:
+				- Login as an admin
+				- Input create transaction
+			Input File
+				login
+				admin
+				create
+				Billy-Bob Thornton
+				999A9.99
+				logout
+			Expected Output:
+				Welcome
+				Please select the following:
+				admin
+				user
+				Please enter a transaction:
+				Please input Account Name:
+				Please input initial balance:
+				I'm sorry, I do no recognize any form of currency containing the alphabet.
+				Please enter a transaction:
+				You have successfully logged out
+			Transaction Output:
+				10                      00000 00000.00 A
+				00                      00000 00000.00 A
+
+	Scenario: Creating an account as an admin (goes over initial balance limit)
+			Test Step:
+				- Login as an admin
+				- Input create transaction
+			Input File
+				login
+				admin
+				create
+				Billy-Bob Thornton
+				999999.99
+				logout
+			Expected Output:
+				Welcome
+				Please select the following:
+				admin
+				user
+				Please enter a transaction:
+				Please input Account Name:
+				Please input initial balance:
+				I'm sorry, I cannot hold that much money (it's too much pressure)
+				Please enter a transaction:
+				You have successfully logged out
+			Transaction Output:
+				10                      00000 00000.00 A
+				00                      00000 00000.00 A
+
+	Scenario: Creating an account as an admin (goes over initial balance limit & unrecognized)
+			Test Step:
+				- Login as an admin
+				- Input create transaction
+			Input File
+				login
+				admin
+				create
+				Billy-Bob Thornton
+				99999A9.99
+				logout
+			Expected Output:
+				Welcome
+				Please select the following:
+				admin
+				user
+				Please enter a transaction:
+				Please input Account Name:
+				Please input initial balance:
+				I'm sorry, I do no recognize any form of currency containing the alphabet.
+				Please enter a transaction:
+				You have successfully logged out
+			Transaction Output:
+				10                      00000 00000.00 A
+				00                      00000 00000.00 A
+
+delete
+
+	Scenario: Deleting an account as an admin (good name, good account number)
+			Test Step:
+				- Login as an admin
+				- Input delete transaction
+			Input File
+				login
+				admin
+				delete
+				Billy-Bob Thornton
+				99999
+				y
+				logout
+			Expected Output:
+				Welcome
+				Please select the following:
+				admin
+				user
+				Please enter a transaction:
+				Please input Account Name:
+				Please input your Account Number:
+				This bank Account will now be deleted
+				Billy-Bob Thornton
+				99999
+				Confirm?
+				This account has been deleted
+				Please enter a transaction:
+				You have successfully logged out
+			Transaction Output:
+				10                      00000 00000.00 A
+				06 Billy-Bob Thornton   99999s 99999.99 
+				00                      00000 00000.00 A
+				
+
+	Scenario: Deleting an account as an admin (name doesn't exist)
+			Test Step:
+				- Login as an admin
+				- Input create transaction
+			Input File
+				login
+				admin
+				delete
+				Donna Joe
+				99999
+				logout
+			Expected Output:
+				Welcome
+				Please select the following:
+				admin
+				user
+				Please enter a transaction:
+				Please input your Account Name:
+				I'm sorry, this name is not registered in the bank
+				Please enter a transaction:
+				You have successfully logged out
+			Transaction Output:
+				10                      00000 00000.00 A
+				00                      00000 00000.00 A
+
+	Scenario: Deleting an account as an admin (Name and account number do not match up)
+			Test Step:
+				- Login as an admin
+				- Input delete transaction
+			Input File
+				login
+				admin
+				delete
+				Billy-Bob Thornton
+				99943
+				logout
+			Expected Output:
+				Welcome
+				Please select the following:
+				admin
+				user
+				Please enter a transaction:
+				Please input Account Name:
+				Please input your Account Number:
+				I'm sorry, the account number given does not match up to the
+				Account Name.
+				Please enter a transaction:
+				You have successfully logged out
+			Transaction Output:
+				10                      00000 00000.00 A
+				00                      00000 00000.00 A

@@ -1,0 +1,8 @@
+login
+user
+Billy-Bob Thornton
+transfer
+10001
+10002
+1100.00
+xpected output: "Invalid amount, you can only transfer funds between $0-$500"

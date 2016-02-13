@@ -1,0 +1,93 @@
+Changeplan
+	Scenario:
+			-Successfully change the plan of an account
+		Test step:
+			-Login as an admin user
+			-Input changeplan command
+			-Enter valid bank account holder's name
+			-Enter valid bank account number
+				-Change the plan of the account
+				-Saves information into bank account transaction file
+		Input file:
+			login
+			admin
+			changeplan
+			Billy-Bob Thornton
+			10001
+			logout
+		Expected output:
+			Welcome
+			Please select the following:
+			admin
+			user
+			Please enter a transaction:
+			Please enter the account holder's name:
+			Please enter the account number:
+			Account's plan has been changed
+			Please enter a transaction:
+			You have successfully logged out
+		Output file:
+			10                      00000 00000.00 A
+			08 Billy-Bob Thornton   10001 00000.00 SP
+			00                      00000 00000.00 A
+		Expected outcome:
+			Plan is changed Successfully
+
+	Scenario: 
+			-Entering an invalid account holder's name
+		Test step:
+			-Login as an admin user
+			-Input changeplan command
+			-Enter invalid bank account holder's name
+		Input file:
+			login
+			admin
+			changeplan
+			abcabcabc
+			logout
+		Expected output:
+			Welcome
+			Please select the following:
+			admin
+			user
+			Please enter a transaction:
+			Please enter the account holder's name:
+			The account holder's name is invalid
+			Please enter a transaction:
+			You have successfully logged out
+		Output file:
+			10                      00000 00000.00 A
+			00                      00000 00000.00 A
+		Expected outcome:
+			-Transaction rejected
+
+	Scenario: 
+			-Entering an invalid account number
+		Test step:
+			-Login as an admin user
+			-Input changeplan command
+			-Enter valid bank account holder's name
+			-Enter invalid account number
+		Input file:
+			login
+			admin
+			changeplan
+			Billy-Bob Thornton
+			11111
+			logout
+		Expected output:
+			Welcome
+			Please select the following:
+			admin
+			user
+			Please enter a transaction:
+			Please enter the account holder's name:
+			Please enter the account number:
+			The account number is invalid
+			Please enter a transaction:
+			You have successfully logged out
+		Output file:
+			10                      00000 00000.00 A
+			00                      00000 00000.00 A
+		Expected outcome:
+			-Transaction rejected

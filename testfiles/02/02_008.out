@@ -1,0 +1,9 @@
+Please select the following:
+admin
+user
+Please enter your name:
+Please enter the account number to transfer from
+Please enter the account number to transfer to
+Please enter the amount you wish to transfer
+Transfer failed, your account must have at least $0.00 after transaction fees
+You have successfully logged out

@@ -1,0 +1,13 @@
+Welcome
+Please select the following:
+admin
+user
+Please enter your name:
+Please enter a transaction:
+Please enter the name of the account holder:
+Please enter the account number to transfer from:
+Please enter the account number to transfer to:
+Please enter the amount you wish to transfer:
+Invalid amount, you can only transfer funds between $0-$1000
+Please enter a transaction:
+You have successfully logged out

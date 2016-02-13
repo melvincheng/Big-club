@@ -1,0 +1,11 @@
+Welcome
+Please select the following:
+admin
+user
+Please enter your name:
+Please enter a transaction:
+Enter the account number:
+Enter the amount in dollars to deposit:
+Deposit failed, you must enter a numerical value.
+Please enter a transaction:
+You have successfully logged out

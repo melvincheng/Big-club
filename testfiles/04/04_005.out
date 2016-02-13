@@ -1,0 +1,11 @@
+Welcome
+Please select the following:
+admin
+user
+Please enter your name:
+Please enter a transaction:
+Please enter the account number to deposit to:
+Please enter the amount to deposit:
+Deposit failed, you must have at least $0.00 after transaction fees
+Please enter a transaction:
+You have successfully logged out

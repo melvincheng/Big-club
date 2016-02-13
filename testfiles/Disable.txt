@@ -1,0 +1,126 @@
+Disable
+	Scenario: 
+			-Successfully disable account as an admin user
+		Test step:
+			-Login as an admin user
+			-Input disable command
+			-Enter valid bank account holder's name
+			-Enter valid bank account number
+				-Disables account
+				-Saves information into bank account transaction file
+				-10                      00000 00000.00 A
+				-07 Billy-Bob Thornton   10001 00000.00 D
+				-10001 Billy-Bob Thornton   D 9999.99
+		Input file:
+			login
+			admin
+			disable
+			Billy-Bob Thornton
+			10001
+			logout
+		Expected output:
+			Welcome
+			Please select the following:
+			admin
+			user
+			Please enter a transaction:
+			Please enter the account holder's name:
+			Please enter the account number:
+			Account has been successfully disabled
+			Please enter a transaction:
+			You have successfully logged out
+		Output file:
+			10                      00000 00000.00 A
+			07 Billy-Bob Thornton   10001 00000.00 D
+			00                      00000 00000.00 A
+		Expected outcome:
+			-Account disabled
+		Account file:
+			10001 Billy-Bob Thornton   D 9999.99
+
+	Scenario: 
+			-Entering an invalid account holder's name
+		Test step:
+			-Login as an admin user
+			-Input disable command
+			-Enter invalid bank account holder's name
+		Input file:
+			login
+			admin
+			disable
+			abcabcabc
+			logout
+		Expected output:
+			Welcome
+			Please select the following:
+			admin
+			user
+			Please enter a transaction:
+			Please enter account holder's name:
+			The account holder's name is invalid
+			Please enter a transaction:
+			You have successfully logged out
+		Output file:
+			10                      00000 00000.00 A
+			00                      00000 00000.00 A
+		Expected outcome:
+			-Transaction rejected
+
+	Scenario: 
+			-Entering an invalid account number
+		Test step:
+			-Login as an admin user
+			-Input disable command
+			-Enter valid bank account holder's name
+			-Enter invalid account number
+		Input file:
+			login
+			admin
+			disable
+			Billy-Bob Thornton
+			00000
+			logout
+		Expected output:
+			Welcome
+			Please select the following:
+			admin
+			user
+			Please enter a transaction:
+			Please enter account holder's name:
+			Please enter account number:
+			The account number is invalid
+			Please enter a transaction:
+			You have successfully logged out
+		Output file:
+			10                      00000 00000.00 A
+			00                      00000 00000.00 A
+		Expected outcome:
+			-Transaction rejected
+
+	Scenario:
+			-Attempting to disable a disabled account
+		Test step:
+			-Login as an admin user
+			-Enter an account that has been disabled
+		Input file:
+			login
+			admin
+			disable
+			Billy-Bob Thornton
+			10001
+			logout
+		Expected output:
+			Welcome
+			Please select the following:
+			admin
+			user
+			Please enter a transaction:
+			Please enter account number:
+			Transaction denied. Account is already disabled
+			Please enter a transaction:
+			You have successfully logged out
+		Output file:
+			10                      00000 00000.00 A
+			00                      00000 00000.00 A
+		Expected outcome:
+			-Transaction rejected

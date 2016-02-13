@@ -1,0 +1,12 @@
+Welcome
+Please select the following:
+admin
+user
+Please enter your name:
+Please enter a transaction:
+Please enter account holder's name:
+Please enter the account number to transfer from:
+Please enter the account number to transfer to:
+Transfer to b failed, you have to be the owner of the account, the account may not exist, or the account is disabled
+Please enter a transaction:
+You have successfully logged out

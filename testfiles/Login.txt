@@ -1,0 +1,199 @@
+	Login
+	Scenario: 
+			-Successfully login as an admin
+		Test step:
+			-Login as an admin user
+				-Saves information into bank account transaction file
+				-10                      00000 00000.00 A
+		Input file:
+			login
+			admin
+			logout
+		Expected outcome:
+			-Login into admin account
+		Expected output:
+			Welcome
+			Please select the following:
+			admin
+			user
+			Please enter a transaction:
+			You have successfully logged out
+		Transaction file:
+			10                      00000 00000.00 A
+			00                      00000 00000.00 A
+
+	Scenario: 
+			-Successfully login as a standard user
+		Test step:
+			-Login as a standard user
+				-Saves information into bank account transaction file
+				-10 Billy-Bob Thornton   00000 00000.00 S
+		Input file:
+			login
+			user
+			Billy-Bob Thornton
+			logout
+		Expected outcome:
+			-Login into standard account
+		Expected output:
+			Welcome
+			Please select the following:
+			admin
+			user
+			Please enter account holder's name:
+			Please enter a transaction:
+			You have successfully logged out
+		Transaction file:
+			10 Billy-Bob Thornton   00000 00000.00 S
+			00 Billy-Bob Thornton   00000 00000.00 S
+
+	Scenario: 
+			-Enter an invalid account holder's name
+		Test step:
+			-Enter an invalid account holder's name
+		Input file:
+			login
+			user
+			abcabcabc
+		Expected outcome:
+			-Login rejected
+		Expected output:
+			Welcome
+			Please select the following:
+			admin
+			user
+			The account holder's name is invalid
+		Transaction file:
+			00
+
+	Scenario: 
+			-Admin enters an invalid command
+		Test step:
+			-Login as an admin user
+			-Enter an invalid command
+		Input file:
+			login
+			admin
+			abcabcabc
+			logout
+		Expected outcome:
+			-Transaction rejected
+		Expected output:
+			Welcome
+			Please select the following:
+			admin
+			user
+			Please enter a transaction:
+			Invalid transaction
+			Please enter a transaction:
+			You have successfully logged out
+		Transaction file:
+			10                      00000 00000.00 A
+			00                      00000 00000.00 A
+
+	Scenario: 
+			-Attempt login after being logged in
+		Test step:
+			-Login as an admin user
+			-Input login command
+		Input file:
+			login
+			admin
+			login
+			logout
+		Expected outcome:
+			-Transaction rejected
+		Expected output:
+			Welcome
+			Please select the following:
+			admin
+			user
+			Please enter a transaction:
+			Transaction denied. Already logged in
+			Please enter a transaction:
+			You have successfully logged out
+		Transaction file:
+			10                      00000 00000.00 A
+			00                      00000 00000.00 A
+
+	Scenario: 
+			-Input commands excepted for login while not logged in
+		Test step:
+			-Input withdrawal command
+			-Input transfer command
+			-Input paybill command
+			-Input deposit command
+			-Input create command
+			-Input delete command
+			-Input enable command
+			-Input disable command
+			-Input changeplan command
+			-Input logout command
+		Input file:
+			withdrawal
+			transfer
+			paybill
+			deposit
+			create
+			delete
+			enable
+			disable
+			changeplan
+			logout
+		Expected outcome:
+			-Transactions rejected
+		Expected output:
+			Welcome
+			Transaction denied. Not logged in
+			Transaction denied. Not logged in
+			Transaction denied. Not logged in
+			Transaction denied. Not logged in
+			Transaction denied. Not logged in
+			Transaction denied. Not logged in
+			Transaction denied. Not logged in
+			Transaction denied. Not logged in
+			Transaction denied. Not logged in
+			Transaction denied. Not logged in.
+		Transaction file:
+			00
+
+	Scenario: 
+			-Attempt privilaged commands as a standard user
+		Test step:
+			-Login as standard user
+			-Input create command
+			-Input delete command
+			-Input enable command
+			-Input disable command
+			-Input changeplan command
+		Input file:
+			login
+			create
+			delete
+			enable
+			disable
+			changeplan
+			logout
+		Expected outcome:
+			-Transactions rejected
+		Expected output:
+			Welcome
+			Please select the following:
+			admin
+			user
+			Please enter your name:
+			Please enter a transaction:
+			Transaction denied. User is not an admin
+			Please enter a transaction:
+			Transaction denied. User is not an admin
+			Please enter a transaction:
+			Transaction denied. User is not an admin
+			Please enter a transaction:
+			Transaction denied. User is not an admin
+			Please enter a transaction:
+			Transaction denied. User is not an admin
+			Please enter a transaction:
+			You have successfully logged out
+		Transaction file:
+			10 Billy-Bob Thornton   00000 00000.00 S
+			00 Billy-Bob Thornton   00000 00000.00 S

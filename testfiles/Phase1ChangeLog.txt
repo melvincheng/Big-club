@@ -1,0 +1,63 @@
+Phase 1 change log
+
+Accounts will not complete more than 9999 transactions a day
+Check for EoF to see when the input file is complete
+A second log-in attempt will be rejected and ignored; subsequent transactions will be considered as part of the first account login
+Front end check for constraints and create output files that meet these constraints
+The front end should keep internal track of balances, yes. The front end should not be reading in transaction output files, or start fresh each session from the master accounts list.
+perhaps two 02 lines where the first is implicitly the withdrawal and the second is implicitly the deposit" 
+​*This will be the universal procedure for transfer transactions*​
+Deposits should neither be available in the same login session ​*or in the same day*​. You cannot access the funds until the next day after the back end has applied the transactions.
+1) An Admin can delete an account that has been disabled.
+2) Truncate account names if necessary
+3) the account number, active/disabled,and balance do not matter for the END_OF_FILE account
+No place for student or non-student
+If the program sees a transaction code of 00, it can ignore the rest
+*Everyone can add an extra flag to the end of the current and master bank accounts files, e.g. NNNNN_AAAAAAAAAAAAAAAAAAAA_S_PPPPPPPP_Q, where Q is S for student plans and N for non-student plans.*​
+1) No; by default, accounts should be non-student plans. 
+2) Yes, it should allow changes in the other direction (change from student to non student)
+Users should not be allowed to access the end_of_file account
+You don't have to worry about strange characters like :star_and_crescent: showing up in people's names. Why would your program parse underscores as spaces?
+For legibility purposes when you're reading the requirements document. You shouldn't be ​_literally_​ using underscores in your data
+1) Both, and it should wait unless your text file told it to terminate.
+2) it will always be in the format #####.## where # is a number from 0-9. No dollar signs. Values that don't fit in this format aren't allowed.
+3) Admins can perform any action when they've logged into an account, unless the account is disabled. Reject log ins for non-matching name/accounts, even if they are an admin.
+4) Admins are allowed any amount that fits in the format.
+5) Let's go with the front end deducting the 5-10 cent transaction fee every time a transaction is made. Do this first, so that if someone tries to withdraw 400$ from a 400$ account, it is rejected since the 5-10 cents will be removed before the withdraw happens.
+6) Two letters only is fine. (pay bills)
+7) deposited funds are not available until the end of the day
+8 )No need to reserve numbers.  Do not worry about this case.
+9) Can log in, but can't do any transactions. Admins can re-enable accounts; I'll make a separate message for the details.
+10) Yes, always swap to the other plan.
+11) This is a typo; should be 'At the end of each session, when the logout transaction is processed, a bank account transaction file for the ​*session*​ is written
+
+Transaction Code 09
+enable – enable a bank account
+• should ask for the bank account holder’s name (as a text line)
+• should ask for the account number (as a text line)
+• should change the bank account from disabled (D) to active (A)
+• should save this information for the bank account transaction file
+• Constraints:
+o privileged transaction - only accepted when logged in admin
+mode
+o Account holder’s name must be the name of an existing
+account holder
+o Account number must be the number of the account holder
+specified
+No further transactions can be made in that session. The front end should keep track of whether or not an account has been disabled
+Fees not charged when admin withdraw/deposit/transfer/paybill
+We'll log when someone logs in. Use the transaction code 10 for login. For the Miscellaneous information, use " A" for admin and " S" for standard logins.
+No coins but yes all paper currency is allowed.
+If you run enable on a disabled account you can immediately run transactions with it again.
+If a transaction is attempted but rejected, do not charge any transaction 
+If an account is changed to a student account half way through the day do all subsequent transactions for that session/day get charged the student rate
+For the entire day for both. These are limits on the account; someone can withdraw 500 twice if they have two accounts and take once from each.
+if they are in the middle of a transaction (e.g. login, transferring) and they decide they dont want to, just put in invalid input and it should send them back to where they were before
+Transfers are > $0
+the maximum amount of money that can be paid to a bill holder in current session is $2000
+an admin can pay a bill for any account. Yes, should also be current day.
+keeping track of account balances that have had money added to them in the front end
+If an account is disabled, you cannot transfer funds to it
+transaction limits (i.e. withdrawal, transfer) apply to the current day
+if you enable an account, you can immediately start changing the balance. If you disable an account, you immediately ​*can't*​ start changing the balance
+You can deposit any amount (imagine cashing in a cheque)

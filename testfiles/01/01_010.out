@@ -1,0 +1,9 @@
+Welcome
+Please select the following:
+admin
+user
+Please enter your name:
+Please enter the account number to withdraw from:
+Please enter the amount to withdraw:
+Withdrawal failed, you must have at least $0.00 after transaction fees in your account
+You have successfully logged out
