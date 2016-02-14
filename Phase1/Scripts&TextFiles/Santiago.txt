@@ -184,29 +184,6 @@ withdrawal
 		Please enter a transaction:
 		You have successfully logged out
 
-	Scenario: admin attempts to withdraw more than $500 from an account;
-	Test Step: Enter withdrawal command; Enter valid holder name; Enter valid account number; Enter large amount to withdraw;
-	Input file:
-		login
-		admin
-		withdrawal
-		Billy-Bob Thornton
-		10001
-		530.00
-		logout
-	Expected output: "Withdrawal of $530.00 was successful"
-	Output file:
-		Welcome
-		Please select the following:
-		admin
-		user
-		Please enter the account holder's name
-		Please enter the account number to withdraw from:
-		Please enter the amount to withdraw:
-		Withdrawal of $530.00 was successful
-		Please enter a transaction:
-		You have successfully logged out
-
 	Scenario: Standard user withdraws their account balance but is prevented because of transaction fees
 	Test Step: Enter withdraw command; Enter valid account number; Enter account balance to withdraw;
 	Input file:
@@ -544,6 +521,7 @@ Paybill
 		login
 		admin
 		paybill
+		Billy-Bob Thornton
 		10001
 		Credit Card Company Q
 		1500.00
@@ -555,6 +533,7 @@ Paybill
 		admin
 		user
 		Please enter a transaction:
+		Please enter your name:
 		Enter the account number:
 		Enter the company to whom you wish the pay the bill to:
 		Enter the amount you wish to pay:
