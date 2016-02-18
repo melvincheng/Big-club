@@ -1,10 +1,15 @@
 OBJS = Account.o main.o session.o
-CC = clang++
-CFLAGS = -Wall -Wextra -c
+CXX=clang++
+CXXFLAGS = -Wall -Wextra -std=c++11
 LFLAGS =
 
-main : $(OBJS)
-	$(CC) $(LFLAGS) $(OBJS) -o main.exe
+bank : $(OBJS)
+	$(CXX) $(CXXFALGS) $(OBJS) -o bank
 
+Account.o : Account.h
+session.o : session.h Account.h
+main.o : session.h
+
+.PHONY : clean
 clean:
-		\rm *.o main.exe
+		rm bank $(OBJS)
