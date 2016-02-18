@@ -16,15 +16,17 @@ void Session::login() {
     std::cout << "Transaction denied. Already logged in" << std::endl;
   }else{
     std::string input = "";
-    std::cout << "Please select the following:\n admin\nuser" << std::endl;
+    std::cout << "Please select the following:\nadmin\nuser" << std::endl;
     std::cin >> input;
+    std::cin.ignore();
     // check for admin, user, or invalid
     if(input == "admin"){
       admin_ = true;
     }else if(input == "user"){
       admin_ = false;
       std::cout << "Please enter account holder's name: ";
-      std::cin >> input;
+      input = get_input();
+      name_ = input;
     }else{
       std::cout << "Login failed, you must specify either admin or user" << std::endl;
       return;
@@ -45,9 +47,13 @@ void Session::read_accounts(){
   double balance;
   bool enabled;
   bool student;
+
   while(!cafile.eof()){
     cafile >> id;
     cafile >> first;
+    if(first.compare("END")){
+      return;
+    }
     cafile >> last;
     std::string full = first + " " + last;
     cafile >> token;
@@ -78,7 +84,8 @@ void Session::logout() {
     std::cout << "Transaction denied. Not logged in" << std::endl;
   }else{
   // set logged flag on session
-  std::cout << "Transaction denied.you've successfully logged out" << std::endl;
+  std::cout << "Transaction succesful.you've successfully logged out" << std::endl;
+  logged_ = false;
   }
   // logout
 }
@@ -242,7 +249,7 @@ void Session::create() {
       std::cout << "You have too much moneyz, stop being so rich" << std::endl;
       return;
     }
-    else if(balance == NULL)
+    else if(balance == 0)
     {
       std::cout << "An initial balance of $00000.00 has been administered" << std::endl;
     }
@@ -277,7 +284,7 @@ void Session::remove() {
   std::cout << "Please enter the account ID" << std::endl;
   std::cin >> accountID;
 
-  std::cout << "Transaction complete, the account is now deleted"
+  std::cout << "Transaction complete, the account is now deleted";
 
   return;
 }
@@ -350,6 +357,25 @@ void Session::enable() {
   }
 }
 
-std::string Session::get_name(){
+std::string Session::get_input(){
+  std::string input; // input string
+  std::string build = ""; // String to put together
+  std::string token; // tokens in string
 
+  getline(std::cin,input); // get input from user
+  std::istringstream iss(input); // string stream to tokenize with
+  bool first = true; // flag for first token
+
+  // tokenize using space character as delimiter, make senseful string out of it
+  // and returnit
+  while(getline(iss,token,' ')){
+    if(first){
+    build = token;
+    first = false;
+  }else{
+      build = build + " " + token;
+    }
+  }
+
+  return build; // send off the string
 }

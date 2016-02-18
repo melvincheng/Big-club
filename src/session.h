@@ -12,8 +12,9 @@
 
 #include <string>
 #include <map>
-class Session {
 #include "Account.h"
+
+class Session {
 
 /**
  * Handles session functionalities for the current user of the banking
@@ -27,7 +28,7 @@ class Session {
   std::map<std::string,std::map<int,Account>> accounts_;  // acounts from current bank accounts file
 
   void read_accounts();
-  std::string get_name();
+  std::string get_input();
 
  public:
   Session(); // default constructor

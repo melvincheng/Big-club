@@ -5,6 +5,7 @@ LFLAGS =
 
 bank : $(OBJS)
 	$(CXX) $(CXXFALGS) $(OBJS) -o bank
+	rm $(OBJS)
 
 Account.o : Account.h
 session.o : session.h Account.h
