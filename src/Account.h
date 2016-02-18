@@ -16,6 +16,7 @@ class Account {
 
  public:
   Account(int,std::string,float,bool,bool);
+  Account();
   int get_account_id();
   std::string get_name();
   float get_balance();

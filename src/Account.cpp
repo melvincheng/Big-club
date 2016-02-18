@@ -9,6 +9,8 @@ Account::Account(int account_id, std::string name,float balance, bool enabled, b
   student_ = student;
 }
 
+Account::Account(){}
+
 std::string Account::get_name() {
   return name_;
 }

@@ -5,7 +5,7 @@ int main() {
 
   std::string input;  // holds input
   // create session object
-
+  Session sesh;
   // create input acceptance loop
   while (1) {
     // get input

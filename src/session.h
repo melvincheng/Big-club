@@ -12,7 +12,7 @@
 
 #include <string>
 #include <map>
-#include <vector>
+class Session {
 #include "Account.h"
 
 /**
@@ -20,14 +20,14 @@
  * application
  * Should be used like: Session curr_sess;
  */
-class Session {
  private:
   bool admin_;        // flag if the current session is in admin mode
   bool logged_;       // flag if the current session is logged in
   std::string name_;  // name of session user
-  std::map<std::string,Account> accounts_;  // acounts from current bank accounts file
+  std::map<std::string,std::map<int,Account>> accounts_;  // acounts from current bank accounts file
 
   void read_accounts();
+  std::string get_name();
 
  public:
   Session(); // default constructor
