@@ -5,6 +5,6 @@ user
 Please enter a transaction:
 Please input Account Name:
 Please input initial balance:
-I'm sorry, I cannot hold that much money (it's too much pressure)
+Transaction denied. Amount entered is too large
 Please enter a transaction:
 You have successfully logged out
