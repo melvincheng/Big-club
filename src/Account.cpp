@@ -1,7 +1,7 @@
 #include "Account.h"
 #include <iostream>
 
-Account::Account(int account_id, std::string name,float balance, bool enabled, bool student){
+Account::Account(int account_id, std::string name,double balance, bool enabled, bool student){
   account_id_ = account_id;
   name_ = name;
   balance_ = balance;
@@ -19,7 +19,7 @@ int Account::get_account_id() {
   return account_id_;
 }
 
-float Account::get_balance() {
+double Account::get_balance() {
   return balance_;
 }
 
@@ -31,7 +31,7 @@ bool Account::is_student() {
   return student_;
 }
 
-void Account::set_balance(float input) {
+void Account::set_balance(double input) {
   balance_ = input;
 }
 
