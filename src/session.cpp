@@ -253,10 +253,10 @@ void Session::create() {
     {
       std::cout << "An initial balance of $00000.00 has been administered" << std::endl;
     }
-  }
-  else {
-    std::cout << "The balance recieved is not a recoginized form of currency in Canada" << std::endl;
-    return;
+    else{
+        std::cout << "Transaction denied." <<std::endl;
+        return
+    }
   }
 
   std::cout << "A new account has been successfully created." << std::endl;
@@ -268,7 +268,8 @@ void Session::remove() {
   // remove
   accounts_;
   std::string name = "";
-  int accountID;
+  int account_id;
+  std::map<int,Account> account_map;
 
   if(!logged_){
     std::cout << "Transaction denied. Not logged in" << std::endl;
@@ -280,11 +281,44 @@ void Session::remove() {
 
   std::cout << "Please enter the name tied to the account" << std::endl;
   std::cin >> name;
+  
+  if(name.length() > 20) //more characters than allowed
+  {
+    std::cout <<"Transaction denied. Name is too long"<< std::endl;
+    return;
+  }
+  else if(name == ""){
+    std::cout << "Transaction denied. No name detected"<< std::endl;
+    return;
+  }
+  else if (nonAlpha!=std::string::npos)
+  {
+    std::cout << "Transaction denied. Non-Alphabetic chracters have been found.";
+    return;
+  }
+  else
+  {try{
+      account_map = accounts_.at(name);
+    }catch(int err){
+      std::cout << "The account holder's name is invalid" << std::endl;
+      return;
+    }}
 
   std::cout << "Please enter the account ID" << std::endl;
-  std::cin >> accountID;
+  if(std::cin >> account_id){
+      try{
+        account = account_map.at(account_id);
+      }catch(int err){
+        std::cout << "The account number is invalid" << std::endl;
+        return;
+      }
+      std::cout << "Account has been successfully disabled" << std::endl;
+    }else{
+      std::cout << "The account number is invalid" << std::endl;
+      return;
+    }
 
-  std::cout << "Transaction complete, the account is now deleted";
+  std::cout << "Transaction complete, the account is now deleted" << std::endl;
 
   return;
 }
@@ -320,6 +354,7 @@ void Session::disable() {
       std::cout << "Account has been successfully disabled" << std::endl;
     }else{
       std::cout << "The account number is invalid" << std::endl;
+      return;
     }
   }
 }
