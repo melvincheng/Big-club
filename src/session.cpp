@@ -104,17 +104,18 @@ void Session::withdrawal() {
   }else if(admin_){
     std::cout << "Please enter the account holder's name:" << std::endl;
     std::cin >> name;
-    try{
-      account_map = accounts_.at(name);
-    }catch(int err){
-      std::cout << "The account holder's name is invalid" << std::endl;
-      return;
-    }
   }
+  try{
+    account_map = accounts_[name_];
+  }catch(int err){
+    std::cout << "The account holder's name is invalid" << std::endl;
+    return;
+  }
+
   std::cout << "Please enter the account number to withdraw from:" << std::endl;
   if(std::cin >> account_id){
     try{
-      account = account_map.at(account_id);
+      account = account_map[account_id];
     }catch(int err){
       std::cout << "Withdrawal failed, account does not exist" << std::endl;
       return;
@@ -439,7 +440,7 @@ void Session::remove() {
 
   std::cout << "Please enter the name tied to the account" << std::endl;
   std::cin >> name;
-  
+
   if(name.length() > 20) //more characters than allowed
   {
     std::cout <<"Transaction denied. Name is too long"<< std::endl;
@@ -476,7 +477,7 @@ void Session::remove() {
   std::cout << "This bank Account will now be deleted\n" << name << std::endl << account_id << std::endl << "Confirm?" << std::endl;
   std::cin >> confirm;
   if(confirm == "y" || confirm == "yes" || confirm == "Y" || confirm == "YES"){
-    std::cout << "This account has been deleted" << std::endl;  
+    std::cout << "This account has been deleted" << std::endl;
   }else{
     std::cout << "This account has not been deleted" << std::endl;
     return;
