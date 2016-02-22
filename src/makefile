@@ -4,7 +4,7 @@ CXXFLAGS = -Wall -Wextra -std=c++11
 LFLAGS =
 
 bank : $(OBJS)
-	$(CXX) $(CXXFALGS) $(OBJS) -o bank
+	$(CXX) $(CXXFALGS) $(OBJS) -o bank.exe
 	rm $(OBJS)
 
 Account.o : Account.h
