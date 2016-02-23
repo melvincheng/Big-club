@@ -15,6 +15,10 @@
 #include <map>
 #include "Account.h"
 
+/**
+ * Contains, keeps track, and manipulates information of the current session
+ */
+ 
 class Session {
 
 /**
@@ -29,7 +33,7 @@ class Session {
   std::map<std::string,std::map<int,Account>> accounts_;  // acounts from current bank accounts file
 
   void read_accounts();
-  void write_file();
+  void write_file(int trans_num, std::string name = "", int account_id = 0, double value = 0.00, std::string misc = "");
   std::string get_input();
 
  public:
