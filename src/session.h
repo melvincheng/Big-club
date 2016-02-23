@@ -1,4 +1,3 @@
-
 /**
  * session.h
  * @author Santiago Bonada
@@ -31,34 +30,78 @@ class Session {
   bool logged_;       // flag if the current session is logged in
   std::string name_;  // name of session user
   std::map<std::string,std::map<int,Account>> accounts_;  // acounts from current bank accounts file
-
+/**
+ * Reads the current account file
+ */
   void read_accounts();
-  void write_file(int trans_num, std::string name = "", int account_id = 0, double value = 0.00, std::string misc = "");
+
+/**
+ * Writes into a transaction file 
+ */
+  void write_file(int trans_num, std::string name = "", int account_id = 0, float value = 0.0, std::string misc = "");
+
+/**
+ * Use to read standard input
+ * Does not read leading and trailing spaces
+ */
   std::string get_input();
 
  public:
   Session(); // default constructor
 
+/**
+ * Logs into a session
+ */
   void login();
 
+/**
+ * Logs out of a session
+ */
   void logout();
 
+/**
+ * Withdraws money from an account
+ */
   void withdrawal();
 
+/**
+ * Deposits money into an account
+ */
   void deposit();
 
+/**
+ * Changes the plan of an account
+ */
   void changeplan();
 
+/**
+ * Transfers money from one account to another
+ */
   void transfer();
 
+/**
+ * Pays money to a company
+ */
   void paybill();
 
+/**
+ * Creates an account
+ */
   void create();
 
+/**
+ * Removes an account
+ */
   void remove();
 
+/**
+ * Disables an account
+ */
   void disable();
 
+/**
+ * Enables an account
+ */
   void enable();
 };
 

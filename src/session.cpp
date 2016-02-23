@@ -45,7 +45,7 @@ void Session::read_accounts(){
   int id;
   std::string first;
   std::string last;
-  double balance;
+  float balance;
   bool enabled;
   bool student;
 
@@ -99,7 +99,7 @@ void Session::withdrawal() {
   // withdrawal
   std::string name = "";
   int account_id = 0;
-  double value = 0.0;
+  float value = 0.0;
   std::map<int,Account> account_map;
   Account account;
   if(!logged_){
@@ -154,7 +154,7 @@ void Session::deposit() {
   // deposit
   std::string name = "";
   int account_id = 0;
-  double value = 0.0;
+  float value = 0.0;
   std::map<int,Account> account_map;
   Account account;
   if(!logged_){
@@ -240,7 +240,7 @@ void Session::transfer() {
   // transfer
   std::string name = "";
   int account_id_1,account_id_2 = 0;
-  double value = 0.0;
+  float value = 0.0;
   std::map<int,Account> account_map;
   Account account_1, account_2;
   if(!logged_){
@@ -307,7 +307,7 @@ void Session::paybill() {
   // paybill
   std::string name, company = "";
   int account_id = 0;
-  double value = 0.0;
+  float value = 0.0;
   std::map<int,Account> account_map;
   Account account;
   char to_lower [64];
@@ -376,7 +376,7 @@ void Session::create() {
   std::string name = "";
   std::string alphabet = "abcdefghijklmnopqrstuvwxyz ";
   std::size_t nonAlpha = name.find_first_not_of(alphabet);
-  double balance = 0.0;
+  float balance = 0.0;
 
   if(!logged_){
     std::cout << "Transaction denied. Not logged in" << std::endl;
