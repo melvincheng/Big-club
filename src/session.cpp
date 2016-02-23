@@ -79,6 +79,10 @@ void Session::read_accounts(){
   }
 }
 
+void write_file(){
+  //TODO: implement write file
+}
+
 void Session::logout() {
   // check if logged out
   if(!logged_){

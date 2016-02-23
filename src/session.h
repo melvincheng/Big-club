@@ -29,6 +29,7 @@ class Session {
   std::map<std::string,std::map<int,Account>> accounts_;  // acounts from current bank accounts file
 
   void read_accounts();
+  void write_file();
   std::string get_input();
 
  public:
