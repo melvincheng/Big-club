@@ -8,23 +8,57 @@
 
 class Account {
  private:
-  int account_id_;
-  std::string name_;
-  double balance_;
-  bool enabled_;
-  bool student_;
+  int account_id_; // account id of the account
+  std::string name_; // name of the account holder
+  float balance_; // balance within the account
+  bool enabled_; // flag for if the account is enabled
+  bool student_; // flag for if the account has a student plan
 
  public:
-  Account(int,std::string,double,bool,bool);
+  /**
+   * Primary constructor to use when initializing accounts.
+   */
+  Account(int,std::string,float,bool,bool);
+   /**
+    * default constructor
+    */
   Account();
+   /**
+    * get the account id of the account
+    */
   int get_account_id();
+   /**
+    * get the name of the account holder
+    */
   std::string get_name();
-  double get_balance();
+   /**
+    * get the balance of the account
+    */
+  float get_balance();
+   /**
+    * check if the account is enabled
+    */
   bool is_enabled();
+   /**
+    * check if the account has a student plan
+    */
   bool is_student();
-  void set_balance(double);
+   /**
+    * set the balance of the account
+    */
+  void set_balance(float);
+   /**
+    * enable the account
+    */
   void enable();
+   /**
+    * disable the account
+    */
   void disable();
+
+   /**
+    * change the plan on the account
+    */
   void change_plan();
 };
 #endif  // ACCOUNT_H
