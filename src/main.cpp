@@ -11,7 +11,7 @@ int main() {
   // create input acceptance loop
   while (1) {
     // get input
-    std::cout << "Please enter a transaction: ";
+    std::cout << "Please enter a transaction: " << std::endl;
     std::cin >> input;
     // check input, if it's valid, call respective function
     if(!input.compare("login")){
@@ -33,9 +33,9 @@ int main() {
     }else if(!input.compare("delete")){
       sesh.remove();
     }else if(!input.compare("disable")){
-      sesh.disable();
+      sesh.enable(false);
     }else if(!input.compare("enable")){
-      sesh.enable();
+      sesh.enable(true);
     }else if(!input.compare("quit")){
       return 0;
     }else{

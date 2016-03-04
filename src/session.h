@@ -12,6 +12,7 @@
 
 #include <string>
 #include <map>
+#include <vector>
 #include "Account.h"
 
 /**
@@ -30,6 +31,7 @@ class Session {
   bool logged_;       // flag if the current session is logged in
   std::string name_;  // name of session user
   std::map<std::string,std::map<int,Account>> accounts_;  // acounts from current bank accounts file
+  std::vector<std::string> transactions_;
 /**
  * Reads the current account file
  */
@@ -95,14 +97,11 @@ class Session {
   void remove();
 
 /**
- * Disables an account
+ * Enables or disable an account depending on argument
+ * if argument is true, attempt to enable
+ * if argument is false, attempt to disable
  */
-  void disable();
-
-/**
- * Enables an account
- */
-  void enable();
+  void enable(bool enable);
 };
 
 #endif  // SESSION_H

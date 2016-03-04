@@ -6,9 +6,9 @@
 #include <math.h>
 
 Session::Session(){
-    admin_ = false;
-    logged_ = false;
-    read_accounts();
+  admin_ = false;
+  logged_ = false;
+  read_accounts();
 }
 
 void Session::login() {
@@ -18,16 +18,18 @@ void Session::login() {
   }else{
     std::string input = "";
     std::cout << "Please select the following:\nadmin\nuser" << std::endl;
-    std::cin >> input;
-    std::cin.ignore();
+    std::cin >> input
+;    std::cin.ignore();
     // check for admin, user, or invalid
     if(input == "admin"){
       admin_ = true;
+      write_file(10,"",0,0.0,"A");
     }else if(input == "user"){
       admin_ = false;
-      std::cout << "Please enter account holder's name: ";
+      std::cout << "Please enter account holder's name: " << std::endl;
       input = get_input();
       name_ = input;
+      write_file(10,input,0,0.0,"S");
     }else{
       std::cout << "Login failed, you must specify either admin or user" << std::endl;
       return;
@@ -66,7 +68,7 @@ void Session::read_accounts(){
     cafile >> balance;
     cafile >> token;
     if(token == "N"){
-      student = false;
+      student = false;  
     }else{
       student = true;
     }
@@ -79,8 +81,16 @@ void Session::read_accounts(){
   }
 }
 
-void write_file(){
-  //TODO: implement write file
+void Session::write_file(int trans_num, std::string name, int account_id, float value, std::string misc){
+  //TODO: implement write filz
+  char out_file [40];
+  sprintf(out_file, "%02d %20s %05d %00008.2f %s", trans_num, name.c_str(), account_id, value, misc.c_str());
+  std::string current_transaction(out_file);
+  if(trans_num == 00){
+
+  }else{
+    transactions_.push_back(current_transaction);
+  }
 }
 
 void Session::logout() {
@@ -89,8 +99,14 @@ void Session::logout() {
     std::cout << "Transaction denied. Not logged in" << std::endl;
   }else{
   // set logged flag on session
-  std::cout << "Transaction succesful.you've successfully logged out" << std::endl;
-  logged_ = false;
+    std::cout << "Transaction successful. You've successfully logged out" << std::endl;
+    logged_ = false;
+    if(admin_){
+      write_file(00,"",0,0.0,"A");
+    }else{
+      write_file(00,name_,0,0.0,"S");
+    }
+    exit(0);
   }
   // logout
 }
@@ -111,7 +127,7 @@ void Session::withdrawal() {
   }
   try{
     account_map = accounts_[name_];
-  }catch(int err){
+  }catch(const std::out_of_range& err){
     std::cout << "The account holder's name is invalid" << std::endl;
     return;
   }
@@ -120,7 +136,7 @@ void Session::withdrawal() {
   if(std::cin >> account_id){
     try{
       account = account_map[account_id];
-    }catch(int err){
+    }catch(const std::out_of_range& err){
       std::cout << "Withdrawal failed, account does not exist" << std::endl;
       return;
     }
@@ -147,6 +163,7 @@ void Session::withdrawal() {
     std::cout << "Withdrawal failed, you must enter a number divisible by 5" << std::endl;
   }else{
     std::cout << "Withdrawal of " << value << " was successful" << std::endl;
+    write_file(01,name,account_id,value,"");
   }
 }
 
@@ -157,6 +174,7 @@ void Session::deposit() {
   float value = 0.0;
   std::map<int,Account> account_map;
   Account account;
+  std::string input;
   if(!logged_){
     std::cout << "Transaction denied. Not logged in" << std::endl;
     return;
@@ -165,16 +183,17 @@ void Session::deposit() {
     std::cin >> name;
     try{
       account_map = accounts_.at(name);
-    }catch(int err){
+    }catch(const std::out_of_range& err){
       std::cout << "The account holder's name is invalid" << std::endl;
       return;
     }
   }
   std::cout << "Enter the account number:" << std::endl;
-  if(std::cin >> account_id){
+  if(std::cin >> input){
     try{
+      account_id = atoi(input.c_str());
       account = account_map.at(account_id);
-    }catch(int err){
+    }catch(const std::out_of_range& err){
       std::cout << "Deposit failed, you entered an invalid account number" << std::endl;
       return;
     }
@@ -216,16 +235,16 @@ void Session::changeplan() {
   std::cout << "Please enter the account holder's name:" << std::endl;
   std::cin >> name;
   try{
-      account_map = accounts_.at(name);
-    }catch(int err){
-      std::cout << "The account holder's name is invalid" << std::endl;
-      return;
-    }
+    account_map = accounts_.at(name);
+  }catch(const std::out_of_range& err){
+    std::cout << "The account holder's name is invalid" << std::endl;
+    return;
+  }
   std::cout << "Please enter the account number:" << std::endl;
   if(std::cin >> account_id){
     try{
       account = account_map.at(account_id);
-    }catch(int err){
+    }catch(const std::out_of_range& err){
       std::cout << "The account number is invalid" << std::endl;
       return;
     }
@@ -241,6 +260,7 @@ void Session::transfer() {
   std::string name = "";
   int account_id_1,account_id_2 = 0;
   float value = 0.0;
+  std::string input; // TDOD: REMOVE
   std::map<int,Account> account_map;
   Account account_1, account_2;
   if(!logged_){
@@ -251,20 +271,22 @@ void Session::transfer() {
     std::cin >> name;
     try{
       account_map = accounts_.at(name);
-    }catch(int err){
+    }catch(const std::out_of_range& err){
       std::cout << "The account holder's name is invalid" << std::endl;
       return;
     }
   }
   std::cout << "Please enter the account number to transfer from:" << std::endl;
-  if(std::cin >> account_id_1){
+  if(std::cin >> input){
     try{
+      account_id_1 = atoi(input.c_str());
       account_1 = account_map.at(account_id_1);
-    }catch(int err){
+    }catch(const std::out_of_range& err){
       std::cout << "Transfer failed, account does not exist" << std::endl;
       return;
     }
   }else{
+    std::cout << account_id_1 << std::endl;
     std::cout << "Transfer failed, account does not exist" << std::endl;
     return;
   }
@@ -272,7 +294,7 @@ void Session::transfer() {
   if(std::cin >> account_id_2){
     try{
       account_2 = account_map.at(account_id_2);
-    }catch(int err){
+    }catch(const std::out_of_range& err){
       std::cout << "Transfer failed, account does not exist" << std::endl;
       return;
     }
@@ -311,6 +333,7 @@ void Session::paybill() {
   std::map<int,Account> account_map;
   Account account;
   char to_lower [64];
+  std::string input; //TODO: Remove
   if(!logged_){
     std::cout << "Transaction denied. Not logged in" << std::endl;
     return;
@@ -319,16 +342,17 @@ void Session::paybill() {
     std::cin >> name;
     try{
       account_map = accounts_.at(name);
-    }catch(int err){
+    }catch(const std::out_of_range& err){
       std::cout << "The account holder's name is invalid" << std::endl;
       return;
     }
   }
   std::cout << "Enter the account number:" << std::endl;
-  if(std::cin >> account_id){
+  if(std::cin >> input){
     try{
+      account_id = atoi(input.c_str());
       account = account_map.at(account_id);
-    }catch(int err){
+    }catch(const std::out_of_range& err){
       std::cout << "Invalid account number: " << account_id << std::endl;
       return;
     }
@@ -338,7 +362,7 @@ void Session::paybill() {
   }
   std::cout << "Enter the company to whom you wish the pay the bill to:" << std::endl;
   std::cin >> company;
-  for(int i = 0; i < company.length(); i++){
+  for(uint i = 0; i < company.length(); i++){
     to_lower[i] = std::tolower(company[i]);
   }
   company = to_lower;
@@ -417,8 +441,8 @@ void Session::create() {
       std::cout << "An initial balance of 00000.00 has been administered" << std::endl;
     }
     else{
-        std::cout << "Transaction denied. Invalid characters" <<std::endl;
-        return;
+      std::cout << "Transaction denied. Invalid characters" << std::endl;
+      return;
     }
   }
   std::cout << "A new account was made under the name:\n" << name << "with a current balance of:\n" << balance << std::endl << "Your account will be available on the next day" << std::endl;
@@ -447,11 +471,11 @@ void Session::remove() {
 
   if(name.length() > 20) //more characters than allowed
   {
-    std::cout <<"Transaction denied. Name is too long"<< std::endl;
+    std::cout <<"Transaction denied. Name is too long" << std::endl;
     return;
   }
   else if(name == ""){
-    std::cout << "Transaction denied. No name detected"<< std::endl;
+    std::cout << "Transaction denied. No name detected" << std::endl;
     return;
   }
   else if (nonAlpha!=std::string::npos)
@@ -461,23 +485,23 @@ void Session::remove() {
   }else{
     try{
       account_map = accounts_.at(name);
-    }catch(int err){
+    }catch(const std::out_of_range& err){
       std::cout << "I'm sorry, this name is not registered in the bank" << std::endl;
       return;
     }
   }
   std::cout << "Please enter the account ID" << std::endl;
   if(std::cin >> account_id){
-      try{
-        account = account_map.at(account_id);
-      }catch(int err){
-        std::cout << "I'm sorry, the account number given does not match up to the Account Name." << std::endl;
-        return;
-      }
-    }else{
+    try{
+      account = account_map.at(account_id);
+    }catch(const std::out_of_range& err){
       std::cout << "I'm sorry, the account number given does not match up to the Account Name." << std::endl;
       return;
     }
+  }else{
+    std::cout << "I'm sorry, the account number given does not match up to the Account Name." << std::endl;
+    return;
+  }
   std::cout << "This bank Account will now be deleted\n" << name << std::endl << account_id << std::endl << "Confirm?" << std::endl;
   std::cin >> confirm;
   if(confirm == "y" || confirm == "yes" || confirm == "Y" || confirm == "YES"){
@@ -488,7 +512,7 @@ void Session::remove() {
   }
 }
 
-void Session::disable() {
+void Session::enable(bool enable) {
   // disable
   std::string name = "";
   int account_id = 0;
@@ -504,7 +528,7 @@ void Session::disable() {
     std::cin >> name;
     try{
       account_map = accounts_.at(name);
-    }catch(int err){
+    }catch(const std::out_of_range& err){
       std::cout << "The account holder's name is invalid" << std::endl;
       return;
     }
@@ -512,47 +536,18 @@ void Session::disable() {
     if(std::cin >> account_id){
       try{
         account = account_map.at(account_id);
-      }catch(int err){
+      }catch(const std::out_of_range& err){
         std::cout << "The account number is invalid" << std::endl;
         return;
       }
-      std::cout << "Account has been successfully disabled" << std::endl;
+      if(enable){
+        std::cout << "Account has been successfully enable" << std::endl;
+      }else{
+        std::cout << "Account has been successfully disable" << std::endl;
+      }
     }else{
       std::cout << "The account number is invalid" << std::endl;
       return;
-    }
-  }
-}
-
-void Session::enable() {
-  // enable
-  std::string name = "";
-  int account_id = 0;
-  std::map<int,Account> account_map;
-  Account account;
-  if(!logged_){
-    std::cout << "Transaction denied. Not logged in" << std::endl;
-    return;
-  }else if(!admin_){
-    std::cout << "Transaction denied. User is not an admin" << std::endl;
-  }else{
-    std::cout << "Please enter account holder's name:" << std::endl;
-    std::cin >> name;
-    try{
-      account_map = accounts_.at(name);
-    }catch(int err){
-      std::cout << "The account holder's name is invalid" << std::endl;
-      return;
-    }
-    std::cout << "Please enter account number:" << std::endl;
-    if(std::cin >> account_id){
-      try{
-        account = account_map.at(account_id);
-      }catch(int err){
-        std::cout << "Account has been successfully enable" << std::endl;
-      }
-    }else{
-        std::cout << "The account number is invalid" << std::endl;
     }
   }
 }
@@ -570,9 +565,9 @@ std::string Session::get_input(){
   // and returnit
   while(getline(iss,token,' ')){
     if(first){
-    build = token;
-    first = false;
-  }else{
+      build = token;
+      first = false;
+    }else{
       build = build + " " + token;
     }
   }
