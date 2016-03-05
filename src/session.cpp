@@ -87,12 +87,15 @@ void Session::read_accounts() {
 }
 
 void Session::write_file(int trans_num, std::string name, int account_id, float value, std::string misc){
-  //TODO: implement write filz
+  // write transaction file
   char out_file [40];
   sprintf(out_file, "%02d %20s %05d %00008.2f %s", trans_num, name.c_str(), account_id, value, misc.c_str());
   std::string current_transaction(out_file);
   if(trans_num == 00){
-
+    std::ofstream trans_file("transactions.trf");
+    for(int i = 0; i < transactions_.size();i++){
+      trans_file << transactions_[i] << std::endl;
+    }
   }else{
     transactions_.push_back(current_transaction);
   }
