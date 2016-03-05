@@ -39,45 +39,50 @@ void Session::login() {
   }
 }
 
-void Session::read_accounts(){
+void Session::read_accounts() {
   std::string filename = "CurrentAccount.txt";
   std::ifstream cafile(filename);
 
+  std::string line;
   std::string token;
   int id;
-  std::string first;
-  std::string last;
+  std::string name;
   float balance;
   bool enabled;
   bool student;
 
-  while(!cafile.eof()){
-    cafile >> id;
-    cafile >> first;
-    if(first.compare("END")){
-      return;
-    }
-    cafile >> last;
-    std::string full = first + " " + last;
-    cafile >> token;
-    if(token == "A"){
+  while (!cafile.eof()) {
+    getline(cafile, line);
+    token = line.substr(0, 5);  // extract account id
+    id = atoi(token.c_str());   // convert account id to integer
+
+    name = line.substr(6, 20);  // extract account name
+
+    token = line.substr(27, 1);  // extract account enabled flag
+    if (token == "A") {
       enabled = true;
-    }else{
+    } else {
       enabled = false;
     }
-    cafile >> balance;
-    cafile >> token;
-    if(token == "N"){
-      student = false;  
-    }else{
+
+    token = line.substr(29, 8);     // extract account balance
+    balance = atof(token.c_str());  // convert accoutn balance to float
+
+    token = line.substr(38, 1);  // extract plan status
+    if (token == "N") {
+      student = false;
+    } else {
       student = true;
     }
-    Account curr = Account(id,full,balance,enabled,student);
-    if(!accounts_.count(full)){
-      std::map<int,Account> temp;
-      accounts_[full] = temp;
+
+    printf("%d %s %f\n", id, name.c_str(), balance);
+
+    Account curr = Account(id, name, balance, enabled, student);
+    if (!accounts_.count(name)) {
+      std::map<int, Account> temp;
+      accounts_[name] = temp;
     }
-    accounts_[full][id] = curr;
+    accounts_[name][id] = curr;
   }
 }
 
