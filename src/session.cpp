@@ -186,7 +186,7 @@ void Session::deposit() {
     return;
   }else if(admin_){
     std::cout << "Please enter account holder's name:" << std::endl;
-    std::cin >> name;
+    getline(std::cin,name);
     try{
       account_map = accounts_.at(name);
     }catch(const std::out_of_range& err){
@@ -195,7 +195,7 @@ void Session::deposit() {
     }
   }
   std::cout << "Enter the account number:" << std::endl;
-  if(std::cin >> input){
+  if(getline(std::cin,input)){
     try{
       account_id = atoi(input.c_str());
       account = account_map.at(account_id);
@@ -208,7 +208,7 @@ void Session::deposit() {
     return;
   }
   std::cout << "Enter the amount in dollars to deposit:" << std::endl;
-  if(!(std::cin >> value)){
+  if(!((std::cin >> value))){
     std::cout << "Deposit failed, you must enter a numerical value." << std::endl;
   }else if(value > account.get_balance()){
     std::cout << "Cannot withdraw " << value <<", you have insufficient funds" << std::endl;
