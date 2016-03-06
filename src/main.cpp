@@ -12,10 +12,7 @@ int main() {
   while (1) {
     // get input
     std::cout << "Please enter a transaction: " << std::endl;
-<<<<<<< HEAD
     getline(std::cin,input);
-    std::getline(std::cin,input);
->>>>>>> melvin2
     // check input, if it's valid, call respective function
     if(!input.compare("login")){
       sesh.login();

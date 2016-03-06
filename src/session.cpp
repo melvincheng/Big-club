@@ -18,10 +18,7 @@ void Session::login() {
   }else{
     std::string input;
     std::cout << "Please select the following:\nadmin\nuser" << std::endl;
-<<<<<<< HEAD
-    getline(std::cin,input);
-    std::getline(std::cin, input);
->>>>>>> melvin2
+    std::getline(std::cin,input);
     // check for admin, user, or invalid
     std::cout<<input;
     if(input == "admin"){
@@ -30,14 +27,13 @@ void Session::login() {
     }else if(input == "user"){
       admin_ = false;
       std::cout << "Please enter account holder's name: " << std::endl;
-<<<<<<< HEAD
       getline(std::cin,name_);
-      write_file(10,name_,0,0.0,"S");
-      std::getline(std::cin,input);
-      std::cout<<input;
-      name_ = input;
-      write_file(10,input,0,0.0,"S");
->>>>>>> melvin2
+      if(accounts_.count(name_)){
+        write_file(10,name_,0,0.0,"S");
+      }else{
+        std::cout << "Login failed, name is not registered in our system" << std::endl;
+        return;
+      }
     }else{
       std::cout << "Login failed, you must specify either admin or user" << std::endl;
       return;
@@ -60,7 +56,7 @@ void Session::read_accounts() {
   bool student;
 
   while (!cafile.eof()) {
-    getline(cafile, line);
+    std::getline(cafile, line);
     token = line.substr(0, 5);  // extract account id
     id = atoi(token.c_str());   // convert account id to integer
 
@@ -100,13 +96,10 @@ void Session::write_file(int trans_num, std::string name, int account_id, float 
   sprintf(out_file, "%02d %20s %05d %00008.2f %s", trans_num, name.c_str(), account_id, value, misc.c_str());
   std::string current_transaction(out_file);
   if(trans_num == 00){
-<<<<<<< HEAD
     std::ofstream trans_file("transactions.trf");
     for(int i = 0; i < transactions_.size();i++){
       trans_file << transactions_[i] << std::endl;
     }
-    //TODO: output file
->>>>>>> melvin2
   }else{
     transactions_.push_back(current_transaction);
   }
@@ -117,7 +110,7 @@ void Session::logout() {
   if(!logged_){
     std::cout << "Transaction denied. Not logged in" << std::endl;
   }else{
-  // set logged flag on session
+    // set logged flag on session
     std::cout << "Transaction successful. You've successfully logged out" << std::endl;
     logged_ = false;
     if(admin_){
@@ -205,10 +198,7 @@ void Session::deposit() {
     return;
   }else if(admin_){
     std::cout << "Please enter account holder's name:" << std::endl;
-<<<<<<< HEAD
     getline(std::cin,name);
-    std::getline(std::cin, name);
->>>>>>> melvin2
     try{
       account_map = accounts_.at(name);
     }catch(const std::out_of_range& err){
@@ -217,7 +207,6 @@ void Session::deposit() {
     }
   }
   std::cout << "Enter the account number:" << std::endl;
-<<<<<<< HEAD
   if(getline(std::cin,input)){
     try{
       account_id = atoi(input.c_str());
@@ -227,44 +216,43 @@ void Session::deposit() {
       return;
     }
   }else{
-  std::getline(std::cin, input);
-  try{
-    account_id = stoi(input);
-    account = account_map.at(account_id);
-  }catch(const std::out_of_range& err){
-    std::cout << "Deposit failed, you entered an invalid account number" << std::endl;
-    return;
-  }catch(const std::invalid_argument& err){
->>>>>>> melvin2
-    std::cout << "Deposit failed, you entered an invalid account number" << std::endl;
-    return;
-  }
-  std::cout << "Enter the amount in dollars to deposit:" << std::endl;
-<<<<<<< HEAD
-  if(!((std::cin >> value))){
-  std::getline(std::cin, input);
-  try{
-    value = std::stof(input);
-  }catch(const std::invalid_argument& err){
->>>>>>> melvin2
-    std::cout << "Deposit failed, you must enter a numerical value." << std::endl;
-    return;
-  }catch(const std::out_of_range& err){
-    std::cout << "Deposit failed, you must enter a numerical value." << std::endl;
-    return;
-  }
-  if(value > account.get_balance()){
-    std::cout << "Cannot withdraw " << value <<", you have insufficient funds" << std::endl;
-  }else if(!account.is_enabled()){
-    std::cout << "Deposit failed, " << account_id << " is disabled" << std::endl;
-  }else if(!admin_){
-    if(account.is_student() && value + 0.05 < account.get_balance()){
-      std::cout << "Deposit failed, you must have at least $0.00 after transaction fees" << std::endl;
-    }else if(!(account.is_student()) && value + 0.10 < account.get_balance()){
-      std::cout << "Deposit failed, you must have at least $0.00 after transaction fees" << std::endl;
+    std::getline(std::cin, input);
+    try{
+      account_id = stoi(input);
+      account = account_map.at(account_id);
+    }catch(const std::out_of_range& err){
+      std::cout << "Deposit failed, you entered an invalid account number" << std::endl;
+      return;
+    }catch(const std::invalid_argument& err){
+      std::cout << "Deposit failed, you entered an invalid account number" << std::endl;
+      return;
     }
-  }else{
-    std::cout << "Deposit successful, your deposit will be on hold until your next session" << std::endl;
+    std::cout << "Enter the amount in dollars to deposit:" << std::endl;
+    if(!((std::cin >> value))){
+      std::getline(std::cin, input);
+      try{
+        value = std::stof(input);
+      }catch(const std::invalid_argument& err){
+        std::cout << "Deposit failed, you must enter a numerical value." << std::endl;
+        return;
+      }catch(const std::out_of_range& err){
+        std::cout << "Deposit failed, you must enter a numerical value." << std::endl;
+        return;
+      }
+      if(value > account.get_balance()){
+        std::cout << "Cannot withdraw " << value <<", you have insufficient funds" << std::endl;
+      }else if(!account.is_enabled()){
+        std::cout << "Deposit failed, " << account_id << " is disabled" << std::endl;
+      }else if(!admin_){
+        if(account.is_student() && value + 0.05 < account.get_balance()){
+          std::cout << "Deposit failed, you must have at least $0.00 after transaction fees" << std::endl;
+        }else if(!(account.is_student()) && value + 0.10 < account.get_balance()){
+          std::cout << "Deposit failed, you must have at least $0.00 after transaction fees" << std::endl;
+        }
+      }else{
+        std::cout << "Deposit successful, your deposit will be on hold until your next session" << std::endl;
+      }
+    }
   }
 }
 
@@ -305,11 +293,8 @@ void Session::changeplan() {
 void Session::transfer() {
   // transfer
   std::string name = "";
-<<<<<<< HEAD
-  int account_id_1 = 0,account_id_2 = 0;
   std::string input;
-  int account_id_1,account_id_2 = 0;
->>>>>>> melvin2
+  int account_id_1 = 0,account_id_2 = 0;
   float value = 0.0;
   std::map<int,Account> account_map;
   Account account_1, account_2;
@@ -612,14 +597,10 @@ void Session::enable(bool enable) {
       std::cout << "The account number is invalid" << std::endl;
       return;
     }
-<<<<<<< HEAD
+  }
+  if(enable){
+    std::cout << "Account has been successfully enable" << std::endl;
+  }else{
+    std::cout << "Account has been successfully disable" << std::endl;
   }
 }
-    if(enable){
-      std::cout << "Account has been successfully enable" << std::endl;
-    }else{
-      std::cout << "Account has been successfully disable" << std::endl;
-    }
-  }
-}
->>>>>>> melvin2
