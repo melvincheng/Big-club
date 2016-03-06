@@ -1,0 +1,11 @@
+Please enter a transaction: 
+Please select the following:
+admin
+user
+adminPlease enter a transaction: 
+Please enter account holder's name:
+The account holder's name is invalid
+Please enter a transaction: 
+Command not recognized
+Please enter a transaction: 
+Transaction successful. You've successfully logged out

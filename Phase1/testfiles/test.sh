@@ -4,8 +4,10 @@ do
 	for f in *.in;
 	do
 		printf "\n"$f"\n"
-		../../../src/bank.exe < $f
-		# echo "${f%.*}"
+	
+		../../../src/bank.exe < $f > "${f%.*}.outx"
+		diff -y "${f%.*}.out" "${f%.*}.outx"
 	done;
 	cd ../
+
 done;

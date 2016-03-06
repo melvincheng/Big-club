@@ -1,0 +1,862 @@
+
+00_001.in
+Welcome							      |	Please enter a transaction: 
+Please select the following:					Please select the following:
+admin								admin
+user								user
+Please enter account holder's name:			      |	userPlease enter account holder's name: 
+Please enter a transaction:				      |	Billy-Bob ThorntonPlease enter a transaction: 
+You have successfully logged out			      \	Transaction successful. You've successfully logged out
+
+00_002.in
+Welcome							      |	Please enter a transaction: 
+Please select the following:					Please select the following:
+admin								admin
+user								user
+Please enter a transaction:				      |	adminPlease enter a transaction: 
+You have successfully logged out			      \	Transaction successful. You've successfully logged out
+
+01_001.in
+Welcome							      |	Please enter a transaction: 
+Please select the following:					Please select the following:
+admin								admin
+user								user
+Please enter your name:					      |	userPlease enter account holder's name: 
+Please enter the account number to withdraw from:	      |	Billy-Bob ThorntonPlease enter a transaction: 
+Please enter the amount to withdraw:			      |	Command not recognized
+Withdrawal of $230.00 was successful			      |	Please enter a transaction: 
+Please enter a transaction:				      |	Command not recognized
+You have successfully logged out			      \	Please enter a transaction: 
+							      >	Command not recognized
+							      >	Please enter a transaction: 
+							      >	Transaction successful. You've successfully logged out
+
+01_002.in
+Welcome							      |	Please enter a transaction: 
+Please select the following:					Please select the following:
+admin								admin
+user								user
+Please enter your name:					      |	userPlease enter account holder's name: 
+Please enter the account number to withdraw from:	      |	Billy-Bob ThorntonPlease enter a transaction: 
+Please enter the amount to withdraw:			      |	Command not recognized
+Withdrawal of $530.00 failed; withdrawal amount must be withi |	Please enter a transaction: 
+Please enter a transaction:				      |	Command not recognized
+You have successfully logged out			      \	Please enter a transaction: 
+							      >	Command not recognized
+							      >	Please enter a transaction: 
+							      >	Transaction successful. You've successfully logged out
+
+01_003.in
+Welcome							      |	Please enter a transaction: 
+Please select the following:					Please select the following:
+admin								admin
+user								user
+Please enter your name:					      |	userPlease enter account holder's name: 
+Please enter the account number to withdraw from:	      |	Billy-Bob ThorntonPlease enter a transaction: 
+Please enter the amount to withdraw:			      |	Command not recognized
+Withdrawal of $230.00 was successful			      |	Please enter a transaction: 
+Please enter the account number to withdraw from:	      |	Command not recognized
+Please enter the amount to withdraw:			      |	Please enter a transaction: 
+Withdrawal of $255.00 failed; cannot withdraw more than $500. |	Command not recognized
+Please enter a transaction:				      |	Please enter a transaction: 
+You have successfully logged out			      \	Command not recognized
+							      >	Please enter a transaction: 
+							      >	Command not recognized
+							      >	Please enter a transaction: 
+							      >	Command not recognized
+							      >	Please enter a transaction: 
+							      >	Transaction successful. You've successfully logged out
+
+01_004.in
+Welcome							      |	Please enter a transaction: 
+Please select the following:					Please select the following:
+admin								admin
+user								user
+Please enter your name:					      |	userPlease enter account holder's name: 
+Please enter the account number to withdraw from:	      |	Billy-Bob ThorntonPlease enter a transaction: 
+Please enter the amount to withdraw:			      |	Command not recognized
+Withdrawal failed, value must be a numeric value between $0-$ |	Please enter a transaction: 
+Please enter a transaction:				      |	Command not recognized
+You have successfully logged out			      \	Please enter a transaction: 
+							      >	Command not recognized
+							      >	Please enter a transaction: 
+							      >	Transaction successful. You've successfully logged out
+
+01_005.in
+Welcome							      |	Please enter a transaction: 
+Please select the following:					Please select the following:
+admin								admin
+user								user
+Please enter your name:					      |	userPlease enter account holder's name: 
+Please enter the account number to withdraw from:	      |	Billy-Bob ThorntonPlease enter a transaction: 
+Withdrawal failed, you must be the owner of the account you a |	Command not recognized
+Please enter a transaction:				      |	Please enter a transaction: 
+You have successfully logged out			      \	Command not recognized
+							      >	Please enter a transaction: 
+							      >	Transaction successful. You've successfully logged out
+
+01_006.in
+Welcome							      |	Please enter a transaction: 
+Please select the following:					Please select the following:
+admin								admin
+user								user
+Please enter your name:					      |	userPlease enter account holder's name: 
+Please enter the account number to withdraw from:	      |	Billy-Bob ThorntonPlease enter a transaction: 
+Withdrawal failed, account does not exist		      |	Command not recognized
+Please enter a transaction:				      |	Please enter a transaction: 
+You have successfully logged out			      \	Command not recognized
+							      >	Please enter a transaction: 
+							      >	Transaction successful. You've successfully logged out
+
+01_007.in
+Welcome							      |	Please enter a transaction: 
+Please select the following:					Please select the following:
+admin								admin
+user								user
+Please enter your name:					      |	userPlease enter account holder's name: 
+Please enter the account number to withdraw from:	      |	Billy-Bob ThorntonPlease enter a transaction: 
+Please enter the amount to withdraw:			      |	Command not recognized
+Cannot withdraw $400.00, you have insufficient funds	      |	Please enter a transaction: 
+Please enter a transaction:				      |	Command not recognized
+You have successfully logged out			      \	Please enter a transaction: 
+							      >	Command not recognized
+							      >	Please enter a transaction: 
+							      >	Transaction successful. You've successfully logged out
+
+01_008.in
+Welcome							      |	Please enter a transaction: 
+Please select the following:					Please select the following:
+admin								admin
+user								user
+Please enter your name:					      |	userPlease enter account holder's name: 
+Please enter the account number to withdraw from:	      |	Billy-Bob ThorntonPlease enter a transaction: 
+Withdraw failed, 10003 is disabled			      |	Command not recognized
+Please enter a transaction:				      |	Please enter a transaction: 
+You have successfully logged out			      \	Command not recognized
+							      >	Please enter a transaction: 
+							      >	Transaction successful. You've successfully logged out
+
+01_009.in
+Welcome							      |	Please enter a transaction: 
+Please select the following:					Please select the following:
+admin								admin
+user								user
+Please enter your name:					      |	userPlease enter account holder's name: 
+Please enter the account number to withdraw from:	      |	Billy-Bob ThorntonPlease enter a transaction: 
+Please enter the amount to withdraw:			      |	Command not recognized
+Withdrawal failed, you must have at least $0.00 after transac |	Please enter a transaction: 
+You have successfully logged out			      \	Command not recognized
+							      >	Please enter a transaction: 
+							      >	Command not recognized
+							      >	Please enter a transaction: 
+							      >	Transaction successful. You've successfully logged out
+
+01_010.in
+Welcome							      |	Please enter a transaction: 
+Please select the following:					Please select the following:
+admin								admin
+user								user
+Please enter the account number to withdraw from:	      |	adminPlease enter a transaction: 
+Please enter the amount to withdraw:			      |	Command not recognized
+Withdrawal of $230.00 was successful			      |	Please enter a transaction: 
+You have successfully logged out			      \	Command not recognized
+							      >	Please enter a transaction: 
+							      >	Command not recognized
+							      >	Please enter a transaction: 
+							      >	Command not recognized
+							      >	Please enter a transaction: 
+							      >	Transaction successful. You've successfully logged out
+
+01_011.in
+Welcome							      |	Please enter a transaction: 
+Please select the following:					Please select the following:
+admin								admin
+user								user
+Please enter your name:					      |	userPlease enter account holder's name: 
+Please enter the account number to withdraw from:	      |	Billy-Bob ThorntonPlease enter a transaction: 
+Please enter the amount to withdraw:			      |	Command not recognized
+Withdrawal failed, you must enter a number divisible by 5     |	Please enter a transaction: 
+You have successfully logged out			      \	Command not recognized
+							      >	Please enter a transaction: 
+							      >	Command not recognized
+							      >	Please enter a transaction: 
+							      >	Transaction successful. You've successfully logged out
+
+02_001.in
+							      >	Please enter a transaction: 
+Please select the following:					Please select the following:
+admin								admin
+user								user
+Please enter your name:					      |	userPlease enter account holder's name: 
+Please enter a transaction:				      |	Billy-Bob ThorntonPlease enter a transaction: 
+Please enter the account number to transfer from:		Please enter the account number to transfer from:
+Please enter the account number to transfer to:		      |	Transfer failed, account does not exist
+Please enter the amount you wish to transfer:		      |	Please enter a transaction: 
+Transfer to 10001 from 10002 of $275 successful		      |	Command not recognized
+Please enter a transaction:				      |	Please enter a transaction: 
+You have successfully logged out			      \	Command not recognized
+							      >	Please enter a transaction: 
+							      >	Transaction successful. You've successfully logged out
+
+02_002.in
+							      >	Please enter a transaction: 
+Please select the following:					Please select the following:
+admin								admin
+user								user
+Please enter a transaction:				      |	adminPlease enter a transaction: 
+Please enter the account holder's name:				Please enter the account holder's name:
+Please enter the account number to transfer from:	      |	The account holder's name is invalid
+Please enter the account number to transfer to:		      |	Please enter a transaction: 
+Please enter the amount you wish to transfer:		      |	Command not recognized
+Transfer to 10001 from 10002 of $275 successful		      |	Please enter a transaction: 
+Please enter a transaction:				      |	Command not recognized
+You have successfully logged out			      \	Please enter a transaction: 
+							      >	Command not recognized
+							      >	Please enter a transaction: 
+							      >	Transaction successful. You've successfully logged out
+
+02_003.in
+Welcome							      |	Please enter a transaction: 
+Please select the following:					Please select the following:
+admin								admin
+user								user
+Please enter your name:					      |	userPlease enter account holder's name: 
+Please enter a transaction:				      |	Billy-Bob ThorntonPlease enter a transaction: 
+Please enter the name of the account holder:		      <
+Please enter the account number to transfer from:		Please enter the account number to transfer from:
+Please enter the account number to transfer to:		      |	Transfer failed, account does not exist
+Please enter the amount you wish to transfer:		      |	Please enter a transaction: 
+Invalid amount, you can only transfer funds between $0-$1000  |	Command not recognized
+Please enter a transaction:				      |	Please enter a transaction: 
+You have successfully logged out			      \	Command not recognized
+							      >	Please enter a transaction: 
+							      >	Transaction successful. You've successfully logged out
+
+02_004.in
+							      >	Please enter a transaction: 
+Please select the following:					Please select the following:
+admin								admin
+user								user
+Please enter your name:					      |	userPlease enter account holder's name: 
+Please enter a transaction:				      |	Billy-Bob ThorntonPlease enter a transaction: 
+Please enter account holder's name:			      <
+Please enter the account number to transfer from:		Please enter the account number to transfer from:
+Transfer from b failed, you have to be the owner of the accou |	Transfer failed, account does not exist
+Please enter a transaction:				      |	Please enter a transaction: 
+You have successfully logged out			      \	Transaction successful. You've successfully logged out
+
+02_005.in
+Welcome							      |	Please enter a transaction: 
+Please select the following:					Please select the following:
+admin								admin
+user								user
+Please enter your name:					      |	userPlease enter account holder's name: 
+Please enter a transaction:				      |	Billy-Bob ThorntonPlease enter a transaction: 
+Please enter account holder's name:			      <
+Please enter the account number to transfer from:		Please enter the account number to transfer from:
+Please enter the account number to transfer to:		      |	Transfer failed, account does not exist
+Transfer to b failed, you have to be the owner of the account |	Please enter a transaction: 
+Please enter a transaction:				      |	Command not recognized
+You have successfully logged out			      \	Please enter a transaction: 
+							      >	Transaction successful. You've successfully logged out
+
+02_006.in
+Welcome							      |	Please enter a transaction: 
+Please select the following:					Please select the following:
+admin								admin
+user								user
+Please enter your name:					      |	userPlease enter account holder's name: 
+Please enter a transaction:				      |	Billy-Bob ThorntonPlease enter a transaction: 
+Please enter account holder's name:			      <
+Please enter the account number to transfer from:		Please enter the account number to transfer from:
+Please enter the account number to transfer to:		      |	Transfer failed, account does not exist
+Transfer unsuccessful, 10003 is disabled		      |	Please enter a transaction: 
+Please enter a transaction:				      |	Command not recognized
+You have successfully logged out			      \	Please enter a transaction: 
+							      >	Transaction successful. You've successfully logged out
+
+02_007.in
+Welcome							      |	Please enter a transaction: 
+Please select the following:					Please select the following:
+admin								admin
+user								user
+Please enter your name:					      |	userPlease enter account holder's name: 
+Please enter a transaction:				      |	Billy-Bob ThorntonPlease enter a transaction: 
+Please enter account holder's name:			      <
+Please enter the account number to transfer from:		Please enter the account number to transfer from:
+Please enter the account number to transfer to:		      |	Transfer failed, account does not exist
+Please enter the amount you wish to transfer:		      |	Please enter a transaction: 
+Transfer to 10001 from 10002 of $500.00 successful	      |	Command not recognized
+							      >	Please enter a transaction: 
+							      >	Command not recognized
+							      >	Please enter a transaction: 
+Please enter the account number to transfer from:		Please enter the account number to transfer from:
+Please enter the account number to transfer to:		      |	Transfer failed, account does not exist
+Please enter the amount you wish to transfer:		      |	Please enter a transaction: 
+Transfer unsuccessful, can not transfer more than $1000.00 in |	Command not recognized
+Please enter a transaction:				      |	Please enter a transaction: 
+You have successfully logged out			      \	Command not recognized
+							      >	Please enter a transaction: 
+							      >	Transaction successful. You've successfully logged out
+
+02_008.in
+							      >	Please enter a transaction: 
+Please select the following:					Please select the following:
+admin								admin
+user								user
+Please enter your name:					      |	userPlease enter account holder's name: 
+Please enter the account number to transfer from	      |	Billy-Bob ThorntonPlease enter a transaction: 
+Please enter the account number to transfer to		      |	Please enter the account number to transfer from:
+Please enter the amount you wish to transfer		      |	Transfer failed, account does not exist
+Transfer failed, your account must have at least $0.00 after  |	Please enter a transaction: 
+You have successfully logged out			      \	Command not recognized
+							      >	Please enter a transaction: 
+							      >	Command not recognized
+							      >	Please enter a transaction: 
+							      >	Transaction successful. You've successfully logged out
+
+02_009.in
+							      >	Please enter a transaction: 
+Please select the following:					Please select the following:
+admin								admin
+user								user
+Please enter the account number to transfer from	      |	adminPlease enter a transaction: 
+Please enter the account number to transfer to		      |	Please enter the account holder's name:
+Please enter the amount you wish to transfer		      |	The account holder's name is invalid
+Transfer from 10001 to 10002 of $500.00 was successful	      |	Please enter a transaction: 
+You have successfully logged out			      \	Command not recognized
+							      >	Please enter a transaction: 
+							      >	Command not recognized
+							      >	Please enter a transaction: 
+							      >	Command not recognized
+							      >	Please enter a transaction: 
+							      >	Transaction successful. You've successfully logged out
+
+03_001.in
+Welcome							      |	Please enter a transaction: 
+Please select the following:					Please select the following:
+admin								admin
+user								user
+Please enter your name:					      |	userPlease enter account holder's name: 
+Please enter a transaction:				      |	Billy-Bob ThorntonPlease enter a transaction: 
+Enter the account number:					Enter the account number:
+Enter the company to whom you wish the pay the bill to:	      |	Invalid account number: 10001
+Enter the amount you wish to pay:			      |	Please enter a transaction: 
+Payment to Credit Card Company Q of $200 was succesful	      |	Command not recognized
+Please enter a transaction:				      |	Please enter a transaction: 
+You have successfully logged out			      \	Command not recognized
+							      >	Please enter a transaction: 
+							      >	Transaction successful. You've successfully logged out
+
+03_002.in
+Welcome							      |	Please enter a transaction: 
+Please select the following:					Please select the following:
+admin								admin
+user								user
+Please enter your name:					      |	adminPlease enter a transaction: 
+Please enter a transaction:				      |	Please enter the account holder's name:
+Enter the account number:				      |	The account holder's name is invalid
+Enter the company to whom you wish the pay the bill to:	      |	Please enter a transaction: 
+Enter the amount you wish to pay:			      |	Command not recognized
+Payment to Credit Card Company Q of $1500 failed, you do not  |	Please enter a transaction: 
+Please enter a transaction:				      |	Command not recognized
+You have successfully logged out			      \	Please enter a transaction: 
+							      >	Command not recognized
+							      >	Please enter a transaction: 
+							      >	Transaction successful. You've successfully logged out
+
+03_003.in
+Welcome							      |	Please enter a transaction: 
+Please select the following:					Please select the following:
+admin								admin
+user								user
+Please enter a transaction:				      |	adminPlease enter a transaction: 
+Please enter your name:					      |	Please enter the account holder's name:
+Enter the account number:				      |	The account holder's name is invalid
+Enter the company to whom you wish the pay the bill to:	      |	Please enter a transaction: 
+Hi-Def TV is not a valid company to pay a bill to:	      |	Command not recognized
+Please enter a transaction:				      |	Please enter a transaction: 
+You have successfully logged out			      \	Command not recognized
+							      >	Please enter a transaction: 
+							      >	Transaction successful. You've successfully logged out
+
+03_004.in
+Welcome							      |	Please enter a transaction: 
+Please select the following:					Please select the following:
+admin								admin
+user								user
+Please enter your name:					      |	userPlease enter account holder's name: 
+Please enter a transaction:				      |	Billy-Bob ThorntonPlease enter a transaction: 
+Enter the account number:					Enter the account number:
+Invalid account number: oklaoji				      |	Invalid account number: 0
+Please enter a transaction:				      |	Please enter a transaction: 
+You have successfully logged out			      \	Transaction successful. You've successfully logged out
+
+03_005.in
+Welcome							      |	Please enter a transaction: 
+Please select the following:					Please select the following:
+admin								admin
+user								user
+Please enter your name:					      |	userPlease enter account holder's name: 
+Please enter a transaction:				      |	Billy-Bob ThorntonPlease enter a transaction: 
+Enter the account number:					Enter the account number:
+Enter the company to whom you wish the pay the bill to:	      |	Invalid account number: 10001
+Enter the amount you wish to pay:			      |	Please enter a transaction: 
+You may not pay more than $2000 to a bill holder in a session |	Command not recognized
+Please enter a transaction:				      |	Please enter a transaction: 
+You have successfully logged out			      \	Command not recognized
+							      >	Please enter a transaction: 
+							      >	Transaction successful. You've successfully logged out
+
+03_006.in
+Welcome							      |	Please enter a transaction: 
+Please select the following:					Please select the following:
+admin								admin
+user								user
+Please enter your name:					      |	userPlease enter account holder's name: 
+Please enter a transaction:				      |	Billy-Bob ThorntonPlease enter a transaction: 
+Enter the account holder's name:			      <
+Enter the account number:					Enter the account number:
+Enter the company to whom you wish the pay the bill to:	      |	Invalid account number: 10003
+Enter the amount you wish to pay:			      |	Please enter a transaction: 
+Payment failed, 10003 is disabled			      |	Transaction successful. You've successfully logged out
+Please enter a transaction:				      <
+You have successfully logged out			      <
+03_007.in
+							      >	Please enter a transaction: 
+Please select the following:					Please select the following:
+admin								admin
+user								user
+Please enter your name:					      |	userPlease enter account holder's name: 
+							      >	Billy-Bob ThorntonPlease enter a transaction: 
+Enter the account number:					Enter the account number:
+Enter the company to whom you wish the pay the bill to:	      |	Invalid account number: 10001
+Enter the amount you wish to pay:			      |	Please enter a transaction: 
+Payment failed, you must have at least $0.00 after transactio |	Command not recognized
+Please enter a transaction:				      |	Please enter a transaction: 
+You have successfully logged out			      \	Command not recognized
+							      >	Please enter a transaction: 
+							      >	Transaction successful. You've successfully logged out
+
+03_008.in
+							      >	Please enter a transaction: 
+Please select the following:					Please select the following:
+admin								admin
+user								user
+Please enter a transaction:				      |	adminPlease enter a transaction: 
+Please enter your name:					      |	Please enter the account holder's name:
+Enter the account number:				      |	The account holder's name is invalid
+Enter the company to whom you wish the pay the bill to:	      |	Please enter a transaction: 
+Enter the amount you wish to pay:			      |	Command not recognized
+Payment of $400.00 to Credit Card Company Q was successful    |	Please enter a transaction: 
+Please enter a transaction				      |	Command not recognized
+You have successfully logged out			      \	Please enter a transaction: 
+							      >	Command not recognized
+							      >	Please enter a transaction: 
+							      >	Transaction successful. You've successfully logged out
+
+04_001.in
+Welcome							      |	Please enter a transaction: 
+Please select the following:					Please select the following:
+admin								admin
+user								user
+Please enter your name:					      |	userPlease enter account holder's name: 
+Please enter a transaction:				      |	Billy-Bob ThorntonPlease enter a transaction: 
+Enter the account number:					Enter the account number:
+Enter the amount in dollars to deposit:			      |	Deposit failed, you entered an invalid account number
+Deposit successful, your deposit will be on hold until your n |	Please enter a transaction: 
+Please enter a transaction:				      |	Command not recognized
+You have successfully logged out			      \	Please enter a transaction: 
+							      >	Transaction successful. You've successfully logged out
+
+04_002.in
+Welcome							      |	Please enter a transaction: 
+Please select the following:					Please select the following:
+admin								admin
+user								user
+Please enter your name:					      |	userPlease enter account holder's name: 
+Please enter a transaction:				      |	Billy-Bob ThorntonPlease enter a transaction: 
+Enter the account number:					Enter the account number:
+Enter the amount in dollars to deposit:			      |	Deposit failed, you entered an invalid account number
+Deposit failed, you must enter a numerical value.	      |	Please enter a transaction: 
+Please enter a transaction:				      |	Command not recognized
+You have successfully logged out			      \	Please enter a transaction: 
+							      >	Transaction successful. You've successfully logged out
+
+04_003.in
+Welcome							      |	Please enter a transaction: 
+Please select the following:					Please select the following:
+admin								admin
+user								user
+Please enter your name:					      |	userPlease enter account holder's name: 
+Please enter a transaction:				      |	Billy-Bob ThorntonPlease enter a transaction: 
+Enter the account number:					Enter the account number:
+Deposit failed, you entered an invalid account number		Deposit failed, you entered an invalid account number
+Please enter a transaction:				      |	Please enter a transaction: 
+You have successfully logged out			      \	Transaction successful. You've successfully logged out
+
+04_004.in
+Welcome							      |	Please enter a transaction: 
+Please select the following:					Please select the following:
+admin								admin
+user								user
+Please enter your name:					      |	userPlease enter account holder's name: 
+Please enter a transaction:				      |	Billy-Bob ThorntonPlease enter a transaction: 
+Please enter account holder's name:			      <
+Enter the account number:					Enter the account number:
+Deposit failed, 10003 is disabled			      |	Deposit failed, you entered an invalid account number
+Please enter a transaction:				      |	Please enter a transaction: 
+You have successfully logged out			      \	Transaction successful. You've successfully logged out
+
+04_005.in
+Welcome							      |	Please enter a transaction: 
+Please select the following:					Please select the following:
+admin								admin
+user								user
+Please enter your name:					      |	userPlease enter account holder's name: 
+Please enter a transaction:				      |	Billy-Bob ThorntonPlease enter a transaction: 
+Please enter the account number to deposit to:		      |	Enter the account number:
+Please enter the amount to deposit:			      |	Deposit failed, you entered an invalid account number
+Deposit failed, you must have at least $0.00 after transactio |	Please enter a transaction: 
+Please enter a transaction:				      |	Command not recognized
+You have successfully logged out			      \	Please enter a transaction: 
+							      >	Transaction successful. You've successfully logged out
+
+05_001.in
+Welcome							      |	Please enter a transaction: 
+Please select the following:					Please select the following:
+admin								admin
+user								user
+Please enter a transaction:				      |	adminPlease enter a transaction: 
+Please input Account Name:					Please input Account Name:
+Please input your Initial Balance:				Please input your Initial Balance:
+A new account was made under the name:			      |	Transaction denied. Amount entered is too large
+Billy-Bob Thornton					      |	Please enter a transaction: 
+with a current balance of:				      |	Transaction successful. You've successfully logged out
+99999.99						      <
+Your account will be available on the next day		      <
+Please enter a transaction:				      <
+You have successfully logged out			      <
+05_002.in
+Welcome							      |	Please enter a transaction: 
+Please select the following:					Please select the following:
+admin								admin
+user								user
+Please enter a transaction:				      |	adminPlease enter a transaction: 
+Please input Account Name:					Please input Account Name:
+Transaction denied. No name detected				Transaction denied. No name detected
+Please enter a transaction:				      |	Please enter a transaction: 
+You have successfully logged out			      \	Command not recognized
+							      >	Please enter a transaction: 
+							      >	Transaction successful. You've successfully logged out
+
+05_003.in
+Welcome							      |	Please enter a transaction: 
+Please select the following:					Please select the following:
+admin								admin
+user								user
+Please enter a transaction:				      |	adminPlease enter a transaction: 
+Please input Account Name:					Please input Account Name:
+I'm sorry, your name is too long. Please shorten it to 20 cha	I'm sorry, your name is too long. Please shorten it to 20 cha
+Please enter a transaction:				      |	Please enter a transaction: 
+You have successfully logged out			      \	Command not recognized
+							      >	Please enter a transaction: 
+							      >	Transaction successful. You've successfully logged out
+
+05_004.in
+Welcome							      |	Please enter a transaction: 
+Please select the following:					Please select the following:
+admin								admin
+user								user
+Please enter a transaction:				      |	adminPlease enter a transaction: 
+Please input Account Name:					Please input Account Name:
+I'm sorry, your name is unrecognizable and cannot be used (ge |	Please input your Initial Balance:
+Please enter a transaction:				      |	Transaction denied. Amount entered is too large
+You have successfully logged out			      \	Please enter a transaction: 
+							      >	Transaction successful. You've successfully logged out
+
+05_005.in
+Welcome							      |	Please enter a transaction: 
+Please select the following:					Please select the following:
+admin								admin
+user								user
+Please enter a transaction:				      |	adminPlease enter a transaction: 
+Please input Account Name:					Please input Account Name:
+Please input Initial Balance:				      |	Please input your Initial Balance:
+Nothing was input					      <
+An initial balance of 00000.00 has been administered		An initial balance of 00000.00 has been administered
+A new account was made under the name:				A new account was made under the name:
+Billy-Bob Thornton						Billy-Bob Thornton
+with a current balance of:					with a current balance of:
+00000.00						      |	0
+Here is your bank account number:			      |	Your account will be available on the next day
+10004							      |	Please enter a transaction: 
+Please enter a transaction:				      |	Transaction successful. You've successfully logged out
+You have successfully logged out			      <
+05_006.in
+Welcome							      |	Please enter a transaction: 
+Please select the following:					Please select the following:
+admin								admin
+user								user
+Please enter a transaction:				      |	adminPlease enter a transaction: 
+Please input Account Name:					Please input Account Name:
+Please input initial balance:				      |	Please input your Initial Balance:
+Transaction denied. Invalid characters			      |	A new account was made under the name:
+Please enter a transaction:				      |	Billy-Bob Thornton
+You have successfully logged out			      \	with a current balance of:
+							      >	999
+							      >	Your account will be available on the next day
+							      >	Please enter a transaction: 
+							      >	Transaction successful. You've successfully logged out
+
+05_007.in
+Welcome							      |	Please enter a transaction: 
+Please select the following:					Please select the following:
+admin								admin
+user								user
+Please enter a transaction:				      |	adminPlease enter a transaction: 
+Please input Account Name:					Please input Account Name:
+Please input initial balance:				      |	Please input your Initial Balance:
+Transaction denied. Amount entered is too large			Transaction denied. Amount entered is too large
+Please enter a transaction:				      |	Please enter a transaction: 
+You have successfully logged out			      \	Transaction successful. You've successfully logged out
+
+06_001.in
+Welcome							      |	Please enter a transaction: 
+Please select the following:					Please select the following:
+admin								admin
+user								user
+Please enter a transaction:				      |	adminPlease enter a transaction: 
+Please input Account Name:				      |	Please enter the name tied to the account
+Please input your Account Number:			      |	I'm sorry, this name is not registered in the bank
+This bank Account will now be deleted			      |	Please enter a transaction: 
+Billy-Bob Thornton					      |	Command not recognized
+99999							      |	Please enter a transaction: 
+Confirm?						      |	Command not recognized
+This account has been deleted				      |	Please enter a transaction: 
+Please enter a transaction:				      |	Transaction successful. You've successfully logged out
+You have successfully logged out			      <
+06_002.in
+Welcome							      |	Please enter a transaction: 
+Please select the following:					Please select the following:
+admin								admin
+user								user
+Please enter a transaction:				      |	adminPlease enter a transaction: 
+Please input your Account Name:				      |	Please enter the name tied to the account
+I'm sorry, this name is not registered in the bank		I'm sorry, this name is not registered in the bank
+Please enter a transaction:				      |	Please enter a transaction: 
+You have successfully logged out			      \	Command not recognized
+							      >	Please enter a transaction: 
+							      >	Transaction successful. You've successfully logged out
+
+06_003.in
+Welcome							      |	Please enter a transaction: 
+Please select the following:					Please select the following:
+admin								admin
+user								user
+Please enter a transaction:				      |	adminPlease enter a transaction: 
+Please input Account Name:				      |	Please enter the name tied to the account
+Please input your Account Number:			      |	I'm sorry, this name is not registered in the bank
+I'm sorry, the account number given does not match up to the  |	Please enter a transaction: 
+Please enter a transaction:				      |	Command not recognized
+You have successfully logged out			      \	Please enter a transaction: 
+							      >	Transaction successful. You've successfully logged out
+
+07_001.in
+Welcome							      |	Please enter a transaction: 
+Please select the following:					Please select the following:
+admin								admin
+user								user
+Please enter a transaction:				      |	adminPlease enter a transaction: 
+Please enter the account holder's name:			      |	Please enter account holder's name:
+Please enter the account number:			      |	The account holder's name is invalid
+Account has been successfully disabled			      |	Please enter a transaction: 
+Please enter a transaction:				      |	Command not recognized
+You have successfully logged out			      \	Please enter a transaction: 
+							      >	Transaction successful. You've successfully logged out
+
+07_002.in
+Welcome							      |	Please enter a transaction: 
+Please select the following:					Please select the following:
+admin								admin
+user								user
+Please enter a transaction:				      |	adminPlease enter a transaction: 
+Please enter account holder's name:				Please enter account holder's name:
+The account holder's name is invalid				The account holder's name is invalid
+Please enter a transaction:				      |	Please enter a transaction: 
+You have successfully logged out			      \	Transaction successful. You've successfully logged out
+
+07_003.in
+Welcome							      |	Please enter a transaction: 
+Please select the following:					Please select the following:
+admin								admin
+user								user
+Please enter a transaction:				      |	adminPlease enter a transaction: 
+Please enter account holder's name:				Please enter account holder's name:
+Please enter account number:				      |	The account holder's name is invalid
+The account number is invalid				      |	Please enter a transaction: 
+Please enter a transaction:				      |	Command not recognized
+You have successfully logged out			      \	Please enter a transaction: 
+							      >	Transaction successful. You've successfully logged out
+
+08_001.in
+Welcome							      |	Please enter a transaction: 
+Please select the following:					Please select the following:
+admin								admin
+user								user
+Please enter a transaction:				      |	adminPlease enter a transaction: 
+Please enter the account holder's name:				Please enter the account holder's name:
+Please enter the account number:			      |	The account holder's name is invalid
+Account's plan has been changed				      |	Please enter a transaction: 
+Please enter a transaction:				      |	Command not recognized
+You have successfully logged out			      \	Please enter a transaction: 
+							      >	Transaction successful. You've successfully logged out
+
+08_002.in
+Welcome							      |	Please enter a transaction: 
+Please select the following:					Please select the following:
+admin								admin
+user								user
+Please enter a transaction:				      |	adminPlease enter a transaction: 
+Please enter the account holder's name:				Please enter the account holder's name:
+The account holder's name is invalid				The account holder's name is invalid
+Please enter a transaction:				      |	Please enter a transaction: 
+You have successfully logged out			      \	Transaction successful. You've successfully logged out
+
+08_003.in
+Welcome							      |	Please enter a transaction: 
+Please select the following:					Please select the following:
+admin								admin
+user								user
+Please enter a transaction:				      |	adminPlease enter a transaction: 
+Please enter the account holder's name:				Please enter the account holder's name:
+Please enter the account number:			      |	The account holder's name is invalid
+The account number is invalid				      |	Please enter a transaction: 
+Please enter a transaction:				      |	Command not recognized
+You have successfully logged out			      \	Please enter a transaction: 
+							      >	Transaction successful. You've successfully logged out
+
+09_001.in
+Welcome							      |	Please enter a transaction: 
+Please select the following:					Please select the following:
+admin								admin
+user								user
+Please enter a transaction:				      |	adminPlease enter a transaction: 
+Please enter account holder's name:				Please enter account holder's name:
+Please enter account number:				      |	The account holder's name is invalid
+Account has been successfully enabled			      |	Please enter a transaction: 
+Please enter a transaction:				      |	Command not recognized
+You have successfully logged out			      \	Please enter a transaction: 
+							      >	Transaction successful. You've successfully logged out
+
+09_002.in
+Welcome							      |	Please enter a transaction: 
+Please select the following:					Please select the following:
+admin								admin
+user								user
+Please enter a transaction:				      |	adminPlease enter a transaction: 
+Please enter account holder's name:				Please enter account holder's name:
+The account holder's name is invalid				The account holder's name is invalid
+Please enter a transaction:				      |	Please enter a transaction: 
+You have successfully logged out			      \	Transaction successful. You've successfully logged out
+
+09_003.in
+Welcome							      |	Please enter a transaction: 
+Please select the following:					Please select the following:
+admin								admin
+user								user
+Please enter a transaction:				      |	adminPlease enter a transaction: 
+Please enter account holder's name:				Please enter account holder's name:
+Please enter account number:				      |	The account holder's name is invalid
+The account number is invalid				      |	Please enter a transaction: 
+Please enter a transaction:				      |	Command not recognized
+You have successfully logged out			      \	Please enter a transaction: 
+							      >	Transaction successful. You've successfully logged out
+
+10_001.in
+Welcome							      |	Please enter a transaction: 
+Please select the following:					Please select the following:
+admin								admin
+user								user
+Please enter a transaction:				      |	adminPlease enter a transaction: 
+You have successfully logged out			      \	Transaction successful. You've successfully logged out
+
+10_002.in
+Welcome							      |	Please enter a transaction: 
+Please select the following:					Please select the following:
+admin								admin
+user								user
+Please enter your name:					      |	userPlease enter account holder's name: 
+Please enter a transaction:				      |	Billy-Bob ThorntonPlease enter a transaction: 
+You have successfully logged out			      \	Transaction successful. You've successfully logged out
+
+10_003.in
+Welcome							      |	Please enter a transaction: 
+Please select the following:					Please select the following:
+admin								admin
+user								user
+The account holder's name is invalid			      \	userPlease enter account holder's name: 
+							      >	abcabcabcPlease enter a transaction: 
+							      >	Transaction successful. You've successfully logged out
+
+10_004.in
+Welcome							      |	Please enter a transaction: 
+Please select the following:					Please select the following:
+admin								admin
+user								user
+Please enter a transaction:				      |	adminPlease enter a transaction: 
+Invalid transaction					      |	Command not recognized
+Please enter a transaction:				      |	Please enter a transaction: 
+You have successfully logged out			      \	Transaction successful. You've successfully logged out
+
+10_005.in
+Welcome							      |	Please enter a transaction: 
+Please select the following:					Please select the following:
+admin								admin
+user								user
+Please enter a transaction:				      |	adminPlease enter a transaction: 
+Transaction denied. Already logged in				Transaction denied. Already logged in
+Please enter a transaction:				      |	Please enter a transaction: 
+You have successfully logged out			      \	Transaction successful. You've successfully logged out
+
+10_006.in
+Welcome							      |	Please enter a transaction: 
+							      >	Command not recognized
+							      >	Please enter a transaction: 
+Transaction denied. Not logged in				Transaction denied. Not logged in
+							      >	Please enter a transaction: 
+Transaction denied. Not logged in				Transaction denied. Not logged in
+							      >	Please enter a transaction: 
+Transaction denied. Not logged in				Transaction denied. Not logged in
+							      >	Please enter a transaction: 
+Transaction denied. Not logged in				Transaction denied. Not logged in
+							      >	Please enter a transaction: 
+Transaction denied. Not logged in				Transaction denied. Not logged in
+							      >	Please enter a transaction: 
+Transaction denied. Not logged in				Transaction denied. Not logged in
+							      >	Please enter a transaction: 
+Transaction denied. Not logged in				Transaction denied. Not logged in
+							      >	Please enter a transaction: 
+Transaction denied. Not logged in				Transaction denied. Not logged in
+							      >	Please enter a transaction: 
+Transaction denied. Not logged in				Transaction denied. Not logged in
+Transaction denied. Not logged in			      \	Please enter a transaction: 
+
+10_007.in
+Welcome							      |	Please enter a transaction: 
+Please select the following:					Please select the following:
+admin								admin
+user								user
+Please enter your name:					      |	userPlease enter account holder's name: 
+Please enter a transaction:				      |	Billy-Bob ThorntonPlease enter a transaction: 
+Transaction denied. User is not an admin			Transaction denied. User is not an admin
+Please enter a transaction:				      |	Please enter a transaction: 
+Transaction denied. User is not an admin			Transaction denied. User is not an admin
+Please enter a transaction:				      |	Please enter a transaction: 
+Transaction denied. User is not an admin			Transaction denied. User is not an admin
+Please enter a transaction:				      |	Please enter a transaction: 
+Transaction denied. User is not an admin			Transaction denied. User is not an admin
+Please enter a transaction:				      |	Please enter a transaction: 
+Transaction denied. User is not an admin			Transaction denied. User is not an admin
+Please enter a transaction:				      |	Please enter a transaction: 
+You have successfully logged out			      \	Transaction successful. You've successfully logged out

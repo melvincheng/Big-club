@@ -1,0 +1,10 @@
+Please enter a transaction: 
+Please select the following:
+admin
+user
+adminPlease enter a transaction: 
+Please input Account Name:
+Please input your Initial Balance:
+Transaction denied. Amount entered is too large
+Please enter a transaction: 
+Transaction successful. You've successfully logged out
