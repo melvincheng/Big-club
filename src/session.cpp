@@ -16,10 +16,9 @@ void Session::login() {
   if(logged_){
     std::cout << "Transaction denied. Already logged in" << std::endl;
   }else{
-    std::string input = "";
+    std::string input;
     std::cout << "Please select the following:\nadmin\nuser" << std::endl;
-    std::cin >> input
-;    std::cin.ignore();
+    getline(std::cin,input);
     // check for admin, user, or invalid
     if(input == "admin"){
       admin_ = true;
@@ -27,9 +26,8 @@ void Session::login() {
     }else if(input == "user"){
       admin_ = false;
       std::cout << "Please enter account holder's name: " << std::endl;
-      input = get_input();
-      name_ = input;
-      write_file(10,input,0,0.0,"S");
+      getline(std::cin,name_);
+      write_file(10,name_,0,0.0,"S");
     }else{
       std::cout << "Login failed, you must specify either admin or user" << std::endl;
       return;
@@ -266,7 +264,7 @@ void Session::changeplan() {
 void Session::transfer() {
   // transfer
   std::string name = "";
-  int account_id_1,account_id_2 = 0;
+  int account_id_1 = 0,account_id_2 = 0;
   float value = 0.0;
   std::string input; // TDOD: REMOVE
   std::map<int,Account> account_map;
@@ -558,27 +556,4 @@ void Session::enable(bool enable) {
       return;
     }
   }
-}
-
-std::string Session::get_input(){
-  std::string input; // input string
-  std::string build = ""; // String to put together
-  std::string token; // tokens in string
-
-  getline(std::cin,input); // get input from user
-  std::istringstream iss(input); // string stream to tokenize with
-  bool first = true; // flag for first token
-
-  // tokenize using space character as delimiter, make senseful string out of it
-  // and returnit
-  while(getline(iss,token,' ')){
-    if(first){
-      build = token;
-      first = false;
-    }else{
-      build = build + " " + token;
-    }
-  }
-
-  return build; // send off the string
 }

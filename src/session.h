@@ -18,7 +18,7 @@
 /**
  * Contains, keeps track, and manipulates information of the current session
  */
- 
+
 class Session {
 
 /**
@@ -38,15 +38,9 @@ class Session {
   void read_accounts();
 
 /**
- * Writes into a transaction file 
+ * Writes into a transaction file
  */
   void write_file(int trans_num, std::string name = "", int account_id = 0, float value = 0.0, std::string misc = "");
-
-/**
- * Use to read standard input
- * Does not read leading and trailing spaces
- */
-  std::string get_input();
 
  public:
   Session(); // default constructor
