@@ -32,6 +32,12 @@ class Session {
   std::string name_;  // name of session user
   std::map<std::string,std::map<int,Account>> accounts_;  // acounts from current bank accounts file
   std::vector<std::string> transactions_;
+
+/**
+ * trims off leading and trailing whitespace from a string
+ */
+ std::string trim(const std::string& str, const std::string& whitespace = " \n");
+
 /**
  * Reads the current account file
  */
