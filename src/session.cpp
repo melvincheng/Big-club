@@ -18,16 +18,17 @@ void Session::login() {
   }else{
     std::string input = "";
     std::cout << "Please select the following:\nadmin\nuser" << std::endl;
-    std::cin >> input
-;    std::cin.ignore();
+    std::getline(std::cin, input);
     // check for admin, user, or invalid
+    std::cout<<input;
     if(input == "admin"){
       admin_ = true;
       write_file(10,"",0,0.0,"A");
     }else if(input == "user"){
       admin_ = false;
       std::cout << "Please enter account holder's name: " << std::endl;
-      input = get_input();
+      std::getline(std::cin,input);
+      std::cout<<input; 
       name_ = input;
       write_file(10,input,0,0.0,"S");
     }else{
@@ -87,7 +88,7 @@ void Session::write_file(int trans_num, std::string name, int account_id, float 
   sprintf(out_file, "%02d %20s %05d %00008.2f %s", trans_num, name.c_str(), account_id, value, misc.c_str());
   std::string current_transaction(out_file);
   if(trans_num == 00){
-
+    //TODO: output file
   }else{
     transactions_.push_back(current_transaction);
   }
@@ -114,6 +115,7 @@ void Session::logout() {
 void Session::withdrawal() {
   // withdrawal
   std::string name = "";
+  std::string input;
   int account_id = 0;
   float value = 0.0;
   std::map<int,Account> account_map;
@@ -123,7 +125,7 @@ void Session::withdrawal() {
     return;
   }else if(admin_){
     std::cout << "Please enter the account holder's name:" << std::endl;
-    std::cin >> name;
+    std::getline(std::cin, name);
   }
   try{
     account_map = accounts_[name_];
@@ -133,21 +135,26 @@ void Session::withdrawal() {
   }
 
   std::cout << "Please enter the account number to withdraw from:" << std::endl;
-  if(std::cin >> account_id){
-    try{
-      account = account_map[account_id];
-    }catch(const std::out_of_range& err){
-      std::cout << "Withdrawal failed, account does not exist" << std::endl;
-      return;
-    }
-  }else{
+  std::getline(std::cin, input);
+  try{
+    account_id = std::stoi(input);
+    account = account_map[account_id];
+  }catch(const std::out_of_range& err){
     std::cout << "Withdrawal failed, account does not exist" << std::endl;
     return;
-  }
+  }catch(const std::invalid_argument& err){
+    std::cout << "Withdrawal failed, account does not exist" << std::endl;
+    return;
+  } 
   std::cout << "Please enter the amount to withdraw:" << std::endl;
-  if(!(std::cin >> value)){
+  std::getline(std::cin, input);
+  try{
+    value = std::stof(input);
+  }catch(const std::invalid_argument& err){
     std::cout << "Withdrawal failed, value must be a numeric value between $0-$500" << std::endl;
-  }else if(value > 500.00 ){ // TODO: Check for current day maximum Need to chang the code
+    return;
+  }
+  if(value > 500.00 ){ // TODO: Check for current day maximum Need to chang the code
     std::cout << "Withdrawal of " << value << " failed; cannot withdraw more than $500.00 in a single day" << std::endl;
   }else if(value > account.get_balance()){
     std::cout << "Cannot withdraw " << value <<", you have insufficient funds" << std::endl;
@@ -180,7 +187,7 @@ void Session::deposit() {
     return;
   }else if(admin_){
     std::cout << "Please enter account holder's name:" << std::endl;
-    std::cin >> name;
+    std::getline(std::cin, name);
     try{
       account_map = accounts_.at(name);
     }catch(const std::out_of_range& err){
@@ -189,22 +196,29 @@ void Session::deposit() {
     }
   }
   std::cout << "Enter the account number:" << std::endl;
-  if(std::cin >> input){
-    try{
-      account_id = atoi(input.c_str());
-      account = account_map.at(account_id);
-    }catch(const std::out_of_range& err){
-      std::cout << "Deposit failed, you entered an invalid account number" << std::endl;
-      return;
-    }
-  }else{
+  std::getline(std::cin, input);
+  try{
+    account_id = stoi(input);
+    account = account_map.at(account_id);
+  }catch(const std::out_of_range& err){
+    std::cout << "Deposit failed, you entered an invalid account number" << std::endl;
+    return;
+  }catch(const std::invalid_argument& err){
     std::cout << "Deposit failed, you entered an invalid account number" << std::endl;
     return;
   }
   std::cout << "Enter the amount in dollars to deposit:" << std::endl;
-  if(!(std::cin >> value)){
+  std::getline(std::cin, input);
+  try{
+    value = std::stof(input);
+  }catch(const std::invalid_argument& err){
     std::cout << "Deposit failed, you must enter a numerical value." << std::endl;
-  }else if(value > account.get_balance()){
+    return;
+  }catch(const std::out_of_range& err){
+    std::cout << "Deposit failed, you must enter a numerical value." << std::endl;
+    return;
+  }
+  if(value > account.get_balance()){
     std::cout << "Cannot withdraw " << value <<", you have insufficient funds" << std::endl;
   }else if(!account.is_enabled()){
     std::cout << "Deposit failed, " << account_id << " is disabled" << std::endl;
@@ -222,6 +236,7 @@ void Session::deposit() {
 void Session::changeplan() {
   // changeplan
   std::string name = "";
+  std::string input;
   int account_id = 0;
   std::map<int,Account> account_map;
   Account account;
@@ -233,7 +248,7 @@ void Session::changeplan() {
     return;
   }
   std::cout << "Please enter the account holder's name:" << std::endl;
-  std::cin >> name;
+  std::getline(std::cin, name);
   try{
     account_map = accounts_.at(name);
   }catch(const std::out_of_range& err){
@@ -241,14 +256,11 @@ void Session::changeplan() {
     return;
   }
   std::cout << "Please enter the account number:" << std::endl;
-  if(std::cin >> account_id){
-    try{
-      account = account_map.at(account_id);
-    }catch(const std::out_of_range& err){
-      std::cout << "The account number is invalid" << std::endl;
-      return;
-    }
-  }else{
+  std::getline(std::cin, input);
+  try{
+    account_id = std::stoi(input);
+    account = account_map.at(account_id);
+  }catch(const std::out_of_range& err){
     std::cout << "The account number is invalid" << std::endl;
     return;
   }
@@ -258,9 +270,9 @@ void Session::changeplan() {
 void Session::transfer() {
   // transfer
   std::string name = "";
+  std::string input;
   int account_id_1,account_id_2 = 0;
   float value = 0.0;
-  std::string input; // TDOD: REMOVE
   std::map<int,Account> account_map;
   Account account_1, account_2;
   if(!logged_){
@@ -268,7 +280,7 @@ void Session::transfer() {
     return;
   }else if(admin_){
     std::cout << "Please enter the account holder's name:" << std::endl;
-    std::cin >> name;
+    std::getline(std::cin, name);
     try{
       account_map = accounts_.at(name);
     }catch(const std::out_of_range& err){
@@ -277,35 +289,39 @@ void Session::transfer() {
     }
   }
   std::cout << "Please enter the account number to transfer from:" << std::endl;
-  if(std::cin >> input){
-    try{
-      account_id_1 = atoi(input.c_str());
-      account_1 = account_map.at(account_id_1);
-    }catch(const std::out_of_range& err){
-      std::cout << "Transfer failed, account does not exist" << std::endl;
-      return;
-    }
-  }else{
-    std::cout << account_id_1 << std::endl;
+  std::getline(std::cin, input);
+  try{
+    account_id_1 = stoi(input);
+    account_1 = account_map.at(account_id_1);
+  }catch(const std::out_of_range& err){
+    std::cout << "Transfer failed, account does not exist" << std::endl;
+    return;
+  }catch(const std::invalid_argument& err){
     std::cout << "Transfer failed, account does not exist" << std::endl;
     return;
   }
   std::cout << "Please enter the account number to transfer to:" << std::endl;
-  if(std::cin >> account_id_2){
-    try{
-      account_2 = account_map.at(account_id_2);
-    }catch(const std::out_of_range& err){
-      std::cout << "Transfer failed, account does not exist" << std::endl;
-      return;
-    }
-  }else{
+  std::getline(std::cin, input);
+  try{
+    account_id_2 = std::stoi(input);
+    account_2 = account_map.at(account_id_2);
+  }catch(const std::out_of_range& err){
+    std::cout << "Transfer failed, account does not exist" << std::endl;
+    return;
+  }catch(const std::invalid_argument& err){
     std::cout << "Transfer failed, account does not exist" << std::endl;
     return;
   }
   std::cout << "Please enter the amount you wish to transfer:" << std::endl;
-  if(!(std::cin >> value)){
+  std::getline(std::cin, input);
+  try{
+    value = std::stof(input);
+  }catch(const std::out_of_range& err){
     std::cout << "Invalid amount, you can only transfer funds between $0-$1000" << std::endl;
-  }else if(value > account_1.get_balance()){
+  }catch(const std::invalid_argument& err){
+    std::cout << "Invalid amount, you can only transfer funds between $0-$1000" << std::endl;
+  }
+  if(value > account_1.get_balance()){
     std::cout << "Cannot transfer " << value <<", you have insufficient funds" << std::endl;
   }else if(!account_1.is_enabled()){
     std::cout << "Transfer unsuccessful, " << account_id_1 << " is disabled" << std::endl;
@@ -328,18 +344,18 @@ void Session::transfer() {
 void Session::paybill() {
   // paybill
   std::string name, company = "";
-  int account_id = 0;
+  std::string input;
   float value = 0.0;
   std::map<int,Account> account_map;
   Account account;
   char to_lower [64];
-  std::string input; //TODO: Remove
+  int account_id;
   if(!logged_){
     std::cout << "Transaction denied. Not logged in" << std::endl;
     return;
   }else if(admin_){
     std::cout << "Please enter the account holder's name:" << std::endl;
-    std::cin >> name;
+    std::getline(std::cin, name);
     try{
       account_map = accounts_.at(name);
     }catch(const std::out_of_range& err){
@@ -348,20 +364,19 @@ void Session::paybill() {
     }
   }
   std::cout << "Enter the account number:" << std::endl;
-  if(std::cin >> input){
-    try{
-      account_id = atoi(input.c_str());
-      account = account_map.at(account_id);
-    }catch(const std::out_of_range& err){
-      std::cout << "Invalid account number: " << account_id << std::endl;
-      return;
-    }
-  }else{
+  std::getline(std::cin, input);
+  try{
+    account_id = stoi(input);
+    account = account_map.at(account_id);
+  }catch(const std::out_of_range& err){
+    std::cout << "Invalid account number: " << account_id << std::endl;
+    return;
+  }catch(const std::invalid_argument& err){
     std::cout << "Invalid account number: " << account_id << std::endl;
     return;
   }
   std::cout << "Enter the company to whom you wish the pay the bill to:" << std::endl;
-  std::cin >> company;
+  std::getline(std::cin, company);
   for(uint i = 0; i < company.length(); i++){
     to_lower[i] = std::tolower(company[i]);
   }
@@ -376,9 +391,17 @@ void Session::paybill() {
     std::cout << company << "is not a valid company to pay a bill to:" << std::endl;
   }
   std::cout << "Enter the amount you wish to pay:" << std::endl;
-  if(!(std::cin >> value)){
+  std::getline(std::cin, input);
+  try{
+    value = std::stof(input);
+  }catch(const std::invalid_argument& err){
     std::cout << "Payment, you must enter a numerical value." << std::endl;
-  }else if(value > account.get_balance()){
+    return;
+  }catch(const std::out_of_range& err){
+    std::cout << "Payment, you must enter a numerical value." << std::endl;
+    return;
+  }
+  if(value > account.get_balance()){
     std::cout << "Payment to Credit Card Company Q of " << value << " failed, you do not have at least " << value << " in your account." << std::endl;
   }else if(value > 2000){// TODO: Check for current day maximum Need to chang the code
     std::cout << "You may not pay more than $2000 to a bill holder in a day." << std::endl;
@@ -398,6 +421,7 @@ void Session::paybill() {
 void Session::create() {
   // create"";
   std::string name = "";
+  std::string input;
   std::string alphabet = "abcdefghijklmnopqrstuvwxyz ";
   std::size_t nonAlpha = name.find_first_not_of(alphabet);
   float balance = 0.0;
@@ -412,7 +436,7 @@ void Session::create() {
   }
 
   std::cout << "Please input Account Name:" << std::endl;
-  std::cin >> name;
+  std::getline(std::cin, name);
 
   if(name.length() > 20) //more characters than allowed
   {
@@ -430,28 +454,39 @@ void Session::create() {
   }
 
   std::cout << "Please input your Initial Balance:" << std::endl;
-  if(std::cin >> balance){
-    if (balance > 99999.99)
-    {
-      std::cout << "Transaction denied. Amount entered is too large" << std::endl;
+  std::getline(std::cin, input);
+  if(input == ""){
+    balance = 0.0;
+  }else{
+    try{
+      balance = std::stof(input);
+    }catch(const std::out_of_range& err){
+      std::cout << "Transaction denied. Invalid characters" << std::endl;
       return;
-    }
-    else if(balance == 0)
-    {
-      std::cout << "An initial balance of 00000.00 has been administered" << std::endl;
-    }
-    else{
+    }catch(const std::invalid_argument&){
       std::cout << "Transaction denied. Invalid characters" << std::endl;
       return;
     }
   }
-  std::cout << "A new account was made under the name:\n" << name << "with a current balance of:\n" << balance << std::endl << "Your account will be available on the next day" << std::endl;
+  if (balance > 99999.99)
+  {
+    std::cout << "Transaction denied. Amount entered is too large" << std::endl;
+    return;
+  }
+  else if(balance == 0.0)
+  {
+    std::cout << "An initial balance of 00000.00 has been administered" << std::endl;
+  }
+  std::cout << "A new account was made under the name:\n" << name << std::endl << 
+  "with a current balance of:\n" << balance << std::endl << 
+  "Your account will be available on the next day" << std::endl;
   return;
 }
 
 void Session::remove() {
   // remove
   std::string name = "";
+  std::string input;
   int account_id = 0;
   std::map<int,Account> account_map;
   std::string alphabet = "abcdefghijklmnopqrstuvwxyz ";
@@ -467,7 +502,7 @@ void Session::remove() {
   }
 
   std::cout << "Please enter the name tied to the account" << std::endl;
-  std::cin >> name;
+  std::getline(std::cin, name);
 
   if(name.length() > 20) //more characters than allowed
   {
@@ -491,19 +526,16 @@ void Session::remove() {
     }
   }
   std::cout << "Please enter the account ID" << std::endl;
-  if(std::cin >> account_id){
-    try{
-      account = account_map.at(account_id);
-    }catch(const std::out_of_range& err){
-      std::cout << "I'm sorry, the account number given does not match up to the Account Name." << std::endl;
-      return;
-    }
-  }else{
+  std::getline(std::cin, input);
+  try{
+    account_id = std::stoi(input);
+    account = account_map.at(account_id);
+  }catch(const std::out_of_range& err){
     std::cout << "I'm sorry, the account number given does not match up to the Account Name." << std::endl;
     return;
   }
   std::cout << "This bank Account will now be deleted\n" << name << std::endl << account_id << std::endl << "Confirm?" << std::endl;
-  std::cin >> confirm;
+  std::getline(std::cin, confirm);
   if(confirm == "y" || confirm == "yes" || confirm == "Y" || confirm == "YES"){
     std::cout << "This account has been deleted" << std::endl;
   }else{
@@ -515,6 +547,7 @@ void Session::remove() {
 void Session::enable(bool enable) {
   // disable
   std::string name = "";
+  std::string input;
   int account_id = 0;
   std::map<int,Account> account_map;
   Account account;
@@ -525,7 +558,7 @@ void Session::enable(bool enable) {
     std::cout << "Transaction denied. User is not an admin" << std::endl;
   }else{
     std::cout << "Please enter account holder's name:" << std::endl;
-    std::cin >> name;
+    std::getline(std::cin, name);
     try{
       account_map = accounts_.at(name);
     }catch(const std::out_of_range& err){
@@ -533,44 +566,18 @@ void Session::enable(bool enable) {
       return;
     }
     std::cout << "Please enter account number:" << std::endl;
-    if(std::cin >> account_id){
-      try{
-        account = account_map.at(account_id);
-      }catch(const std::out_of_range& err){
-        std::cout << "The account number is invalid" << std::endl;
-        return;
-      }
-      if(enable){
-        std::cout << "Account has been successfully enable" << std::endl;
-      }else{
-        std::cout << "Account has been successfully disable" << std::endl;
-      }
-    }else{
+    std::getline(std::cin, input);
+    try{
+      account_id = std::stoi(input);
+      account = account_map.at(account_id);
+    }catch(const std::out_of_range& err){
       std::cout << "The account number is invalid" << std::endl;
       return;
     }
-  }
-}
-
-std::string Session::get_input(){
-  std::string input; // input string
-  std::string build = ""; // String to put together
-  std::string token; // tokens in string
-
-  getline(std::cin,input); // get input from user
-  std::istringstream iss(input); // string stream to tokenize with
-  bool first = true; // flag for first token
-
-  // tokenize using space character as delimiter, make senseful string out of it
-  // and returnit
-  while(getline(iss,token,' ')){
-    if(first){
-      build = token;
-      first = false;
+    if(enable){
+      std::cout << "Account has been successfully enable" << std::endl;
     }else{
-      build = build + " " + token;
+      std::cout << "Account has been successfully disable" << std::endl;
     }
   }
-
-  return build; // send off the string
 }
