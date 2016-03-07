@@ -5,10 +5,7 @@ admin
 user
 Please enter your name:
 Please enter a transaction:
-Enter the account holder's name:
 Enter the account number:
-Enter the company to whom you wish the pay the bill to:
-Enter the amount you wish to pay:
 Payment failed, 10003 is disabled
 Please enter a transaction:
 You have successfully logged out

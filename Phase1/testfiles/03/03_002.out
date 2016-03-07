@@ -3,11 +3,11 @@ Please enter a transaction:
 Please select the following:
 admin
 user
-Please enter your name:
 Please enter a transaction:
+Please enter the account holder's name:
 Enter the account number:
 Enter the company to whom you wish the pay the bill to:
 Enter the amount you wish to pay:
-Payment to Credit Card Company Q of $1500 failed, you do not have at least $1500 in your account.
+Payment to Credit Card Company Q of $1500.00 failed, you do not have at least $1500.00 in your account.
 Please enter a transaction:
 You have successfully logged out

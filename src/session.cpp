@@ -1,5 +1,6 @@
 #include "session.h"
 #include <iostream>
+#include <iomanip>
 #include <fstream>
 #include <string>
 #include <sstream>
@@ -25,7 +26,7 @@ void Session::login() {
       write_file(10,"",0,0.0,"A");
     }else if(input == "user"){
       admin_ = false;
-      std::cout << "Please enter account holder's name:" << std::endl;
+      std::cout << "Please enter your name:" << std::endl;
       getline(std::cin,name_);
       write_file(10,name_,0,0.0,"S");
     }else{
@@ -93,7 +94,7 @@ void Session::write_file(int trans_num, std::string name, int account_id, float 
   std::string current_transaction(out_file);
   if(trans_num == 00){
     std::ofstream trans_file("transactions.trf");
-    for(int i = 0; i < transactions_.size();i++){
+    for(uint i = 0; i < transactions_.size();i++){
       trans_file << transactions_[i] << std::endl;
     }
   }else{
@@ -133,14 +134,15 @@ void Session::withdrawal() {
   }else if(admin_){
     std::cout << "Please enter the account holder's name:" << std::endl;
     getline(std::cin, name);
+  }else{
+    name = name_;
   }
   try{
-    account_map = accounts_[name_];
+    account_map = accounts_.at(name);
   }catch(const std::out_of_range& err){
     std::cout << "The account holder's name is invalid" << std::endl;
     return;
   }
-
   std::cout << "Please enter the account number to withdraw from:" << std::endl;
   getline(std::cin, input);
   try{
@@ -152,7 +154,13 @@ void Session::withdrawal() {
   }catch(const std::invalid_argument& err){
     std::cout << "Withdrawal failed, account does not exist" << std::endl;
     return;
-  } 
+  }
+  if(!account.is_enabled()){
+    std::cout << "Withdraw failed, " << account_id << " is disabled" << std::endl;
+    return;
+  }
+
+
   std::cout << "Please enter the amount to withdraw:" << std::endl;
   getline(std::cin, input);
   try{
@@ -160,25 +168,30 @@ void Session::withdrawal() {
   }catch(const std::invalid_argument& err){
     std::cout << "Withdrawal failed, value must be a numeric value between $0-$500" << std::endl;
     return;
+  }catch(const std::out_of_range& err){
+    std::cout << "Withdrawal failed, value must be a numeric value between $0-$500" << std::endl;
+    return;
   }
   if(value > 500.00 ){ // TODO: Check for current day maximum Need to chang the code
-    std::cout << "Withdrawal of " << value << " failed; cannot withdraw more than $500.00 in a single day" << std::endl;
+    std::cout << "Withdrawal of $" << value << " failed; cannot withdraw more than $500.00 in a single day" << std::endl;
+    return;
   }else if(value > account.get_balance()){
-    std::cout << "Cannot withdraw " << value <<", you have insufficient funds" << std::endl;
-  }else if(!account.is_enabled()){
-    std::cout << "Withdraw failed, " << account_id << " is disabled" << std::endl;
+    std::cout << "Withdrawal failed, you must have at least $0.00 after transaction fees in your account" << std::endl;
+    return;
+  }else if(fmod(value,5) != 0){
+    std::cout << "Withdrawal failed, you must enter a number divisible by 5" << std::endl;
+    return;
   }else if(!admin_){
     if(account.is_student() && value + 0.05 > account.get_balance()){
       std::cout << "Withdrawal failed, you must have at least $0.00 after transaction fees in your account" << std::endl;
+      return;
     }else if(!(account.is_student()) && value + 0.10 > account.get_balance()){
       std::cout << "Withdrawal failed, you must have at least $0.00 after transaction fees in your account" << std::endl;
+      return;
     }
-  }else if(fmod(value,5) != 0){
-    std::cout << "Withdrawal failed, you must enter a number divisible by 5" << std::endl;
-  }else{
-    std::cout << "Withdrawal of " << value << " was successful" << std::endl;
-    write_file(01,name,account_id,value,"");
   }
+  std::cout << "Withdrawal of $" << value << " was successful" << std::endl;
+  write_file(01,name,account_id,value,"");
 }
 
 void Session::deposit() {
@@ -195,13 +208,15 @@ void Session::deposit() {
   }else if(admin_){
     std::cout << "Please enter account holder's name:" << std::endl;
     getline(std::cin, name);
-    try{
+  }else{
+    name = name_;
+  }
+  try{
       account_map = accounts_.at(name);
     }catch(const std::out_of_range& err){
       std::cout << "The account holder's name is invalid" << std::endl;
       return;
     }
-  }
   std::cout << "Enter the account number:" << std::endl;
   getline(std::cin, input);
   try{
@@ -212,6 +227,10 @@ void Session::deposit() {
     return;
   }catch(const std::invalid_argument& err){
     std::cout << "Deposit failed, you entered an invalid account number" << std::endl;
+    return;
+  }
+  if(!account.is_enabled()){
+    std::cout << "Deposit failed, " << account_id << " is disabled" << std::endl;
     return;
   }
   std::cout << "Enter the amount in dollars to deposit:" << std::endl;
@@ -227,17 +246,17 @@ void Session::deposit() {
   }
   if(value > account.get_balance()){
     std::cout << "Cannot withdraw " << value <<", you have insufficient funds" << std::endl;
-  }else if(!account.is_enabled()){
-    std::cout << "Deposit failed, " << account_id << " is disabled" << std::endl;
+    return;
   }else if(!admin_){
     if(account.is_student() && value + 0.05 < account.get_balance()){
       std::cout << "Deposit failed, you must have at least $0.00 after transaction fees" << std::endl;
+      return;
     }else if(!(account.is_student()) && value + 0.10 < account.get_balance()){
       std::cout << "Deposit failed, you must have at least $0.00 after transaction fees" << std::endl;
+      return;
     }
-  }else{
-    std::cout << "Deposit successful, your deposit will be on hold until your next session" << std::endl;
   }
+  std::cout << "Deposit successful, your deposit will be on hold until your next session" << std::endl;
 }
 
 void Session::changeplan() {
@@ -288,13 +307,15 @@ void Session::transfer() {
   }else if(admin_){
     std::cout << "Please enter the account holder's name:" << std::endl;
     getline(std::cin, name);
-    try{
+  }else{
+    name = name_;
+  }
+  try{
       account_map = accounts_.at(name);
     }catch(const std::out_of_range& err){
       std::cout << "The account holder's name is invalid" << std::endl;
       return;
     }
-  }
   std::cout << "Please enter the account number to transfer from:" << std::endl;
   getline(std::cin, input);
   try{
@@ -305,6 +326,10 @@ void Session::transfer() {
     return;
   }catch(const std::invalid_argument& err){
     std::cout << "Transfer failed, account does not exist" << std::endl;
+    return;
+  }
+  if(!account_1.is_enabled()){
+    std::cout << "Transfer unsuccessful, " << account_id_1 << " is disabled" << std::endl;
     return;
   }
   std::cout << "Please enter the account number to transfer to:" << std::endl;
@@ -319,43 +344,46 @@ void Session::transfer() {
     std::cout << "Transfer failed, account does not exist" << std::endl;
     return;
   }
+  if(!account_2.is_enabled()){
+    std::cout << "Transfer unsuccessful, " << account_id_2 << " is disabled" << std::endl;
+    return;
+  }
   std::cout << "Please enter the amount you wish to transfer:" << std::endl;
   getline(std::cin, input);
   try{
     value = std::stof(input);
   }catch(const std::out_of_range& err){
-    std::cout << "Invalid amount, you can only transfer funds between $0-$1000" << std::endl;
+    std::cout << "Invalid amount, you can only transfer numerical values" << std::endl;
+    return;
   }catch(const std::invalid_argument& err){
-    std::cout << "Invalid amount, you can only transfer funds between $0-$1000" << std::endl;
+    std::cout << "Invalid amount, you can only transfer numerical values" << std::endl;
+    return;
   }
-  if(value > account_1.get_balance()){
-    std::cout << "Cannot transfer " << value <<", you have insufficient funds" << std::endl;
-  }else if(!account_1.is_enabled()){
-    std::cout << "Transfer unsuccessful, " << account_id_1 << " is disabled" << std::endl;
-  }else if(!account_2.is_enabled()){
-    std::cout << "Transfer unsuccessful, " << account_id_2 << " is disabled" << std::endl;
-  }else if(value > 1000.00 ){ //TODO: Check for current day maximum Need to chang the code
+  if(value > 1000.00 && !admin_){ //TODO: Check for current day maximum Need to chang the code
     std::cout << "Transfer unsuccessful, can not transfer more than $1000.00 in a single day" << std::endl;
+    return;
+  }else if(value > account_1.get_balance()){
+    std::cout << "Transfer failed, your account must have at least $0.00 after transaction fees" << std::endl;
+    return;
   }else if(!admin_){
-    if(account_1.is_student() && value + 0.05 < account_1.get_balance()){
+    if(account_1.is_student() && value + 0.05 > account_1.get_balance()){
       std::cout << "Transfer failed, your account must have at least $0.00 after transaction fees" << std::endl;
-    }else if(!(account_1.is_student()) && value + 0.10 < account_1.get_balance()){
+      return;
+    }else if(!(account_1.is_student()) && value + 0.10 > account_1.get_balance()){
       std::cout << "Transfer failed, your account must have at least $0.00 after transaction fees" << std::endl;
+      return;
     }
-  }else{
-    std::cout << "Transfer to " << account_id_1 << " from " << account_id_2 << " of " << value << " successful" << std::endl;
   }
+  std::cout << "Transfer to " << account_id_1 << " from " << account_id_2 << " of $" << value << " successful" << std::endl;
 }
 
 
 void Session::paybill() {
   // paybill
-  std::string name, company = "";
-  std::string input;
+  std::string name, company, lower_company, input;
   float value = 0.0;
   std::map<int,Account> account_map;
   Account account;
-  char to_lower [64];
   int account_id;
   if(!logged_){
     std::cout << "Transaction denied. Not logged in" << std::endl;
@@ -363,39 +391,48 @@ void Session::paybill() {
   }else if(admin_){
     std::cout << "Please enter the account holder's name:" << std::endl;
     getline(std::cin, name);
-    try{
+  }else{
+    name = name_;
+  }
+  try{
       account_map = accounts_.at(name);
     }catch(const std::out_of_range& err){
       std::cout << "The account holder's name is invalid" << std::endl;
       return;
     }
-  }
   std::cout << "Enter the account number:" << std::endl;
   getline(std::cin, input);
   try{
     account_id = stoi(input);
     account = account_map.at(account_id);
   }catch(const std::out_of_range& err){
-    std::cout << "Invalid account number: " << account_id << std::endl;
+    std::cout << "Invalid account number: " << input << std::endl;
     return;
   }catch(const std::invalid_argument& err){
-    std::cout << "Invalid account number: " << account_id << std::endl;
+    std::cout << "Invalid account number: " << input << std::endl;
+    return;
+  }
+  if(!account.is_enabled()){
+    std::cout << "Payment failed, " << account_id << " is disabled" << std::endl;
     return;
   }
   std::cout << "Enter the company to whom you wish the pay the bill to:" << std::endl;
   getline(std::cin, company);
+  char *to_lower = new char [company.length()];
   for(uint i = 0; i < company.length(); i++){
     to_lower[i] = std::tolower(company[i]);
   }
-  company = to_lower;
-  if(company == "the bright light electric company" || company == "ec"){// TODO: find the company name
+  lower_company = to_lower;
+
+  if(lower_company == "the bright light electric company" || lower_company == "ec"){// TODO: find the company name
     company = "The Bright Light Electric Company";
-  }else if(company == "credit card company q" || company == "cq"){
+  }else if(lower_company == "credit card company q" || lower_company == "cq"){
     company = "Credit Card Company Q";
-  }else if(company == "low definition tv, inc." || company == "tv"){
+  }else if(lower_company == "low definition tv, inc." || lower_company == "tv"){
     company = "Low Definition TV, Inc.";
   }else{
-    std::cout << company << "is not a valid company to pay a bill to:" << std::endl;
+    std::cout << company << " is not a valid company to pay a bill to:" << std::endl;
+    return;
   }
   std::cout << "Enter the amount you wish to pay:" << std::endl;
   getline(std::cin, input);
@@ -408,21 +445,22 @@ void Session::paybill() {
     std::cout << "Payment, you must enter a numerical value." << std::endl;
     return;
   }
-  if(value > account.get_balance()){
-    std::cout << "Payment to Credit Card Company Q of " << value << " failed, you do not have at least " << value << " in your account." << std::endl;
-  }else if(value > 2000){// TODO: Check for current day maximum Need to chang the code
+  if(value > 2000 && !admin_){// TODO: Check for current day maximum Need to chang the code
     std::cout << "You may not pay more than $2000 to a bill holder in a day." << std::endl;
-  }else if(!account.is_enabled()){
-    std::cout << "Payment failed, " << account_id << " is disabled" << std::endl;
+    return;
+  }else if(value > account.get_balance()){
+    std::cout << "Payment to " << company << " of $" << value << " failed, you do not have at least $" << value << " in your account." << std::endl;
+    return;
   }else if(!admin_){
     if(account.is_student() && value + 0.05 > account.get_balance()){
       std::cout << "Payment failed, you must have at least $0.00 after transaction fees in your account" << std::endl;
+      return;
     }else if(!(account.is_student()) && value + 0.10 > account.get_balance()){
       std::cout << "Payment failed, you must have at least $0.00 after transaction fees in your account" << std::endl;
+      return;
     }
-  }else{
-    std::cout << "Payment of $" << value << " to " << company << " was successful" << std::endl;
   }
+  std::cout << "Payment of $" << value << " to " << company  << " was successful" << std::endl;
 }
 
 void Session::create() {
@@ -461,12 +499,14 @@ void Session::create() {
   }
 
   std::cout << "Please input your Initial Balance:" << std::endl;
+  std::cout << std::setprecision(10);
   getline(std::cin, input);
   if(input == ""){
     balance = 0.0;
   }else{
     try{
       balance = std::stof(input);
+      std::cout << balance * 100;
     }catch(const std::out_of_range& err){
       std::cout << "Transaction denied. Invalid characters" << std::endl;
       return;
