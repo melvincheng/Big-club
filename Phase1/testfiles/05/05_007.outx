@@ -6,6 +6,6 @@ user
 Please enter a transaction:
 Please input Account Name:
 Please input your Initial Balance:
-100000000Transaction denied. Amount entered is too large
+Transaction denied. Amount entered is too large
 Please enter a transaction:
 You have successfully logged out

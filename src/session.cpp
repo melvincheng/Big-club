@@ -14,6 +14,8 @@ Session::Session(){
 
 void Session::login() {
   //check if logged in
+  std::string name;
+  std::map<int,Account> account_map;
   if(logged_){
     std::cout << "Transaction denied. Already logged in" << std::endl;
   }else{
@@ -23,12 +25,19 @@ void Session::login() {
     // check for admin, user, or invalid
     if(input == "admin"){
       admin_ = true;
-      write_file(10,"",0,0.0,"A");
+      write_file(10,"",0,0,"A");
     }else if(input == "user"){
-      admin_ = false;
       std::cout << "Please enter your name:" << std::endl;
-      getline(std::cin,name_);
-      write_file(10,name_,0,0.0,"S");
+      getline(std::cin,name);
+      try{
+        account_map = accounts_.at(name);
+      }catch(const std::out_of_range& err){
+        std::cout << "The account holder's name is invalid" << std::endl;
+        return;
+      }
+      name_ = name;
+      admin_ = false;
+      write_file(10,name_,0,0,"S");
     }else{
       std::cout << "Login failed, you must specify either admin or user" << std::endl;
       return;
@@ -46,7 +55,7 @@ void Session::read_accounts() {
   std::string token;
   int id;
   std::string name;
-  float balance;
+  int balance;
   bool enabled;
   bool student;
 
@@ -67,7 +76,7 @@ void Session::read_accounts() {
     }
 
     token = line.substr(29, 8);     // extract account balance
-    balance = atof(token.c_str());  // convert accoutn balance to float
+    balance = atof(token.c_str())*100;  // convert account balance to int
 
     token = line.substr(38, 1);  // extract plan status
     if (token == "N") {
@@ -87,10 +96,12 @@ void Session::read_accounts() {
   }
 }
 
-void Session::write_file(int trans_num, std::string name, int account_id, float value, std::string misc){
+void Session::write_file(int trans_num, std::string name, int account_id, int value, std::string misc){
   // write transaction file
   char out_file [40];
-  sprintf(out_file, "%02d %20s %05d %00008.2f %s", trans_num, name.c_str(), account_id, value, misc.c_str());
+  float value_f;
+  value_f = value / 100;
+  sprintf(out_file, "%02d %20s %05d %00008.2f %s", trans_num, name.c_str(), account_id, value_f, misc.c_str());
   std::string current_transaction(out_file);
   if(trans_num == 00){
     std::ofstream trans_file("transactions.trf");
@@ -111,9 +122,9 @@ void Session::logout() {
     std::cout << "You have successfully logged out";
     logged_ = false;
     if(admin_){
-      write_file(00,"",0,0.0,"A");
+      write_file(00,"",0,0,"A");
     }else{
-      write_file(00,name_,0,0.0,"S");
+      write_file(00,name_,0,0,"S");
     }
     exit(0);
   }
@@ -122,10 +133,10 @@ void Session::logout() {
 
 void Session::withdrawal() {
   // withdrawal
-  std::string name = "";
-  std::string input;
-  int account_id = 0;
-  float value = 0.0;
+  std::string name, input;
+  std::string::size_type no_convert;
+  int value_i, account_id;
+  float value_f;
   std::map<int,Account> account_map;
   Account account;
   if(!logged_){
@@ -160,48 +171,51 @@ void Session::withdrawal() {
     return;
   }
 
-
   std::cout << "Please enter the amount to withdraw:" << std::endl;
   getline(std::cin, input);
   try{
-    value = std::stof(input);
+    value_f = std::stof(input, &no_convert);
+    value_i = value_f * 100;
+    if(no_convert!=input.length()){
+        throw std::invalid_argument("non numerical characters");
+    }
   }catch(const std::invalid_argument& err){
-    std::cout << "Withdrawal failed, value must be a numeric value between $0-$500" << std::endl;
+    std::cout << "Withdrawal failed, value must be a numerical value." << std::endl;
     return;
   }catch(const std::out_of_range& err){
-    std::cout << "Withdrawal failed, value must be a numeric value between $0-$500" << std::endl;
+    std::cout << "Withdrawal failed, value must be a numerical value." << std::endl;
     return;
   }
-  if(value > 500.00 ){ // TODO: Check for current day maximum Need to chang the code
-    std::cout << "Withdrawal of $" << value << " failed; cannot withdraw more than $500.00 in a single day" << std::endl;
+  if(value_i > 50000 ){ // TODO: Check for current day maximum Need to chang the code
+    std::cout << "Withdrawal of $" << value_i << " failed; cannot withdraw more than $500.00 in a single day" << std::endl;
     return;
-  }else if(value > account.get_balance()){
+  }else if(value_i > account.get_balance()){
     std::cout << "Withdrawal failed, you must have at least $0.00 after transaction fees in your account" << std::endl;
     return;
-  }else if(fmod(value,5) != 0){
+  }else if(fmod(value_i/100,5) != 0){
     std::cout << "Withdrawal failed, you must enter a number divisible by 5" << std::endl;
     return;
   }else if(!admin_){
-    if(account.is_student() && value + 0.05 > account.get_balance()){
+    if(account.is_student() && value_i + 5 > account.get_balance()){
       std::cout << "Withdrawal failed, you must have at least $0.00 after transaction fees in your account" << std::endl;
       return;
-    }else if(!(account.is_student()) && value + 0.10 > account.get_balance()){
+    }else if(!(account.is_student()) && value_i + 10 > account.get_balance()){
       std::cout << "Withdrawal failed, you must have at least $0.00 after transaction fees in your account" << std::endl;
       return;
     }
   }
-  std::cout << "Withdrawal of $" << value << " was successful" << std::endl;
-  write_file(01,name,account_id,value,"");
+  std::cout << "Withdrawal of $" << value_i << " was successful" << std::endl;
+  write_file(01,name,account_id,value_i,"");
 }
 
 void Session::deposit() {
   // deposit
-  std::string name = "";
-  int account_id = 0;
-  float value = 0.0;
+  std::string name, input;
+  std::string::size_type no_convert;
+  int value_i, account_id;
+  float value_f;
   std::map<int,Account> account_map;
   Account account;
-  std::string input;
   if(!logged_){
     std::cout << "Transaction denied. Not logged in" << std::endl;
     return;
@@ -236,7 +250,11 @@ void Session::deposit() {
   std::cout << "Enter the amount in dollars to deposit:" << std::endl;
   getline(std::cin, input);
   try{
-    value = std::stof(input);
+    value_f = std::stof(input, &no_convert);
+    value_i = value_f * 100;
+    if(no_convert!=input.length()){
+        throw std::invalid_argument("non numerical characters");
+    }
   }catch(const std::invalid_argument& err){
     std::cout << "Deposit failed, you must enter a numerical value." << std::endl;
     return;
@@ -244,25 +262,21 @@ void Session::deposit() {
     std::cout << "Deposit failed, you must enter a numerical value." << std::endl;
     return;
   }
-  if(value > account.get_balance()){
-    std::cout << "Cannot withdraw " << value <<", you have insufficient funds" << std::endl;
-    return;
-  }else if(!admin_){
-    if(account.is_student() && value + 0.05 < account.get_balance()){
+  if(!admin_){
+    if(account.is_student() && value_i + 5 > account.get_balance()){
       std::cout << "Deposit failed, you must have at least $0.00 after transaction fees" << std::endl;
       return;
-    }else if(!(account.is_student()) && value + 0.10 < account.get_balance()){
+    }else if(!(account.is_student()) && value_i + 10 > account.get_balance()){
       std::cout << "Deposit failed, you must have at least $0.00 after transaction fees" << std::endl;
       return;
     }
   }
-  std::cout << "Deposit successful, your deposit will be on hold until your next session" << std::endl;
+  std::cout << "Deposit successful, your deposit will be on hold until the next day" << std::endl;
 }
 
 void Session::changeplan() {
   // changeplan
-  std::string name = "";
-  std::string input;
+  std::string name, input;
   int account_id = 0;
   std::map<int,Account> account_map;
   Account account;
@@ -295,10 +309,10 @@ void Session::changeplan() {
 
 void Session::transfer() {
   // transfer
-  std::string name = "";
-  std::string input;
-  int account_id_1,account_id_2 = 0;
-  float value = 0.0;
+  std::string name, input;
+  std::string::size_type no_convert;
+  int account_id_1, account_id_2, value_i;
+  float value_f;
   std::map<int,Account> account_map;
   Account account_1, account_2;
   if(!logged_){
@@ -351,7 +365,11 @@ void Session::transfer() {
   std::cout << "Please enter the amount you wish to transfer:" << std::endl;
   getline(std::cin, input);
   try{
-    value = std::stof(input);
+    value_f = std::stof(input, &no_convert);
+    value_i = value_f * 100;
+    if(no_convert!=input.length()){
+        throw std::invalid_argument("non numerical characters");
+    }
   }catch(const std::out_of_range& err){
     std::cout << "Invalid amount, you can only transfer numerical values" << std::endl;
     return;
@@ -359,32 +377,33 @@ void Session::transfer() {
     std::cout << "Invalid amount, you can only transfer numerical values" << std::endl;
     return;
   }
-  if(value > 1000.00 && !admin_){ //TODO: Check for current day maximum Need to chang the code
+  if(value_i > 100000 && !admin_){ //TODO: Check for current day maximum Need to chang the code
     std::cout << "Transfer unsuccessful, can not transfer more than $1000.00 in a single day" << std::endl;
     return;
-  }else if(value > account_1.get_balance()){
+  }else if(value_i > account_1.get_balance()){
     std::cout << "Transfer failed, your account must have at least $0.00 after transaction fees" << std::endl;
     return;
   }else if(!admin_){
-    if(account_1.is_student() && value + 0.05 > account_1.get_balance()){
+    if(account_1.is_student() && value_i + 5 > account_1.get_balance()){
       std::cout << "Transfer failed, your account must have at least $0.00 after transaction fees" << std::endl;
       return;
-    }else if(!(account_1.is_student()) && value + 0.10 > account_1.get_balance()){
+    }else if(!(account_1.is_student()) && value_i + 10 > account_1.get_balance()){
       std::cout << "Transfer failed, your account must have at least $0.00 after transaction fees" << std::endl;
       return;
     }
   }
-  std::cout << "Transfer to " << account_id_1 << " from " << account_id_2 << " of $" << value << " successful" << std::endl;
+  std::cout << "Transfer to " << account_id_1 << " from " << account_id_2 << " of $" << value_i << " successful" << std::endl;
 }
 
 
 void Session::paybill() {
   // paybill
   std::string name, company, lower_company, input;
-  float value = 0.0;
+  std::string::size_type no_convert;
+  int account_id, value_i;
+  float value_f;
   std::map<int,Account> account_map;
   Account account;
-  int account_id;
   if(!logged_){
     std::cout << "Transaction denied. Not logged in" << std::endl;
     return;
@@ -437,7 +456,11 @@ void Session::paybill() {
   std::cout << "Enter the amount you wish to pay:" << std::endl;
   getline(std::cin, input);
   try{
-    value = std::stof(input);
+    value_f = std::stof(input, &no_convert);
+    value_i = value_f * 100;
+    if(no_convert!=input.length()){
+        throw std::invalid_argument("non numerical characters");
+    }
   }catch(const std::invalid_argument& err){
     std::cout << "Payment, you must enter a numerical value." << std::endl;
     return;
@@ -445,31 +468,31 @@ void Session::paybill() {
     std::cout << "Payment, you must enter a numerical value." << std::endl;
     return;
   }
-  if(value > 2000 && !admin_){// TODO: Check for current day maximum Need to chang the code
+  if(value_i > 200000 && !admin_){// TODO: Check for current day maximum Need to chang the code
     std::cout << "You may not pay more than $2000 to a bill holder in a day." << std::endl;
     return;
-  }else if(value > account.get_balance()){
-    std::cout << "Payment to " << company << " of $" << value << " failed, you do not have at least $" << value << " in your account." << std::endl;
+  }else if(value_i > account.get_balance()){
+    std::cout << "Payment to " << company << " of $" << value_i << " failed, you do not have at least $" << value_i << " in your account." << std::endl;
     return;
   }else if(!admin_){
-    if(account.is_student() && value + 0.05 > account.get_balance()){
+    if(account.is_student() && value_i + 5 > account.get_balance()){
       std::cout << "Payment failed, you must have at least $0.00 after transaction fees in your account" << std::endl;
       return;
-    }else if(!(account.is_student()) && value + 0.10 > account.get_balance()){
+    }else if(!(account.is_student()) && value_i + 10 > account.get_balance()){
       std::cout << "Payment failed, you must have at least $0.00 after transaction fees in your account" << std::endl;
       return;
     }
   }
-  std::cout << "Payment of $" << value << " to " << company  << " was successful" << std::endl;
+  std::cout << "Payment to " << company << " of $" << value_i  << " was successful" << std::endl;
 }
 
 void Session::create() {
   // create"";
-  std::string name = "";
-  std::string input;
-  std::string alphabet = "abcdefghijklmnopqrstuvwxyz ";
-  std::size_t nonAlpha = name.find_first_not_of(alphabet);
-  float balance = 0.0;
+  std::string name, input;
+  std::string::size_type no_convert;
+  std::size_t nonAlpha;
+  int balance_i;
+  float balance_f;
 
   if(!logged_){
     std::cout << "Transaction denied. Not logged in" << std::endl;
@@ -482,31 +505,32 @@ void Session::create() {
 
   std::cout << "Please input Account Name:" << std::endl;
   getline(std::cin, name);
-
-  if(name.length() > 20) //more characters than allowed
-  {
-    std::cout <<"I'm sorry, your name is too long. Please shorten it to 20 characters or less."<< std::endl;
+  name = trim(name);
+  nonAlpha = name.find_first_not_of("aAbBcCdDeEfFgGhHiIjJkKlLmMnNoOpPqQrRsStTuUvVwWxXyYzZ- "); //characters that are allowed for the user to use
+  if(name.length() > 20){ //more characters than allowed
+    std::cout << "I'm sorry, your name is too long. Please shorten it to 20 characters or less." << std::endl;
     return;
   }
-  else if(name == ""){
+  else if(name.length() == 0){
     std::cout << "Transaction denied. No name detected"<< std::endl;
     return;
   }
-  else if (nonAlpha!=std::string::npos)
-  {
-    std::cout << "I'm sorry, your name is unrecognizable and cannot be used (get rid of all numbers and symbols)";
+  else if (nonAlpha!=std::string::npos){
+    std::cout << "I'm sorry, your name is unrecognizable and cannot be used (get rid of all numbers and symbols)" << std::endl;
     return;
   }
-
   std::cout << "Please input your Initial Balance:" << std::endl;
-  std::cout << std::setprecision(10);
   getline(std::cin, input);
-  if(input == ""){
-    balance = 0.0;
+  input = trim(input);
+  if(input.length() == 0){
+    balance_i = 0;
   }else{
     try{
-      balance = std::stof(input);
-      std::cout << balance * 100;
+      balance_f = std::stof(input,&no_convert);
+      balance_i = balance_f * 100;
+      if(no_convert!=input.length()){
+        throw std::invalid_argument("Invalid characters");
+    }
     }catch(const std::out_of_range& err){
       std::cout << "Transaction denied. Invalid characters" << std::endl;
       return;
@@ -515,31 +539,26 @@ void Session::create() {
       return;
     }
   }
-  if (balance > 99999.99)
-  {
+  if (balance_i > 9999999){
     std::cout << "Transaction denied. Amount entered is too large" << std::endl;
     return;
   }
-  else if(balance == 0.0)
-  {
+  else if(balance_i == 0){
     std::cout << "An initial balance of 00000.00 has been administered" << std::endl;
   }
   std::cout << "A new account was made under the name:\n" << name << std::endl << 
-  "with a current balance of:\n" << balance << std::endl << 
+  "with a current balance of:\n" << balance_i << std::endl << 
   "Your account will be available on the next day" << std::endl;
   return;
 }
 
 void Session::remove() {
   // remove
-  std::string name = "";
-  std::string input;
+  std::string name, input;
   int account_id = 0;
   std::map<int,Account> account_map;
-  std::string alphabet = "abcdefghijklmnopqrstuvwxyz ";
-  std::size_t nonAlpha = name.find_first_not_of(alphabet);
+  std::size_t nonAlpha;
   Account account;
-  std::string confirm = "";
   if(!logged_){
     std::cout << "Transaction denied. Not logged in" << std::endl;
     return;
@@ -548,15 +567,16 @@ void Session::remove() {
     return;
   }
 
-  std::cout << "Please enter the name tied to the account" << std::endl;
+  std::cout << "Please input Account Name:" << std::endl;
   getline(std::cin, name);
-
+  name = trim(name);
+  nonAlpha = name.find_first_not_of("aAbBcCdDeEfFgGhHiIjJkKlLmMnNoOpPqQrRsStTuUvVwWxXyYzZ- "); // Alphabet of usable characters
   if(name.length() > 20) //more characters than allowed
   {
     std::cout <<"Transaction denied. Name is too long" << std::endl;
     return;
   }
-  else if(name == ""){
+  else if(name.length() == 0){
     std::cout << "Transaction denied. No name detected" << std::endl;
     return;
   }
@@ -572,7 +592,7 @@ void Session::remove() {
       return;
     }
   }
-  std::cout << "Please enter the account ID" << std::endl;
+  std::cout << "Please input your Account Number:" << std::endl;
   getline(std::cin, input);
   try{
     account_id = std::stoi(input);
@@ -581,14 +601,7 @@ void Session::remove() {
     std::cout << "I'm sorry, the account number given does not match up to the Account Name." << std::endl;
     return;
   }
-  std::cout << "This bank Account will now be deleted\n" << name << std::endl << account_id << std::endl << "Confirm?" << std::endl;
-  getline(std::cin, confirm);
-  if(confirm == "y" || confirm == "yes" || confirm == "Y" || confirm == "YES"){
-    std::cout << "This account has been deleted" << std::endl;
-  }else{
-    std::cout << "This account has not been deleted" << std::endl;
-    return;
-  }
+    std::cout << "The account has been deleted" << std::endl;
 }
 
 void Session::enable(bool enable) {
@@ -622,9 +635,9 @@ void Session::enable(bool enable) {
       return;
     }
     if(enable){
-      std::cout << "Account has been successfully enable" << std::endl;
+      std::cout << "Account has been successfully enabled" << std::endl;
     }else{
-      std::cout << "Account has been successfully disable" << std::endl;
+      std::cout << "Account has been successfully disabled" << std::endl;
     }
   }
 }

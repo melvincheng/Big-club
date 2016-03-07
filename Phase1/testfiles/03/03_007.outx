@@ -8,6 +8,6 @@ Please enter a transaction:
 Enter the account number:
 Enter the company to whom you wish the pay the bill to:
 Enter the amount you wish to pay:
-Payment to Credit Card Company Q of $600 failed, you do not have at least $600 in your account.
+Payment failed, you must have at least $0.00 after transaction fees in your account
 Please enter a transaction:
 You have successfully logged out

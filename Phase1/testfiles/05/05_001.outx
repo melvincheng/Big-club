@@ -6,6 +6,10 @@ user
 Please enter a transaction:
 Please input Account Name:
 Please input your Initial Balance:
-9999999Transaction denied. Amount entered is too large
+A new account was made under the name:
+Billy-Bob Thornton
+with a current balance of:
+9999999
+Your account will be available on the next day
 Please enter a transaction:
 You have successfully logged out

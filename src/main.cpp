@@ -41,7 +41,7 @@ int main() {
       return 0;
     }else{
     // otherwise, gracefully inform user that they entered invalid command
-      std::cout << "Command not recognized" << std::endl;
+      std::cout << "Invalid transaction" << std::endl;
     }
   }
 }

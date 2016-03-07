@@ -4,8 +4,8 @@ Please select the following:
 admin
 user
 Please enter a transaction:
-Please enter the name tied to the account
-Please enter the account ID
+Please input Account Name:
+Please input your Account Number:
 I'm sorry, the account number given does not match up to the Account Name.
 Please enter a transaction:
 You have successfully logged out

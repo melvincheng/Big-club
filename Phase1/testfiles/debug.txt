@@ -6,16 +6,16 @@
 
 
 01/01_001.in
-Withdrawal of $230.00 was successful			      |	Withdrawal of $230 was successful
+Withdrawal of $230.00 was successful			      |	Withdrawal of $23000 was successful
 
 
 01/01_002.in
-Withdrawal of $530.00 failed; withdrawal amount must be withi |	Withdrawal of $530 failed; cannot withdraw more than $500.00 
+Withdrawal of $530.00 failed; withdrawal amount must be withi |	Withdrawal of $53000 failed; cannot withdraw more than $500.0
 
 
 01/01_003.in
-Withdrawal of $230.00 was successful			      |	Withdrawal of $230 was successful
-Withdrawal of $255.00 failed; cannot withdraw more than $500. |	Withdrawal of $255 was successful
+Withdrawal of $230.00 was successful			      |	Withdrawal of $23000 was successful
+Withdrawal of $255.00 failed; cannot withdraw more than $500. |	Withdrawal of $25500 was successful
 
 
 01/01_004.in
@@ -28,29 +28,29 @@ Withdrawal of $255.00 failed; cannot withdraw more than $500. |	Withdrawal of $2
 
 
 01/01_007.in
-Withdrawal failed, you must have at least $0.00 after transac |	Withdrawal of $400 was successful
+Withdrawal failed, you must have at least $0.00 after transac |	Withdrawal of $50100 failed; cannot withdraw more than $500.0
 
 
 01/01_008.in
 
 
 01/01_009.in
-Withdrawal failed, you must have at least $0.00 after transac |	Withdrawal of $500 was successful
+Withdrawal failed, you must have at least $0.00 after transac |	Withdrawal of $50000 was successful
 
 
 01/01_010.in
-Withdrawal of $230.00 was successful			      |	Withdrawal of $230 was successful
+Withdrawal of $230.00 was successful			      |	Withdrawal of $23000 was successful
 
 
 01/01_011.in
 
 
 02/02_001.in
-Transfer to 10001 from 10002 of $275.00 successful	      |	Transfer to 10001 from 10002 of $275 successful
+Transfer to 10001 from 10002 of $275.00 successful	      |	Transfer to 10001 from 10002 of $27500 successful
 
 
 02/02_002.in
-Transfer to 10001 from 10002 of $275.00 successful	      |	Transfer to 10001 from 10002 of $275 successful
+Transfer to 10001 from 10002 of $275.00 successful	      |	Transfer to 10001 from 10002 of $27500 successful
 
 
 02/02_003.in
@@ -66,7 +66,7 @@ Transfer to 10001 from 10002 of $275.00 successful	      |	Transfer to 10001 fro
 
 
 02/02_007.in
-Transfer to 10001 from 10002 of $500.00 successful	      |	Transfer to 10001 from 10002 of $500 successful
+Transfer to 10001 from 10002 of $500.00 successful	      |	Transfer to 10001 from 10002 of $50000 successful
 Transfer unsuccessful, can not transfer more than $1000.00 in |	Transfer failed, your account must have at least $0.00 after 
 
 
@@ -74,15 +74,15 @@ Transfer unsuccessful, can not transfer more than $1000.00 in |	Transfer failed,
 
 
 02/02_009.in
-Transfer from 10001 to 10002 of $500.00 was successful	      |	Transfer to 10001 from 10002 of $500 successful
+Transfer from 10001 to 10002 of $500.00 was successful	      |	Transfer to 10001 from 10002 of $50000 successful
 
 
 03/03_001.in
-Payment to Credit Card Company Q of $200 was successful	      |	Payment of $200 to Credit Card Company Q was successful
+Payment to Credit Card Company Q of $200 was successful	      |	Payment to Credit Card Company Q of $20000 was successful
 
 
 03/03_002.in
-Payment to Credit Card Company Q of $1500.00 failed, you do n |	Payment to Credit Card Company Q of $1500 failed, you do not 
+Payment to Credit Card Company Q of $1500.00 failed, you do n |	Payment to Credit Card Company Q of $150000 failed, you do no
 
 
 03/03_003.in
@@ -99,15 +99,13 @@ You may not pay more than $2000.00 to a bill holder in a day. |	You may not pay 
 
 
 03/03_007.in
-Payment failed, you must have at least $0.00 after transactio |	Payment to Credit Card Company Q of $600 failed, you do not h
 
 
 03/03_008.in
-Payment of $400.00 to Credit Card Company Q was successful    |	Payment of $400 to Credit Card Company Q was successful
+Payment to Credit Card Company Q of $400.00 was successful    |	Payment to Credit Card Company Q of $40000 was successful
 
 
 04/04_001.in
-Deposit successful, your deposit will be on hold until your n |	Deposit failed, you must have at least $0.00 after transactio
 
 
 04/04_002.in
@@ -123,70 +121,38 @@ Deposit successful, your deposit will be on hold until your n |	Deposit failed, 
 
 
 05/05_001.in
-A new account was made under the name:			      |	9999999Transaction denied. Amount entered is too large
-Billy-Bob Thornton					      <
-with a current balance of:				      <
-99999.99						      <
-Your account will be available on the next day		      <
+99999.99						      |	9999999
 
 
 05/05_002.in
-							      >	Command not recognized
-							      >	Please enter a transaction:
 
 
 05/05_003.in
-							      >	Command not recognized
-							      >	Please enter a transaction:
 
 
 05/05_004.in
-I'm sorry, your name is unrecognizable and cannot be used (ge |	Please input your Initial Balance:
-							      >	9999999Transaction denied. Amount entered is too large
 
 
 05/05_005.in
-Please input Initial Balance:				      |	Please input your Initial Balance:
-Nothing was input					      <
 00000.00						      |	0
-Here is your bank account number:			      |	Your account will be available on the next day
-10004							      <
 
 
 05/05_006.in
-Please input initial balance:				      |	Please input your Initial Balance:
-Transaction denied. Invalid characters			      |	99900A new account was made under the name:
-							      >	Billy-Bob Thornton
-							      >	with a current balance of:
-							      >	999
-							      >	Your account will be available on the next day
 
 
 05/05_007.in
-Please input initial balance:				      |	Please input your Initial Balance:
-Transaction denied. Amount entered is too large		      |	100000000Transaction denied. Amount entered is too large
 
 
 06/06_001.in
-Please input Account Name:				      |	Please enter the name tied to the account
-Please input your Account Number:			      |	Please enter the account ID
 
 
 06/06_002.in
-Please input your Account Name:				      |	Please enter the name tied to the account
-							      >	Please enter a transaction:
-							      >	Command not recognized
 
 
 06/06_003.in
-Please input Account Name:				      |	Please enter the name tied to the account
-Please input your Account Number:			      |	Please enter the account ID
 
 
 07/07_001.in
-Please enter the account holder's name:			      |	Please enter account holder's name:
-Please enter the account number:			      |	Please enter account number:
-Account has been successfully disabled			      |	Account has been successfully disable
 
 
 07/07_002.in
@@ -205,7 +171,6 @@ Account has been successfully disabled			      |	Account has been successfully d
 
 
 09/09_001.in
-Account has been successfully enabled			      |	Account has been successfully enable
 
 
 09/09_002.in
@@ -218,37 +183,19 @@ Account has been successfully enabled			      |	Account has been successfully en
 
 
 10/10_002.in
-Please enter a transaction:				      <
-Please enter a transaction:				      <
 
 
 10/10_003.in
-The account holder's name is invalid			      \	Please enter your name:
-							      >	Please enter a transaction:
-							      >	You have successfully logged out
+
 
 10/10_004.in
-Invalid transaction					      |	Command not recognized
 
 
 10/10_005.in
 
 
 10/10_006.in
-							      >	Please enter a transaction:
-							      >	Please enter a transaction:
-							      >	Please enter a transaction:
-							      >	Please enter a transaction:
-							      >	Please enter a transaction:
-							      >	Please enter a transaction:
-							      >	Please enter a transaction:
-							      >	Please enter a transaction:
-Transaction denied. Not logged in			      \	Please enter a transaction:
-							      >	Transaction denied. Not logged in
-							      >	Please enter a transaction:
 
 
 10/10_007.in
-Please enter a transaction:				      <
-Please enter a transaction:				      <
 

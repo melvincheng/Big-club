@@ -1,7 +1,7 @@
 #include "Account.h"
 #include <iostream>
 
-Account::Account(int account_id, std::string name,float balance, bool enabled, bool student){
+Account::Account(int account_id, std::string name,int balance, bool enabled, bool student){
   account_id_ = account_id;
   name_ = name;
   balance_ = balance;
@@ -31,23 +31,19 @@ bool Account::is_student() {
   return student_;
 }
 
-void Account::set_balance(float input) {
+void Account::set_balance(int input) {
   balance_ = input;
 }
 
-void Account::enable() {
-  if (enabled_ == false){
+void Account::enable(bool enable) {
+  if (enabled_ == enable && enable == true){
+    std::cout << "Transaction denied. Account is already enabled" << std::endl;
+  }else if(enabled_ == enable && enable == false){
+    std::cout << "Transaction denied. Account is already disabled" << std::endl;
+  }else if(enabled_ != enable && enable == true){
     enabled_ = true;
   }else{
-    std::cout << "Transaction denied. Account is already enabled" << std::endl;
-  }
-}
-
-void Account::disable() {
-  if(enabled_ == true){
     enabled_ = false;
-  }else{
-    std::cout << "Transaction denied. Account is already disabled" << std::endl;
   }
 }
 

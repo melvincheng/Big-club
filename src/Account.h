@@ -18,7 +18,7 @@ class Account {
   /**
    * Primary constructor to use when initializing accounts.
    */
-  Account(int,std::string,float,bool,bool);
+  Account(int,std::string,int,bool,bool);
    /**
     * default constructor
     */
@@ -46,16 +46,11 @@ class Account {
    /**
     * set the balance of the account
     */
-  void set_balance(float);
+  void set_balance(int);
    /**
     * enable the account
     */
-  void enable();
-   /**
-    * disable the account
-    */
-  void disable();
-
+  void enable(bool);
    /**
     * change the plan on the account
     */
