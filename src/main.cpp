@@ -8,17 +8,18 @@ int main() {
   std::string input;  // holds input
   // create session object
   Session sesh = Session();
+  std::cout << "Welcome" << std::endl;
   // create input acceptance loop
   while (1) {
     // get input
-    std::cout << "Please enter a transaction: " << std::endl;
-    std::getline(std::cin,input);
+    std::cout << "Please enter a transaction:" << std::endl;
+    getline(std::cin,input);
     // check input, if it's valid, call respective function
     if(!input.compare("login")){
       sesh.login();
     }else if(!input.compare("logout")){
       sesh.logout();
-    }else if(!input.compare("withdraw")){
+    }else if(!input.compare("withdrawal")||!input.compare("withdraw")){
       sesh.withdrawal();
     }else if(!input.compare("deposit")){
       sesh.deposit();
