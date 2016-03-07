@@ -403,11 +403,13 @@ void Session::paybill() {
 
 void Session::create() {
   // create"";
-  std::string name = "";
-  std::string alphabet = "abcdefghijklmnopqrstuvwxyz ";
-  std::size_t nonAlpha = name.find_first_not_of(alphabet);
-  float balance = 0.0;
 
+  // Initializing variables
+  std::string name = "";
+  std::string stringBalance = "";
+  std::string::size_type sz;
+
+  // Checking for logged in and admin authentification
   if(!logged_){
     std::cout << "Transaction denied. Not logged in" << std::endl;
     return;
@@ -417,53 +419,73 @@ void Session::create() {
     return;
   }
 
+  // Checks for the Account Name
   std::cout << "Please input Account Name:" << std::endl;
-  std::cin >> name;
-
-  if(name.length() > 20) //more characters than allowed
-  {
+  std::getline (std::cin,name);
+  std::size_t nonAlpha = name.find_first_not_of("aAbBcCdDeEfFgGhHiIjJkKlLmMnNoOpPqQrRsStTuUvVwWxXyYzZ- "); //characters that are allowed for the user to use
+  if(name.length() > 20){ //more characters than allowed
     std::cout <<"I'm sorry, your name is too long. Please shorten it to 20 characters or less."<< std::endl;
     return;
   }
-  else if(name == ""){
+  else if(name == "" || name == " "){//no name given
     std::cout << "Transaction denied. No name detected"<< std::endl;
     return;
   }
-  else if (nonAlpha!=std::string::npos)
-  {
-    std::cout << "I'm sorry, your name is unrecognizable and cannot be used (get rid of all numbers and symbols)";
+  else if (nonAlpha!=std::string::npos){//the name being input has non-alphabetic names
+    std::cout << "I'm sorry, your name is unrecognizable and cannot be used" << std::endl;
+    std::cout << "(get rid of all numbers and symbols)" << std::endl;
     return;
   }
 
+  // Checks for the accounts initial balance
   std::cout << "Please input your Initial Balance:" << std::endl;
-  if(std::cin >> balance){
-    if (balance > 99999.99)
-    {
-      std::cout << "Transaction denied. Amount entered is too large" << std::endl;
-      return;
-    }
-    else if(balance == 0)
-    {
-      std::cout << "An initial balance of 00000.00 has been administered" << std::endl;
-    }
-    else{
-      std::cout << "Transaction denied. Invalid characters" << std::endl;
-      return;
-    }
+  std::getline (std::cin,stringBalance);
+  try{
+    float balance = std::stof(stringBalance,&sz);
   }
-  std::cout << "A new account was made under the name:\n" << name << "with a current balance of:\n" << balance << std::endl << "Your account will be available on the next day" << std::endl;
+  catch (const std::invalid_argument& ia) {
+    if (stringBalance == "" || stringBalance == " "){// No balance is given
+    float balance = 0;
+    std::cout << "Your balance will be set to: $" << balance << '\n';
+    std::cout << "A new account was made under the name:\n" << name << '\n' << "with a current balance of:\n" << balance << '\n' << "Your account will be available within one buisness day" << std::endl;
+    return;
+  }
+  else{// Value is unrecognizable
+    std::cerr << "Transaction denied, amount entered was not a number" << ia.what() << '\n';
+    return;
+  }
+  }
+
+  float balance = std::stof(stringBalance,&sz);
+  if (balance > 99999.99){// Balance is too big
+    std::cout << "Transaction denied. Amount entered is too large" << std::endl;
+    return;
+  }
+  else if(balance == 0){// Balance is exactly 0
+    std::cout << "An initial balance of $0.00 has been administered" << std::endl;
+  }
+  else if(balance < 0){// Balance is negative
+    std::cout <<"Transaction denied. Balance cannot be a negative" << std::endl;
+    return;
+  }
+
+  balance = float(int(balance*100+0.5))/100;// Rounds the balance up to two decimal places
+  std::cout << "A new account was made under the name:\n" << name << '\n' <<  "with a current balance of:\n $" << balance << '\n' << "Your account will be available within one buisness day" << std::endl;
   return;
 }
 
 void Session::remove() {
   // remove
+  // Initializing variables
   std::string name = "";
+  std::string sid = "";
+  std::string::size_type sz;
   int account_id = 0;
   std::map<int,Account> account_map;
-  std::string alphabet = "abcdefghijklmnopqrstuvwxyz ";
-  std::size_t nonAlpha = name.find_first_not_of(alphabet);
   Account account;
   std::string confirm = "";
+
+  // Authenticating logged in status and admin status
   if(!logged_){
     std::cout << "Transaction denied. Not logged in" << std::endl;
     return;
@@ -473,22 +495,23 @@ void Session::remove() {
   }
 
   std::cout << "Please enter the name tied to the account" << std::endl;
-  std::cin >> name;
+  std::getline (std::cin,name);
+  std::size_t nonAlpha = name.find_first_not_of("aAbBcCdDeEfFgGhHiIjJkKlLmMnNoOpPqQrRsStTuUvVwWxXyYzZ- "); // Alphabet of usable characters
 
-  if(name.length() > 20) //more characters than allowed
-  {
+  // Account Name Check
+  if(name.length() > 20){ // More characters than allowed
     std::cout <<"Transaction denied. Name is too long" << std::endl;
     return;
   }
-  else if(name == ""){
-    std::cout << "Transaction denied. No name detected" << std::endl;
+  else if(name == "" || name == " "){// No name is given
+    std::cout << "Transaction denied. No name detected"<< std::endl;
     return;
   }
-  else if (nonAlpha!=std::string::npos)
-  {
-    std::cout << "Transaction denied. Non-Alphabetic chracters have been found.";
+  else if (nonAlpha!=std::string::npos){// Non-alphabetic characters are input
+    std::cout << "Transaction denied. Non-Alphabetic characters have been found." << std::endl;
     return;
-  }else{
+  }
+  else{// Checks if the name is in the system
     try{
       account_map = accounts_.at(name);
     }catch(const std::out_of_range& err){
@@ -496,24 +519,52 @@ void Session::remove() {
       return;
     }
   }
+
   std::cout << "Please enter the account ID" << std::endl;
-  if(std::cin >> account_id){
-    try{
-      account = account_map.at(account_id);
-    }catch(const std::out_of_range& err){
-      std::cout << "I'm sorry, the account number given does not match up to the Account Name." << std::endl;
-      return;
-    }
-  }else{
-    std::cout << "I'm sorry, the account number given does not match up to the Account Name." << std::endl;
+  std::getline(std::cin,sid);
+  // Account ID checks
+  try{//checks if the ID is a number
+    int account_id = std::stof(sid,&sz);
+  }
+  catch (const std::invalid_argument& ia) {
+    if (sid == "" || sid == " "){
+    std::cout << "Transaction denied. No acocunt number was given" << '\n';
     return;
   }
-  std::cout << "This bank Account will now be deleted\n" << name << std::endl << account_id << std::endl << "Confirm?" << std::endl;
-  std::cin >> confirm;
+  else{
+    std::cerr << "Transaction denied. The account ID must be numeric." << '\n';
+    return;
+  }
+  }
+
+  if(int account_id = std::stof(sid,&sz)){
+    if(account_id > 99999){// Account ID is too big
+      std::cout << "Transaction denied. The account id entered is too long." << std::endl;
+      return;
+    }
+    else if(account_id < 10000){// Account ID is too small
+      std::cout << "Transaction denied. The account id entered is too short." << std::endl;
+      return;
+    }
+    else{// Account ID does not match to the given account name
+      try{
+        account = account_map.at(account_id);
+      }
+      catch(const std::out_of_range& err){
+        std::cout << "I'm sorry, the account number given does not match up to the Account Name." << std::endl;
+        return;
+      }
+    }
+  }
+
+  // Confirmation for deletion of the account
+  std::cout << "This bank Account will now be deleted\n" << name << std::endl << sid << std::endl << "Confirm?" << std::endl;
+  std::getline(std::cin,confirm);
   if(confirm == "y" || confirm == "yes" || confirm == "Y" || confirm == "YES"){
-    std::cout << "This account has been deleted" << std::endl;
-  }else{
-    std::cout << "This account has not been deleted" << std::endl;
+    std::cout << "This account has now been deleted" << std::endl;
+  }
+  else{
+    std::cout << "This account will not been deleted" << std::endl;
     return;
   }
 }
