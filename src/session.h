@@ -32,6 +32,8 @@ class Session {
   std::string name_;  // name of session user
   std::map<std::string,std::map<int,Account>> accounts_;  // acounts from current bank accounts file
   std::vector<std::string> transactions_;
+  std::string account_file;
+  std::string transaction_file;
   const float MAX_WITHDRAW = 500.0;
   const float MAX_TRANSFER = 1000.0;
   const float MAX_PAYBILL = 2000.0;
@@ -61,7 +63,7 @@ class Session {
   std::string get_input();
 
  public:
-  Session(); // default constructor
+  Session(std::string account_file, std::string transaction_file); // default constructor
 
 /**
  * Logs into a session

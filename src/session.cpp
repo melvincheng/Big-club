@@ -6,7 +6,9 @@
 #include <sstream>
 #include <math.h>
 
-Session::Session(){
+Session::Session(std::string account_file, std::string transaction_file){
+  this->account_file = account_file;
+  this->transaction_file = transaction_file;
   admin_ = false;
   logged_ = false;
   daily_withdraw = MAX_WITHDRAW;
@@ -51,8 +53,7 @@ void Session::login() {
 }
 
 void Session::read_accounts() {
-  std::string filename = "CurrentAccount.txt";
-  std::ifstream cafile(filename);
+  std::ifstream cafile(account_file);
 
   std::string line;
   std::string token;
@@ -111,7 +112,7 @@ void Session::write_file(int trans_num, std::string name, int account_id, float 
   sprintf(out_file, "%02d %-20s %05d %08.2f %s", trans_num, name.c_str(), account_id, value, misc.c_str());
   std::string current_transaction(out_file);
   if(trans_num == 0){
-    std::ofstream trans_file("transactions.trf");
+    std::ofstream trans_file(transaction_file);
     for(uint i = 0; i < transactions_.size();i++){
       trans_file << transactions_[i] << std::endl;
     }
