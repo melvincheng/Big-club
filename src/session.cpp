@@ -11,6 +11,7 @@ Session::Session(){
   logged_ = false;
   daily_withdraw = MAX_WITHDRAW;
   daily_transfer = MAX_TRANSFER;
+  daily_paybill = MAX_PAYBILL;
   read_accounts();
 }
 
@@ -500,7 +501,7 @@ void Session::paybill() {
     printf("Payment, you must enter a numerical value.\n");
     return;
   }
-  if(value > 200000.0 && !admin_){// TODO: Check for current day maximum Need to chang the code
+  if(value > (daily_paybill*100) && !admin_){// TODO: Check for current day maximum Need to chang the code
     printf("You may not pay more than $2000.00 to a bill holder in a day.\n");
     return;
   }else if(value > account.get_balance()){
@@ -519,6 +520,7 @@ void Session::paybill() {
   }else{
     actual_value = value;
   }
+  daily_paybill = daily_paybill - (value/100);
   printf("Payment to %s of $%0.2f was successful\n", company.c_str(), value/100.0);
   write_file(3,name,account_id,actual_value,company_short);
 }

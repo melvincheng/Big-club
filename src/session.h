@@ -34,8 +34,10 @@ class Session {
   std::vector<std::string> transactions_;
   const float MAX_WITHDRAW = 500.0;
   const float MAX_TRANSFER = 1000.0;
+  const float MAX_PAYBILL = 2000.0;
   float daily_withdraw;
   float daily_transfer;
+  float daily_paybill;
 
 /**
  * trims off leading and trailing whitespace from a string
