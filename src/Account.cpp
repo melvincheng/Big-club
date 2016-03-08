@@ -35,19 +35,15 @@ void Account::set_balance(float input) {
   balance_ = input;
 }
 
-void Account::enable() {
-  if (enabled_ == false){
+void Account::enable(bool enable) {
+  if (enabled_ == enable && enable == true){
+    std::cout << "Transaction denied. Account is already enabled" << std::endl;
+  }else if(enabled_ == enable && enable == false){
+    std::cout << "Transaction denied. Account is already disabled" << std::endl;
+  }else if(enabled_ != enable && enable == true){
     enabled_ = true;
   }else{
-    std::cout << "Transaction denied. Account is already enabled" << std::endl;
-  }
-}
-
-void Account::disable() {
-  if(enabled_ == true){
     enabled_ = false;
-  }else{
-    std::cout << "Transaction denied. Account is already disabled" << std::endl;
   }
 }
 

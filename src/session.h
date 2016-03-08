@@ -32,6 +32,20 @@ class Session {
   std::string name_;  // name of session user
   std::map<std::string,std::map<int,Account>> accounts_;  // acounts from current bank accounts file
   std::vector<std::string> transactions_;
+  std::string account_file;
+  std::string transaction_file;
+  const float MAX_WITHDRAW = 500.0;
+  const float MAX_TRANSFER = 1000.0;
+  const float MAX_PAYBILL = 2000.0;
+  float daily_withdraw;
+  float daily_transfer;
+  float daily_paybill;
+
+/**
+ * trims off leading and trailing whitespace from a string
+ */
+  std::string trim(const std::string& str, const std::string& whitespace = " \n");
+
 /**
  * Reads the current account file
  */
@@ -40,10 +54,10 @@ class Session {
 /**
  * Writes into a transaction file
  */
-  void write_file(int trans_num, std::string name = "", int account_id = 0, float value = 0.0, std::string misc = "");
+  void write_file(int trans_num, std::string name = "", int account_id = 0, float value = 0, std::string misc = "");
 
  public:
-  Session(); // default constructor
+  Session(std::string account_file, std::string transaction_file); // default constructor
 
 /**
  * Logs into a session

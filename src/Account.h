@@ -50,12 +50,7 @@ class Account {
    /**
     * enable the account
     */
-  void enable();
-   /**
-    * disable the account
-    */
-  void disable();
-
+  void enable(bool);
    /**
     * change the plan on the account
     */

@@ -1,0 +1,16 @@
+Welcome
+Please enter a transaction:
+Please select the following:
+admin
+user
+Please enter your name:
+Please enter a transaction:
+Please enter the account number to withdraw from:
+Please enter the amount to withdraw:
+Withdrawal of $250.00 was successful
+Please enter a transaction:
+Please enter the account number to withdraw from:
+Please enter the amount to withdraw:
+Withdrawal of $255.00 failed; cannot withdraw more than $500.00 in a single day
+Please enter a transaction:
+You have successfully logged out
