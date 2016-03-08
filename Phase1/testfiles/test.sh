@@ -11,13 +11,13 @@ do
 		fileName=$(basename "$inputFile")
 		#outputs just the file name
 		echo "${fileName%.*}"
-		#outputs the 
+		#outputs the
 		../../src/bank.exe < $inputFile > "${inputFile%.*}.outx"
-		
+
 		#checks for differences between the expected output file and actual output file
 		#-y outputs two columns, left side is the first file, the right side is the second file
 		#suppress common lines removes all lines that are matching between the files
-		diff -y --suppress-common-lines "${inputFile%.*}.out" "${inputFile%.*}.outx"
+		diff -yZ --suppress-common-lines "${inputFile%.*}.out" "${inputFile%.*}.outx"
 
 		#if a transaction file is not produced from the test, create an empty transaction file
 		#else rename the transaction file produced into a transaction file result

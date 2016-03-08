@@ -8,11 +8,11 @@ Please enter a transaction:
 Please enter the account number to transfer from:
 Please enter the account number to transfer to:
 Please enter the amount you wish to transfer:
-Transfer from 10001 to 10002 of $300.00 was successful
+Transfer from 10004 to 10002 of $300.00 was successful
 Please enter a transaction:
 Please enter the account number to transfer from:
 Please enter the account number to transfer to:
 Please enter the amount you wish to transfer:
-Transfer failed, can not transfer more than $1000.00 in a single session
+Transfer unsuccessful, can not transfer more than $1000.00 in a single day
 Please enter a transaction:
 You have successfully logged out

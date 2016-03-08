@@ -18,7 +18,7 @@
 /**
  * Contains, keeps track, and manipulates information of the current session
  */
- 
+
 class Session {
 
 /**
@@ -32,6 +32,10 @@ class Session {
   std::string name_;  // name of session user
   std::map<std::string,std::map<int,Account>> accounts_;  // acounts from current bank accounts file
   std::vector<std::string> transactions_;
+  const float MAX_WITHDRAW = 500.0;
+  const float MAX_TRANSFER = 1000.0;
+  float daily_withdraw;
+  float daily_transfer;
 
 /**
  * trims off leading and trailing whitespace from a string
@@ -44,7 +48,7 @@ class Session {
   void read_accounts();
 
 /**
- * Writes into a transaction file 
+ * Writes into a transaction file
  */
   void write_file(int trans_num, std::string name = "", int account_id = 0, float value = 0, std::string misc = "");
 

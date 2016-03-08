@@ -9,6 +9,8 @@
 Session::Session(){
   admin_ = false;
   logged_ = false;
+  daily_withdraw = MAX_WITHDRAW;
+  daily_transfer = MAX_TRANSFER;
   read_accounts();
 }
 
@@ -63,6 +65,11 @@ void Session::read_accounts() {
     getline(cafile, line);
     token = line.substr(0, 5);  // extract account id
     id = atoi(token.c_str());   // convert account id to integer
+
+    // check if we read in the final account file
+    if(id == 0){
+      return;
+    }
 
     token = line.substr(6, 20);  // extract account name
 
@@ -186,7 +193,7 @@ void Session::withdrawal() {
     printf("Withdrawal failed, value must be a numerical value.\n");
     return;
   }
-  if(value > 50000.0 ){ // TODO: Check for current day maximum Need to chang the code
+  if(value > (daily_withdraw*100) ){ // TODO: Check for current day maximum Need to chang the code
     printf("Withdrawal of $%0.2f failed; cannot withdraw more than $500.00 in a single day\n",(value/100.0));
     return;
   }else if(value > account.get_balance()){
@@ -208,6 +215,7 @@ void Session::withdrawal() {
   }else{
     actual_value = value;
   }
+  daily_withdraw = daily_withdraw - (value/100.0);
   printf("Withdrawal of $%0.2f was successful\n",value/100.0);
   write_file(1,name,account_id,actual_value,"");
 }
@@ -391,7 +399,7 @@ void Session::transfer() {
     printf("Invalid amount, you can only transfer numerical values\n");
     return;
   }
-  if(value > 100000 && !admin_){ //TODO: Check for current day maximum Need to chang the code
+  if(value > (daily_transfer * 100) && !admin_){ //TODO: Check for current day maximum Need to chang the code
     printf("Transfer unsuccessful, can not transfer more than $1000.00 in a single day\n");
     return;
   }else if(value > account_1.get_balance()){
@@ -410,6 +418,7 @@ void Session::transfer() {
   }else{
     actual_value = value;
   }
+  daily_transfer = daily_transfer - (value / 100.0);
   printf("Transfer from %d to %d of $%0.2f was successful\n", account_id_1, account_id_2, value/100.0);
   write_file(2,name,account_id_1,actual_value,"");
   write_file(2,name,account_id_2,value,"");
