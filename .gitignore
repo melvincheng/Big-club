@@ -3,3 +3,4 @@ bin/
 *.exe
 *.trfx
 *.outx
+*.class
