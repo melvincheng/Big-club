@@ -1,5 +1,5 @@
-JFLAGS = -g # flags
-CP = ./
+#JFLAGS = -g # flags
+CP = .
 CPFLAG = -cp $(CP)
 JC = javac # java compiler
 JRE = java # JRE
@@ -8,7 +8,7 @@ EXEC = Main #executable file
 .java.class:
 	$(JC) $(JFLAGS) $(CPFLAG) $*.java
 
-CLASSES = Main.java
+CLASSES = Main.java Account.java Transaction.java TransactionIO.java AccountIO.java
 
 default: classes
 
