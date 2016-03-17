@@ -3,6 +3,7 @@ sources = src/Account.java\
  src/Transaction.java\
  src/TransactionIO.java\
  src/AccountIO.java\
+ src/TransactionProcessor.java\
  src/Bank.java
 
 classes = $(sources:.java=.class)
