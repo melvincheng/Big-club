@@ -1,5 +1,3 @@
-package sagyou.jikan;
-
 public class Transaction{
   private byte transCode; // transaction code of the transaction
   private String transName; // account holder's name for the transaction

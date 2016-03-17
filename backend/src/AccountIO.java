@@ -1,5 +1,3 @@
-package sagyou.jikan;
-
 public class AccountIO{
   private String filename;
 

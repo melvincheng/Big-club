@@ -1,5 +1,3 @@
-package sagyou.jikan;
-
 /*
  * This class holds data for individual accounts
  */

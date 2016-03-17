@@ -1,5 +1,5 @@
-package sagyou.jikan;
 import java.util.Vector;
+
 /*
  * This class reads in the transaction file outputted from the front end
  */
