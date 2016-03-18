@@ -89,7 +89,7 @@ public class AccountIO{
     }
   }
 
-  public void writeFile();{
+  public void writeFile(){
     /* TODO: implement write file
      * retrieve changed accounts
      * write to a new master accounts file
