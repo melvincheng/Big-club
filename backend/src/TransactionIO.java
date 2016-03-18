@@ -11,24 +11,34 @@ public class TransactionIO{
   private String filename; // file containing the frontend's transactions
 
   /**
-   * Constructor takes in a string and sets it as the file name
+   * @brief Constructor takes in a string and sets it as the file name
+   * for the transaction file
+   * @param filename the name of the transaction file to read
    */
   public TransactionIO(String filename){
     this.filename = filename;
   }
 
   /**
-   * readFile reads the file and parses the data
+   * @brief reads the transaction file and returns a vector of accounts
+   * @return transactions a vector of the transactiosn from the file
    */
   public Vector<Transaction> readFile(){
     try{
+      // initialize our vector object to hold our accounts
       Vector<Transaction> transactions = new Vector<Transaction>();
+
+      // helper variables for file parsing
       String input;
       String token;
 
-      // read in transaction file
+      // initialize our file reader
       BufferedReader br = new BufferedReader(new FileReader(this.filename));
 
+      /*
+       * loop through each entry within our transaction file
+       * parse variables from entries and add them to the vector
+       */
       while((input = br.readLine()) != null){
         byte code;
         String name;
@@ -36,28 +46,33 @@ public class TransactionIO{
         float value;
         String misc;
 
+        // parse the transaction code
         token = input.substring(0,1);
         code = Byte.parseByte(token);
 
+        // parse the name on the transaction
         name = input.substring(3,23);
 
+        // parse the account id
         token = input.substring(24,29);
         id = Integer.parseInt(token);
 
+        // parse the value of funds involved in the transaction
         token = input.substring(30,38);
         value = Float.parseFloat(token);
 
+        // parse any miscelaneous information
         misc = input.substring(39,input.length());
 
+        // create a transaction object storing parsed information
+        // add it to the vector
         Transaction newTrans = new Transaction(code,name,id,value,misc);
         transactions.add(newTrans);
       }
-      // put individual transactions into transaction objects
-      // push back transactions onto the vector
-      // return vector at EOF
-
+      // return the vector
       return transactions;
     }catch (Exception e){
+      System.err.println("Error opening file to read");
       return null;
     }
   }
