@@ -20,7 +20,6 @@ public class Transaction{
     this.misc = misc;
   }
 
-
 	/**
 	* Returns value of transCode
 	* @return

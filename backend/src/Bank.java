@@ -1,5 +1,6 @@
 public class Bank {
   public static void main(String[] args) {
-      System.out.println("Hello World!"); //Display the string.
+  	TransactionProcessor transProcess = new TransactionProcessor(args[0], args[1]);
+  	transProcess.process();
   }
 }

@@ -1,4 +1,4 @@
-/*
+/**
  * This class holds data for individual accounts
  */
 public class Account{
