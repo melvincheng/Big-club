@@ -9,9 +9,9 @@ public class Account{
   private boolean student; // flag of account if it has a student plan
 
   /**
-   * Constructor
-   * all fields are set at construction of object
-   */
+  * Constructor
+  * all fields are set at construction of object
+  */
   public Account(int id, String name, double balance, boolean enabled, boolean student){
     this.id = id;
     this.name = name;
@@ -20,21 +20,21 @@ public class Account{
     this.student = student;
   }
 
-	/**
-	* Returns value of id
-	* @return
-	*/
-	public int getId() {
-		return id;
-	}
+  /**
+  * Returns value of id
+  * @return
+  */
+  public int getId() {
+    return id;
+  }
 
   /**
-	* Returns value of name
-	* @return
-	*/
-	public String getName() {
-		return name;
-	}
+  * Returns value of name
+  * @return
+  */
+  public String getName() {
+    return name;
+  }
 
   /**
   * Returns value of balance
@@ -45,20 +45,20 @@ public class Account{
   }
 
 
-	/**
-	* Returns value of enabled
-	* @return
-	*/
-	public boolean isEnabled() {
-		return enabled;
-	}
+  /**
+  * Returns value of enabled
+  * @return
+  */
+  public boolean isEnabled() {
+    return enabled;
+  }
 
-	/**
-	* Returns value of student
-	* @return
-	*/
-	public boolean isStudent() {
-		return student;
-	}
+  /**
+  * Returns value of student
+  * @return
+  */
+  public boolean isStudent() {
+    return student;
+  }
 
 }

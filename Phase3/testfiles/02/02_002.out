@@ -1,0 +1,13 @@
+Welcome
+Please enter a transaction:
+Please select the following:
+admin
+user
+Please enter a transaction:
+Please enter the account holder's name:
+Please enter the account number to transfer from:
+Please enter the account number to transfer to:
+Please enter the amount you wish to transfer:
+Transfer from 10001 to 10002 of $275.00 was successful
+Please enter a transaction:
+You have successfully logged out
