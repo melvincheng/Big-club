@@ -2,22 +2,24 @@
  * This class holds data for individual accounts
  */
 public class Account{
-  private int id; // account number
-  private String name; // account holder's full name
-  private float balance; // account balance
-  private boolean enabled; // flag of account if it is enabled
-  private boolean student; // flag of account if it has a student plan
+  private int id; 			// account number
+  private String name; 		// account holder's full name
+  private float balance; 	// account balance
+  private boolean enabled; 	// flag of account if it is enabled
+  private boolean student; 	// flag of account if it has a student plan
+  private int count; 		// number of transactions
 
   /**
   * Constructor
   * all fields are set at construction of object
   */
-  public Account(int id, String name, float balance, boolean enabled, boolean student){
+  public Account(int id, String name, float balance, boolean enabled, boolean student, int count){
     this.id = id;
     this.name = name;
     this.balance = balance;
     this.enabled = enabled;
     this.student = student;
+    this.count = count;
   }
 
 
@@ -99,5 +101,19 @@ public class Account{
 	*/
 	public void setStudent(boolean student) {
 		this.student = student;
+	}
+
+	/**
+	* Returns number of transaction account has done
+	*/
+	public int getCount(){
+		return this.count;
+	}
+	/**
+	* increment transaction count
+	*
+	*/
+	public void incCount(){
+		count++;
 	}
 }
