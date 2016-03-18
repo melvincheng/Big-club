@@ -1,4 +1,5 @@
 import java.util.Vector;
+import java.util.Map;
 
 public class AccountIO{
   private String filename;
@@ -11,12 +12,12 @@ public class AccountIO{
       this.filename = filename;
   }
 
-  public Vector<Account> readFile(){
-      Vector<Account> accounts = new Vector<Account>();
+  public Map<Int,Account> readFile(){
+      Map<Int,Account> accounts = new HashMap<Int,Account>();
 
-  // read in transaction file
-  // put individual transactions into transaction objects
-  // push back transactions onto the vector
+  // read in account file
+  // put individual accounts into account objects
+  // put account to its corresponding account ID
   // return vector at EOF
 
       return accounts;
