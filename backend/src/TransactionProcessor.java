@@ -37,7 +37,7 @@ public class TransactionProcessor{
     byte code;
     Transaction trans;
     int transId;
-    boolean successful;
+    boolean successful = false;;
     // loops through all the transactions
     // once all the transactions are processed, the function return
     for(int i = 0;i < transactions.size();i++){
@@ -99,10 +99,16 @@ public class TransactionProcessor{
     }
   }
 
-
+  /**
+   * @brief   Checks if an account is valid
+   * @param   accountName   account holder's name
+   * @param   accountId     account Id of the acccount
+   * @return  returns true if succes, if not successful, returns falses
+   */
   private boolean accountCheck(String accountName, int accountId){
+    Account account;
     if(accounts.containsKey(accountId)){
-      Account account = accounts.get(accountId);
+      account = accounts.get(accountId);
     }else{
       System.out.print("ERROR: Account does not exist: ");
       return false;
@@ -124,7 +130,9 @@ public class TransactionProcessor{
    *
    * @param increase    if this is false, the balance is decreased
    *                    if this is true, the balance is increased
-   * @param accountId   the balance of this account is being changed
+   * @param transfer    determines if the transaction is processing a transfer transaction
+   * @param trans       the corresponding transaction being processed
+   * @return returns true if success, if not successful, returns false
    */
   private boolean changeBalance(boolean increase, boolean transfer, Transaction trans){
     int accountId = trans.getTransId();
@@ -134,17 +142,17 @@ public class TransactionProcessor{
       return false;
     }
     Account account = accounts.get(accountId);
-    float serviceFee = 0.0;
+    float serviceFee = 0.0f;
     if(!transfer){
       if(this.admin = false){
         if(account.isStudent() == true){
-          serviceFee = 0.05;
+          serviceFee = 0.05f;
         }else{
-          serviceFee = 0.1;
+          serviceFee = 0.1f;
         }
       }
     }
-    if(account.getBalance() + value - serviceFee < 0.0 || account.getBalance() - value - serviceFee < 0.0){
+    if(account.getBalance() + value - serviceFee < 0.0f || account.getBalance() - value - serviceFee < 0.0f){
       System.out.print("ERROR: Account has insufficient funds: ");
       return false;
     }
@@ -159,8 +167,9 @@ public class TransactionProcessor{
   /**
    * @brief transfer money from one account to another
    * 
-   * @param accountId1    the account where the money is being transfered from
-   * @param accountId2    the account where the money is being transfered to
+   * @param trans1    the withdraw transaction of transfer
+   * @param trans2    the deposit transaction of transfer
+   * @return returns true if success, if not successful, returns false
    */
   private boolean transfer(Transaction trans1, Transaction trans2){
     int accountId1 = trans1.getTransId();
@@ -182,15 +191,14 @@ public class TransactionProcessor{
    * @brief   pays bill to a company
    *          checks if the company being paided to exists
    * 
-   * @param accountId   the account that is being used to pay bills
-   *
-   * @param company     the company that is being paid
+   * @param trans   the corresponding transaction being processed
+   * @return returns true if success, if not successful, returns false
    */
   private boolean paybill(Transaction trans){
     int accountId = trans.getTransId();
     String company = trans.getMisc();
     float value = trans.getValue();
-    if(!accountCheck(accountId)){
+    if(!accountCheck(trans.getTransName(), accountId)){
       return false;
     }
     if(company == "TV" || company == "EC" || company == "CQ"){
@@ -210,6 +218,7 @@ public class TransactionProcessor{
    * @param trans   the transaction that is being used to create the account
    *                since the transaction contains the account holder name
    *                and the initial balance
+   * @return returns true if success, if not successful, returns false
    */
   private boolean create(Transaction trans){
     Set<Integer> accountIds = new HashSet<Integer>();
@@ -220,7 +229,7 @@ public class TransactionProcessor{
         max = key;
       }
     }
-    if(!trans.getTransName().matches("[a-zA-Z\-]+")){
+    if(!trans.getTransName().matches("[a-zA-Z/-]+")){
       System.out.print("ERROR: Name contains invalid characters");
       return false;
     }
@@ -236,6 +245,7 @@ public class TransactionProcessor{
    * @param trans   the transaction that is being used to delete the account
    *                since the transaction contains the accountId of the account 
    *                that is to be deleted
+   * @return returns true if success, if not successful, returns false
    */
   private boolean delete(Transaction trans){
     int accountId = trans.getTransId();
@@ -254,6 +264,7 @@ public class TransactionProcessor{
    * @param trans   the transaction that is being used to enable or disable the account
    *                since the transaction contains the accountId to be enable/disable and
    *                also contains whether the account is already enable/disable
+   * @return returns true if success, if not successful, returns false
    */
   private boolean enable(boolean willEnable, Transaction trans){
     int accountId = trans.getTransId();
@@ -270,7 +281,7 @@ public class TransactionProcessor{
     }else if(!willEnable && !account.isEnabled()){
       System.out.print("ERROR: Account is already disabled: ");
     }else if(willEnable && account.isEnabled()){
-      System.out.print("ERROR: Account is already enabled: ")
+      System.out.print("ERROR: Account is already enabled: ");
     }
     return false;
   }
@@ -282,6 +293,7 @@ public class TransactionProcessor{
    * @param trans   the transaction that is being used to change the plan of the account
    *                since the transaction contains the accountId of the account that is
    *                being changed. also used to check is the account is a student or not
+   * @return returns true if success, if not successful, returns false
    */
   private boolean changeplan(Transaction trans){
     int accountId = trans.getTransId();

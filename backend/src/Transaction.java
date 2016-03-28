@@ -59,5 +59,4 @@ public class Transaction{
 	public String getMisc() {
 		return misc;
 	}
-
 }
