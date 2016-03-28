@@ -28,7 +28,7 @@ public class TransactionTest{
   @Test
   public void getValueTest(){
     Transaction tranTest = new Transaction((byte)2,"Rick",10002,200f,"");
-    assertEquals(200f,tranTest.getValue(),0.0f);
+    assertEquals(200f,tranTest.getValue(),0.0);
   }
 
   // test the method for getting the misc information
