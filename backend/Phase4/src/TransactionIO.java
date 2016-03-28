@@ -62,11 +62,7 @@ public class TransactionIO{
         value = Float.parseFloat(token);
 
         // parse any miscelaneous information
-        try{
-          misc = input.substring(39,input.length());
-        }catch(Exception e){
-          misc = "";
-        }
+        misc = input.substring(39,input.length());
 
         // create a transaction object storing parsed information
         // add it to the vector
@@ -76,7 +72,7 @@ public class TransactionIO{
       // return the vector
       return transactions;
     }catch (Exception e){
-      System.err.println("Error: "+e+" with "+this.filename);
+      System.err.println("Error opening file to read");
       return null;
     }
   }
