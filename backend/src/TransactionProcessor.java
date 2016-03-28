@@ -12,6 +12,7 @@ public class TransactionProcessor{
   Vector<Transaction> transactions;   // all the transactions that happen during the day
   boolean admin;                      // if an admin logs in, this is false,
                                       // and used to stop transaction count increment if it's true
+  boolean logged;                     // determine if a user is logged in
 
 
   /**
@@ -26,6 +27,7 @@ public class TransactionProcessor{
     this.transactions = trfio.readFile();
     this.accounts = actio.readFile();
     this.admin = false;
+    this.logged = false;
   }
 
   /**
@@ -35,34 +37,85 @@ public class TransactionProcessor{
     byte code;
     Transaction trans;
     int transId;
+    boolean successful;
     // loops through all the transactions
     // once all the transactions are processed, the function return
     for(int i = 0;i < transactions.size();i++){
       trans = transactions.elementAt(i);
       transId = trans.getTransId();
       code = trans.getTransCode();
-      if(code == 1){
-        changeBalance(true, transId, trans.getValue());
-      }else if(code == 2){
-        transfer(transId, transactions.elementAt(i++).getTransId(), trans.getValue());
-      }else if(code == 3){
-        paybill(transId, trans.getMisc(), trans.getValue());
-      }else if(code == 4){
-        changeBalance(false, transId, trans.getValue());
-      }else if(code == 5){
-        create(trans);
-      }else if(code == 6){
-        delete(transId);
-      }else if(code == 7){
-        enable(false, transId);
-      }else if(code == 8){
-        changeplan(transId);
-      }else if(code == 9){
-        enable(true, transId);
+      if(code == 1 || code == 2 || code == 3 || code == 4 || code == 5 || code == 6 || code == 7 || code == 8 || code == 9){
+        if(logged){
+          if(code == 5 || code == 6 || code == 7 || code == 8 || code == 9){
+            if(admin){
+              if(code == 5){
+                successful = create(trans);
+              }else if(code == 6){
+                successful = delete(trans);
+              }else if(code == 7){
+                successful = enable(false, trans);
+              }else if(code == 8){
+                successful = changeplan(trans);
+              }else if(code == 9){
+                successful = enable(true, trans);
+              }
+            }else{
+              System.out.println("ERROR: User was not an admin: Transaction "+i);
+            }
+          }
+          if(code == 1){
+            successful = changeBalance(true, false, trans);
+          }else if(code == 2){
+            successful = transfer(trans, transactions.elementAt(i++));
+          }else if(code == 3){
+            successful = paybill(trans);
+          }else if(code == 4){
+            successful = changeBalance(false, false, trans);
+          }
+        }else{
+          System.out.println("ERROR: User was not logged in: Transaction "+i);
+        }
+      }
+
+      if(code == 0){
+        this.admin = false;
+        this.logged = false;
+      }else if(code == 10){
+        if(trans.getMisc() == "A"){
+          this.admin = true;
+          this.logged = true;
+        }else if(trans.getMisc() == "S"){
+          this.admin = false;
+          this.logged = true;
+        }
       }else{
-        System.out.println("Transaction "+i+" failed");
+        System.out.println("ERROR: Invalid transaction code: Transaction "+i);
+      }
+
+      if(!successful){
+        System.out.print("Transaction "+i+"\n");
+        successful = true;
       }
     }
+  }
+
+
+  private boolean accountCheck(String accountName, int accountId){
+    if(accounts.containsKey(accountId)){
+      Account account = accounts.get(accountId);
+    }else{
+      System.out.print("ERROR: Account does not exist: ");
+      return false;
+    }
+    if(account.getName() != accountName){
+      System.out.print("ERROR: Account holder name is invalid");
+      return false;
+    }
+    if(account.isEnabled()){
+      return true;
+    }
+    System.out.print("ERROR: Account is disabled: ");
+    return false;
   }
 
   /**
@@ -73,13 +126,34 @@ public class TransactionProcessor{
    *                    if this is true, the balance is increased
    * @param accountId   the balance of this account is being changed
    */
-  private void changeBalance(boolean increase, int accountId, float value){
-    Account account = accounts.get(accountId);
-    if(increase){
-      account.setBalance(account.getBalance() + value); 
-    }else{
-      account.setBalance(account.getBalance() - value); 
+  private boolean changeBalance(boolean increase, boolean transfer, Transaction trans){
+    int accountId = trans.getTransId();
+    float value = trans.getValue();
+
+    if(!accountCheck(trans.getTransName(),accountId)){
+      return false;
     }
+    Account account = accounts.get(accountId);
+    float serviceFee = 0.0;
+    if(!transfer){
+      if(this.admin = false){
+        if(account.isStudent() == true){
+          serviceFee = 0.05;
+        }else{
+          serviceFee = 0.1;
+        }
+      }
+    }
+    if(account.getBalance() + value - serviceFee < 0.0 || account.getBalance() - value - serviceFee < 0.0){
+      System.out.print("ERROR: Account has insufficient funds: ");
+      return false;
+    }
+    if(increase){
+      account.setBalance(account.getBalance() + value - serviceFee); 
+    }else{
+      account.setBalance(account.getBalance() - value - serviceFee); 
+    }
+    return true;
   }
 
   /**
@@ -88,11 +162,20 @@ public class TransactionProcessor{
    * @param accountId1    the account where the money is being transfered from
    * @param accountId2    the account where the money is being transfered to
    */
-  private void transfer(int accountId1, int accountId2, float value){
+  private boolean transfer(Transaction trans1, Transaction trans2){
+    int accountId1 = trans1.getTransId();
+    int accountId2 = trans2.getTransId();
+    float value = trans1.getValue();
+    if(!accountCheck(trans1.getTransName(), accountId1) && !accountCheck(trans2.getTransName(), accountId2)){
+      return false;
+    }
     Account account1 = accounts.get(accountId1);
     Account account2 = accounts.get(accountId2);
-    changeBalance(false, accountId1, value);
-    changeBalance(true, accountId2, value);
+    if(changeBalance(false, false, trans1)){
+      changeBalance(true, true, trans2);
+      return true;
+    }
+    return false;
   }
 
   /**
@@ -103,10 +186,22 @@ public class TransactionProcessor{
    *
    * @param company     the company that is being paid
    */
-  private void paybill(int accountId, String company, float value){
-    if(company == "TV" || company == "EC" || company == "CQ"){
-      changeBalance(false, accountId, value);
+  private boolean paybill(Transaction trans){
+    int accountId = trans.getTransId();
+    String company = trans.getMisc();
+    float value = trans.getValue();
+    if(!accountCheck(accountId)){
+      return false;
     }
+    if(company == "TV" || company == "EC" || company == "CQ"){
+      if(changeBalance(false, false, trans)){
+        return true;
+      }
+    }else{
+      System.out.print("ERROR: Invalid company: ");
+      return false;
+    }
+    return false;
   }
 
   /**
@@ -116,7 +211,7 @@ public class TransactionProcessor{
    *                since the transaction contains the account holder name
    *                and the initial balance
    */
-  private void create(Transaction trans){
+  private boolean create(Transaction trans){
     Set<Integer> accountIds = new HashSet<Integer>();
     int max = 0;
     //finds the next Id to use for the new account
@@ -125,8 +220,14 @@ public class TransactionProcessor{
         max = key;
       }
     }
+    if(!trans.getTransName().matches("[a-zA-Z\-]+")){
+      System.out.print("ERROR: Name contains invalid characters");
+      return false;
+    }
+
     Account account = new Account(max++, trans.getTransName(), trans.getValue(), true, false, 0);
     accounts.put(max++,account);
+    return true;
   }
 
   /**
@@ -136,8 +237,13 @@ public class TransactionProcessor{
    *                since the transaction contains the accountId of the account 
    *                that is to be deleted
    */
-  private void delete(int accountId){
-    accounts.remove(accountId);
+  private boolean delete(Transaction trans){
+    int accountId = trans.getTransId();
+    if(accountCheck(trans.getTransName(), accountId)){
+      accounts.remove(accountId);
+      return true;
+    }
+    return false;
   }
 
   /**
@@ -149,13 +255,24 @@ public class TransactionProcessor{
    *                since the transaction contains the accountId to be enable/disable and
    *                also contains whether the account is already enable/disable
    */
-  private void enable(boolean willEnable, int accountId){
+  private boolean enable(boolean willEnable, Transaction trans){
+    int accountId = trans.getTransId();
+    if(!accountCheck(trans.getTransName(), accountId)){
+      return false;
+    }
     Account account = accounts.get(accountId);
     if(!willEnable && account.isEnabled()){
-      account.setEnabled(true);
-    }else if(willEnable && !account.isEnabled()){
       account.setEnabled(false);
+      return true;
+    }else if(willEnable && !account.isEnabled()){
+      account.setEnabled(true);
+      return true;
+    }else if(!willEnable && !account.isEnabled()){
+      System.out.print("ERROR: Account is already disabled: ");
+    }else if(willEnable && account.isEnabled()){
+      System.out.print("ERROR: Account is already enabled: ")
     }
+    return false;
   }
 
   /**
@@ -166,8 +283,13 @@ public class TransactionProcessor{
    *                since the transaction contains the accountId of the account that is
    *                being changed. also used to check is the account is a student or not
    */
-  private void changeplan(int accountId){
-    Account account = accounts.get(accountId);
-    account.setStudent(!account.isStudent());
+  private boolean changeplan(Transaction trans){
+    int accountId = trans.getTransId();
+    if(accountCheck(trans.getTransName(), accountId)){
+      Account account = accounts.get(accountId);
+      account.setStudent(!account.isStudent());
+      return true;
+    }
+    return false;
   }
 }
