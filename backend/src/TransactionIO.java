@@ -47,7 +47,7 @@ public class TransactionIO{
         String misc;
 
         // parse the transaction code
-        token = input.substring(0,1);
+        token = input.substring(0,2);
         code = Byte.parseByte(token);
 
         // parse the name on the transaction

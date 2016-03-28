@@ -56,7 +56,7 @@ public class AccountIO{
         name = input.substring(6,26);
 
         // parse the enabled flag
-        token = input.substring(27,27);
+        token = input.substring(27,28);
         if((token.compareTo("A")) == 0){
           enabled = true;
         }else{

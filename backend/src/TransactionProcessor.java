@@ -37,55 +37,56 @@ public class TransactionProcessor{
     byte code;
     Transaction trans;
     int transId;
-    boolean successful = false;;
+    boolean successful = true;
     // loops through all the transactions
     // once all the transactions are processed, the function return
     for(int i = 0;i < transactions.size();i++){
       trans = transactions.elementAt(i);
       transId = trans.getTransId();
       code = trans.getTransCode();
-      if(code == 1 || code == 2 || code == 3 || code == 4 || code == 5 || code == 6 || code == 7 || code == 8 || code == 9){
-        if(logged){
-          if(code == 5 || code == 6 || code == 7 || code == 8 || code == 9){
-            if(admin){
-              if(code == 5){
-                successful = create(trans);
-              }else if(code == 6){
-                successful = delete(trans);
-              }else if(code == 7){
-                successful = enable(false, trans);
-              }else if(code == 8){
-                successful = changeplan(trans);
-              }else if(code == 9){
-                successful = enable(true, trans);
+      if(code == 1 || code == 2 || code == 3 || code == 4 || code == 5 || code == 6 || code == 7 || code == 8 || code == 9 || code == 0 || code == 10){
+        if(code == 1 || code == 2 || code == 3 || code == 4 || code == 5 || code == 6 || code == 7 || code == 8 || code == 9){
+          if(logged){
+            if(code == 5 || code == 6 || code == 7 || code == 8 || code == 9){
+              if(admin){
+                if(code == 5){
+                  successful = create(trans);
+                }else if(code == 6){
+                  successful = delete(trans);
+                }else if(code == 7){
+                  successful = enable(false, trans);
+                }else if(code == 8){
+                  successful = changeplan(trans);
+                }else if(code == 9){
+                  successful = enable(true, trans);
+                }
+              }else{
+                System.out.println("ERROR: User was not an admin: Transaction "+i);
               }
-            }else{
-              System.out.println("ERROR: User was not an admin: Transaction "+i);
             }
+            if(code == 1){
+              successful = changeBalance(true, false, trans);
+            }else if(code == 2){
+              successful = transfer(trans, transactions.elementAt(i++));
+            }else if(code == 3){
+              successful = paybill(trans);
+            }else if(code == 4){
+              successful = changeBalance(false, false, trans);
+            }
+          }else{
+            System.out.println("ERROR: User was not logged in: Transaction "+i);
           }
-          if(code == 1){
-            successful = changeBalance(true, false, trans);
-          }else if(code == 2){
-            successful = transfer(trans, transactions.elementAt(i++));
-          }else if(code == 3){
-            successful = paybill(trans);
-          }else if(code == 4){
-            successful = changeBalance(false, false, trans);
-          }
-        }else{
-          System.out.println("ERROR: User was not logged in: Transaction "+i);
         }
-      }
 
-      if(code == 0){
-        this.admin = false;
-        this.logged = false;
-      }else if(code == 10){
-        if(trans.getMisc() == "A"){
-          this.admin = true;
-          this.logged = true;
-        }else if(trans.getMisc() == "S"){
+        if(code == 0){
           this.admin = false;
+          this.logged = false;
+        }else if(code == 10){
+          if(trans.getMisc() == "A"){
+            this.admin = true;
+          }else if(trans.getMisc() == "S"){
+            this.admin = false;
+          }
           this.logged = true;
         }
       }else{
@@ -113,15 +114,16 @@ public class TransactionProcessor{
       System.out.print("ERROR: Account does not exist: ");
       return false;
     }
-    if(account.getName() != accountName){
-      System.out.print("ERROR: Account holder name is invalid");
+
+    if(!account.getName().equals(accountName)){
+      System.out.print("ERROR: Account holder name is invalid: ");
       return false;
     }
-    if(account.isEnabled()){
-      return true;
+    if(!account.isEnabled()){
+      System.out.print("ERROR: Account is disabled: ");
+      return false;
     }
-    System.out.print("ERROR: Account is disabled: ");
-    return false;
+    return true;
   }
 
   /**
@@ -152,13 +154,17 @@ public class TransactionProcessor{
         }
       }
     }
-    if(account.getBalance() + value - serviceFee < 0.0f || account.getBalance() - value - serviceFee < 0.0f){
-      System.out.print("ERROR: Account has insufficient funds: ");
-      return false;
-    }
     if(increase){
+      if(account.getBalance() + value - serviceFee < 0.0f){
+        System.out.print("ERROR: Account has insufficient funds: ");
+        return false;
+      }
       account.setBalance(account.getBalance() + value - serviceFee); 
     }else{
+      if(account.getBalance() - value - serviceFee < 0.0f){
+        System.out.print("ERROR: Account has insufficient funds: ");
+        return false;
+      }
       account.setBalance(account.getBalance() - value - serviceFee); 
     }
     return true;
@@ -175,7 +181,10 @@ public class TransactionProcessor{
     int accountId1 = trans1.getTransId();
     int accountId2 = trans2.getTransId();
     float value = trans1.getValue();
-    if(!accountCheck(trans1.getTransName(), accountId1) && !accountCheck(trans2.getTransName(), accountId2)){
+    if(!accountCheck(trans1.getTransName(), accountId1)){
+      return false;
+    }
+    if(!accountCheck(trans2.getTransName(), accountId2)){
       return false;
     }
     Account account1 = accounts.get(accountId1);
@@ -201,7 +210,7 @@ public class TransactionProcessor{
     if(!accountCheck(trans.getTransName(), accountId)){
       return false;
     }
-    if(company == "TV" || company == "EC" || company == "CQ"){
+    if(company.equals("TV") || company.equals("EC") || company.equals("CQ")){
       if(changeBalance(false, false, trans)){
         return true;
       }
