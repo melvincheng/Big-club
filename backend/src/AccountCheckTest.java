@@ -35,6 +35,6 @@ public class AccountCheckTest{
   }
 
   public static junit.framework.Test suite(){
-    return new JUnit4TestAdapter(TransactionProcessorTest.class);
+    return new JUnit4TestAdapter(AccountCheckTest.class);
   }
 }

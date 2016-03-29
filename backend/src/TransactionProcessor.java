@@ -154,8 +154,8 @@ public class TransactionProcessor{
     Account account = accounts.get(accountId);
     float serviceFee = 0.0f;
     if(!transfer){
-      if(this.admin = false){
-        if(account.isStudent() == true){
+      if(!this.admin){
+        if(account.isStudent()){
           serviceFee = 0.05f;
         }else{
           serviceFee = 0.1f;
