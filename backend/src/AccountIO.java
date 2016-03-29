@@ -2,7 +2,6 @@
 * This class is used to reads the master account file and writes a new master account file
 */
 
-import java.util.Vector;
 import java.util.Map;
 import java.util.HashMap;
 import java.util.Set;
