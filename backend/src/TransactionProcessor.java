@@ -10,6 +10,7 @@ import java.util.HashSet;
 public class TransactionProcessor{
   Map<Integer,Account> accounts;          // all the accounts in the bank
   Vector<Transaction> transactions;   // all the transactions that happen during the day
+  AccountIO actio;
   boolean admin;                      // if an admin logs in, this is false,
                                       // and used to stop transaction count increment if it's true
   boolean logged;                     // determine if a user is logged in
@@ -23,7 +24,7 @@ public class TransactionProcessor{
    */
   public TransactionProcessor(String masterFile, String transactionFile){
     TransactionIO trfio = new TransactionIO(transactionFile);
-    AccountIO actio = new AccountIO(masterFile);
+    actio = new AccountIO(masterFile);
     this.transactions = trfio.readFile();
     this.accounts = actio.readFile();
     this.admin = false;
@@ -91,6 +92,7 @@ public class TransactionProcessor{
         successful = true;
       }
     }
+    actio.writeFile(accounts);
   }
 
   /**
@@ -239,7 +241,7 @@ public class TransactionProcessor{
     if(!adminCheck()){
       return false;
     }
-    Set<Integer> accountIds = new HashSet<Integer>();
+    Set<Integer> accountIds = accounts.keySet();
     int max = 0;
     //finds the next Id to use for the new account
     for(int key:accountIds){
@@ -318,7 +320,7 @@ public class TransactionProcessor{
     }
     return false;
   }
-  
+
   /**
    * @brief   changes the plan of the account
    *          whenever this is called, the plan changes

@@ -1,10 +1,12 @@
 /**
- * This class is used to reads the master account file and writes a new master account file
- */
+* This class is used to reads the master account file and writes a new master account file
+*/
 
 import java.util.Vector;
 import java.util.Map;
 import java.util.HashMap;
+import java.util.Set;
+import java.util.HashSet;
 import java.io.*;
 
 public class AccountIO{
@@ -16,7 +18,7 @@ public class AccountIO{
   * @param filename the name of the accounts file to read
   */
   public AccountIO(String filename) {
-      this.filename = filename;
+    this.filename = filename;
   }
 
   /**
@@ -37,9 +39,9 @@ public class AccountIO{
       BufferedReader br = new BufferedReader(new FileReader(this.filename));
 
       /*
-       * loop through each entry within our master accounts file
-       * parse variables from the entries and add them to the map
-       */
+      * loop through each entry within our master accounts file
+      * parse variables from the entries and add them to the map
+      */
       while((input = br.readLine()) != null){
         int id;
         String name;
@@ -93,27 +95,83 @@ public class AccountIO{
     }
   }
 
-  public void writeFile(){
-    /* TODO: implement write file
-     * retrieve changed accounts
-     * write to a new master accounts file
-     * write to a new current accounts file
-     */
+  public void writeFile(Map<Integer,Account> newAccounts){
+    /*
+    * retrieve changed accounts
+    * write to a new master accounts file
+    * write to a new current accounts file
+    */
     try{
       // declare file variables
-      // TODO: remove the temp when implemented
-      File master = new File("MasterAccountTemp.txt");
-      File current = new File("CurrentAccountsTemp.txt");
+      File master = new File("MasterAccount.txt");
+      File current = new File("CurrentAccounts.txt");
 
       // create writer objects
-      PrintWriter masterpw = new PrintWriter(master);
       PrintWriter currentpw = new PrintWriter(current);
+      PrintWriter masterpw = new PrintWriter(master);
+      Account currAccount;
 
-      // dummy output
-      masterpw.println("this is master account file, please implement me");
-      currentpw.println("this is current accounts file, please implement me");
+      // get set of accounts in system
+      Set<Integer> accountIds = newAccounts.keySet();
+      String curroutf; // formatted string for current accounts file
+      String mastoutf; // formatted string for master accounts file
+
+      String currEOF = "";
+      String mastEOF = "";
+
+      for(int key:accountIds){
+        currAccount = newAccounts.get(key);
+        if(currAccount != null){
+          String active;
+          String plan;
+          if(currAccount.isEnabled()){
+            active = "A";
+          }else{
+            active = "D";
+          }
+
+          if(currAccount.isStudent()){
+            plan = "S";
+          }else{
+            plan = "N";
+          }
+
+          // create formatted string for current accounts file
+          curroutf = String.format("%05d %20s %1s %08.2f %1s",
+          currAccount.getId(),
+          currAccount.getName(),
+          active,
+          currAccount.getBalance(),
+          plan);
+
+          // create formatted string for master accounts file
+          mastoutf = String.format("%05d %20s %1s %08.2f %1s %04d",
+          currAccount.getId(),
+          currAccount.getName(),
+          active,
+          currAccount.getBalance(),
+          plan,
+          currAccount.getCount());
+
+          // print to file if it's NOT end of file account
+          if(currAccount.getId() != 0){
+          currentpw.println(curroutf);
+          masterpw.println(mastoutf);
+        }else{
+            currEOF = curroutf;
+            mastEOF = mastoutf;
+          }
+        }
+      }
+
+      //print the end of file
+      currentpw.println(currEOF);
+      masterpw.println(mastEOF);
+
+      currentpw.close();
+      masterpw.close();
     }catch (Exception e){
-      System.err.println("Could not open file");
+      System.err.println("Could not open file HELLO");
     }
   }
 }
