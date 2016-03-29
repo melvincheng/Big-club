@@ -44,59 +44,67 @@ public class TransactionProcessor{
       trans = transactions.elementAt(i);
       transId = trans.getTransId();
       code = trans.getTransCode();
-      if(code == 1 || code == 2 || code == 3 || code == 4 || code == 5 || code == 6 || code == 7 || code == 8 || code == 9 || code == 0 || code == 10){
-        if(code == 1 || code == 2 || code == 3 || code == 4 || code == 5 || code == 6 || code == 7 || code == 8 || code == 9){
-          if(logged){
-            if(code == 5 || code == 6 || code == 7 || code == 8 || code == 9){
-              if(admin){
-                if(code == 5){
-                  successful = create(trans);
-                }else if(code == 6){
-                  successful = delete(trans);
-                }else if(code == 7){
-                  successful = enable(false, trans);
-                }else if(code == 8){
-                  successful = changeplan(trans);
-                }else if(code == 9){
-                  successful = enable(true, trans);
-                }
-              }else{
-                System.out.println("ERROR: User was not an admin: Transaction "+i);
-              }
-            }
-            if(code == 1){
-              successful = changeBalance(true, false, trans);
-            }else if(code == 2){
-              successful = transfer(trans, transactions.elementAt(i++));
-            }else if(code == 3){
-              successful = paybill(trans);
-            }else if(code == 4){
-              successful = changeBalance(false, false, trans);
-            }
-          }else{
-            System.out.println("ERROR: User was not logged in: Transaction "+i);
-          }
-        }
-
-        if(code == 0){
+      if(code == 0){
+        if(this.logged){
           this.admin = false;
           this.logged = false;
-        }else if(code == 10){
-          if(trans.getMisc() == "A"){
-            this.admin = true;
-          }else if(trans.getMisc() == "S"){
-            this.admin = false;
-          }
-          this.logged = true;
+        }else{
+          System.out.println("ERROR: User was already logged out: Transaction "+i);
         }
-      }else{
-        System.out.println("ERROR: Invalid transaction code: Transaction "+i);
+      }else if(code == 10){
+        if(this.logged){
+          System.out.println("ERROR: User was already logged in: Transaction "+i);
+          return;
+        }
+        if(trans.getMisc() == "A"){
+          this.admin = true;
+        }else if(trans.getMisc() == "S"){
+          this.admin = false;
+        }
+        this.logged = true;
+      }else if(this.logged){
+        if(code == 1){
+          successful = changeBalance(true, false, trans);
+        }else if(code == 2){
+          successful = transfer(trans, transactions.elementAt(i++));
+        }else if(code == 3){
+          successful = paybill(trans);
+        }else if(code == 4){
+          successful = changeBalance(false, false, trans);
+        }else if(code == 5){
+          successful = create(trans);
+        }else if(code == 6){
+          successful = delete(trans);
+        }else if(code == 7){
+          successful = enable(false, trans);
+        }else if(code == 8){
+          successful = changeplan(trans);
+        }else if(code == 9){
+          successful = enable(true, trans);
+        }else{
+          System.out.println("ERROR: Invalid transaction code: Transaction "+i);
+        }
+      }else if(!this.logged){
+        System.out.print("ERROR: User was not logged out: ");
       }
 
       if(!successful){
         System.out.print("Transaction "+i+"\n");
         successful = true;
       }
+    }
+  }
+
+  /**
+   * @brief Checks if the logged in used is an admin
+   * @return returns true if the user is admin, false if the user is not
+   */
+  public boolean adminCheck(){
+    if(admin){
+      return true;
+    }else{
+      System.out.println("ERROR: User was not an admin: ");
+      return false;
     }
   }
 
@@ -230,6 +238,9 @@ public class TransactionProcessor{
    * @return returns true if success, if not successful, returns false
    */
   public boolean create(Transaction trans){
+    if(!adminCheck()){
+      return false;
+    }
     Set<Integer> accountIds = new HashSet<Integer>();
     int max = 0;
     //finds the next Id to use for the new account
@@ -257,6 +268,9 @@ public class TransactionProcessor{
    * @return returns true if success, if not successful, returns false
    */
   public boolean delete(Transaction trans){
+    if(!adminCheck()){
+      return false;
+    }
     int accountId = trans.getTransId();
     if(accountCheck(trans.getTransName(), accountId)){
       accounts.remove(accountId);
@@ -276,6 +290,9 @@ public class TransactionProcessor{
    * @return returns true if success, if not successful, returns false
    */
   public boolean enable(boolean willEnable, Transaction trans){
+    if(!adminCheck()){
+      return false;
+    }
     int accountId = trans.getTransId();
     if(!accountCheck(trans.getTransName(), accountId)){
       return false;
@@ -305,6 +322,9 @@ public class TransactionProcessor{
    * @return returns true if success, if not successful, returns false
    */
   public boolean changeplan(Transaction trans){
+    if(!adminCheck()){
+      return false;
+    }
     int accountId = trans.getTransId();
     if(accountCheck(trans.getTransName(), accountId)){
       Account account = accounts.get(accountId);
