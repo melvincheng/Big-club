@@ -51,7 +51,7 @@ public class TransactionIO{
         code = Byte.parseByte(token);
 
         // parse the name on the transaction
-        name = input.substring(3,23);
+        name = input.substring(3,23).trim();
 
         // parse the account id
         token = input.substring(24,29);

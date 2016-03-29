@@ -53,7 +53,7 @@ public class AccountIO{
         id = Integer.parseInt(token);
 
         // parse the account holder's name
-        name = input.substring(6,26);
+        name = input.substring(6,26).trim();
 
         // parse the enabled flag
         token = input.substring(27,28);

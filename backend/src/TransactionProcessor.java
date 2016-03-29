@@ -106,7 +106,7 @@ public class TransactionProcessor{
    * @param   accountId     account Id of the acccount
    * @return  returns true if succes, if not successful, returns falses
    */
-  private boolean accountCheck(String accountName, int accountId){
+  public boolean accountCheck(String accountName, int accountId){
     Account account;
     if(accounts.containsKey(accountId)){
       account = accounts.get(accountId);
@@ -136,7 +136,7 @@ public class TransactionProcessor{
    * @param trans       the corresponding transaction being processed
    * @return returns true if success, if not successful, returns false
    */
-  private boolean changeBalance(boolean increase, boolean transfer, Transaction trans){
+  public boolean changeBalance(boolean increase, boolean transfer, Transaction trans){
     int accountId = trans.getTransId();
     float value = trans.getValue();
 
@@ -159,25 +159,25 @@ public class TransactionProcessor{
         System.out.print("ERROR: Account has insufficient funds: ");
         return false;
       }
-      account.setBalance(account.getBalance() + value - serviceFee); 
+      account.setBalance(account.getBalance() + value - serviceFee);
     }else{
       if(account.getBalance() - value - serviceFee < 0.0f){
         System.out.print("ERROR: Account has insufficient funds: ");
         return false;
       }
-      account.setBalance(account.getBalance() - value - serviceFee); 
+      account.setBalance(account.getBalance() - value - serviceFee);
     }
     return true;
   }
 
   /**
    * @brief transfer money from one account to another
-   * 
+   *
    * @param trans1    the withdraw transaction of transfer
    * @param trans2    the deposit transaction of transfer
    * @return returns true if success, if not successful, returns false
    */
-  private boolean transfer(Transaction trans1, Transaction trans2){
+  public boolean transfer(Transaction trans1, Transaction trans2){
     int accountId1 = trans1.getTransId();
     int accountId2 = trans2.getTransId();
     float value = trans1.getValue();
@@ -199,11 +199,11 @@ public class TransactionProcessor{
   /**
    * @brief   pays bill to a company
    *          checks if the company being paided to exists
-   * 
+   *
    * @param trans   the corresponding transaction being processed
    * @return returns true if success, if not successful, returns false
    */
-  private boolean paybill(Transaction trans){
+  public boolean paybill(Transaction trans){
     int accountId = trans.getTransId();
     String company = trans.getMisc();
     float value = trans.getValue();
@@ -223,13 +223,13 @@ public class TransactionProcessor{
 
   /**
    * @brief creates an account
-   * 
+   *
    * @param trans   the transaction that is being used to create the account
    *                since the transaction contains the account holder name
    *                and the initial balance
    * @return returns true if success, if not successful, returns false
    */
-  private boolean create(Transaction trans){
+  public boolean create(Transaction trans){
     Set<Integer> accountIds = new HashSet<Integer>();
     int max = 0;
     //finds the next Id to use for the new account
@@ -250,13 +250,13 @@ public class TransactionProcessor{
 
   /**
    * @brief deletes an account
-   * 
+   *
    * @param trans   the transaction that is being used to delete the account
-   *                since the transaction contains the accountId of the account 
+   *                since the transaction contains the accountId of the account
    *                that is to be deleted
    * @return returns true if success, if not successful, returns false
    */
-  private boolean delete(Transaction trans){
+  public boolean delete(Transaction trans){
     int accountId = trans.getTransId();
     if(accountCheck(trans.getTransName(), accountId)){
       accounts.remove(accountId);
@@ -267,7 +267,7 @@ public class TransactionProcessor{
 
   /**
    * @brief enables or disables account depending on the boolean
-   * 
+   *
    * @param willEnable  if this is true, the function attempts to enable the account
    *                if this is false, the function attempts to disable the account
    * @param trans   the transaction that is being used to enable or disable the account
@@ -275,7 +275,7 @@ public class TransactionProcessor{
    *                also contains whether the account is already enable/disable
    * @return returns true if success, if not successful, returns false
    */
-  private boolean enable(boolean willEnable, Transaction trans){
+  public boolean enable(boolean willEnable, Transaction trans){
     int accountId = trans.getTransId();
     if(!accountCheck(trans.getTransName(), accountId)){
       return false;
@@ -294,17 +294,17 @@ public class TransactionProcessor{
     }
     return false;
   }
-
+  
   /**
    * @brief   changes the plan of the account
    *          whenever this is called, the plan changes
-   * 
+   *
    * @param trans   the transaction that is being used to change the plan of the account
    *                since the transaction contains the accountId of the account that is
    *                being changed. also used to check is the account is a student or not
    * @return returns true if success, if not successful, returns false
    */
-  private boolean changeplan(Transaction trans){
+  public boolean changeplan(Transaction trans){
     int accountId = trans.getTransId();
     if(accountCheck(trans.getTransName(), accountId)){
       Account account = accounts.get(accountId);
