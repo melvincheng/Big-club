@@ -14,7 +14,7 @@ public class PaybillTest{
     assertEquals(true,test);
   }
 
-  // test a valid company
+  // test an invalid company
   @Test
   public void paybillNoCompany(){
     byte code = 3;
