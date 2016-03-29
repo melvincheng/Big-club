@@ -39,6 +39,11 @@ public class TransactionProcessor{
     Transaction trans;
     int transId;
     boolean successful = true;
+
+    // if a bad file was read, the program stops
+    if(transactions == null){
+      return;
+    }
     // loops through all the transactions
     // once all the transactions are processed, the function return
     for(int i = 0;i < transactions.size();i++){
@@ -103,7 +108,7 @@ public class TransactionProcessor{
     if(admin){
       return true;
     }else{
-      System.out.println("ERROR: User was not an admin: ");
+      System.out.print("ERROR: User was not an admin: ");
       return false;
     }
   }
@@ -215,9 +220,6 @@ public class TransactionProcessor{
     int accountId = trans.getTransId();
     String company = trans.getMisc();
     float value = trans.getValue();
-    if(!accountCheck(trans.getTransName(), accountId)){
-      return false;
-    }
     if(company.equals("TV") || company.equals("EC") || company.equals("CQ")){
       if(changeBalance(false, false, trans)){
         return true;
@@ -250,7 +252,7 @@ public class TransactionProcessor{
       }
     }
     if(!trans.getTransName().matches("[a-zA-Z\\-\\s]+")){
-      System.out.print("ERROR: Name contains invalid characters");
+      System.out.print("ERROR: Name contains invalid characters: ");
       return false;
     }
 

@@ -1,9 +1,23 @@
 import static org.junit.Assert.*;
 import junit.framework.JUnit4TestAdapter;
 import org.junit.Test;
+import org.junit.Before;
+import org.junit.After;
+import java.io.PrintStream;
+import java.io.ByteArrayOutputStream;
 import java.util.Vector;
-public class TransactionIOTest{
 
+public class TransactionIOTest{
+  final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+
+  @Before
+  public void setupStream(){
+      System.setErr(new PrintStream(outContent));
+    }
+  @After
+  public void cleanStream(){
+    System.setErr(null);
+  }
 
   // test method that reads the transaction file
   @Test
@@ -28,10 +42,12 @@ public class TransactionIOTest{
     }
   }
 
+  // test when an invalid transaction file sent to the reader
   @Test
   public void readFileTestFail(){
     TransactionIO transIO = new TransactionIO("failTransactions.trf");
     assertEquals(null, transIO.readFile());
+    assertEquals("Error: java.lang.NumberFormatException: For input string: \"as\" with failTransactions.trf\n", outContent.toString());
   }
 
   public static junit.framework.Test suite(){

@@ -16,9 +16,15 @@
 * 2) a new Current Accounts File for the frontend
 **************************/
 
-public class Bank {
+public class Bank{
   public static void main(String[] args) {
-  	TransactionProcessor transProcess = new TransactionProcessor(args[0], args[1]);
-  	transProcess.process();
+    System.out.println("Backend start");
+    if(args.length!=2){
+      System.out.println("ERROR: Invalid number of files");
+      return;
+    }
+    TransactionProcessor transProcess = new TransactionProcessor(args[0], args[1]);
+    transProcess.process();
+    System.out.println("Execution complete");
   }
 }
