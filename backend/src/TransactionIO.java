@@ -8,7 +8,7 @@ import java.io.*;
  * This class reads in the transaction file outputted from the front end
  */
 public class TransactionIO{
-  private String filename; // file containing the frontend's transactions
+  String filename; // file containing the frontend's transactions
 
   /**
    * @brief Constructor takes in a string and sets it as the file name

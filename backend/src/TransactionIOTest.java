@@ -1,34 +1,33 @@
-import static org.junit.Asser.*;
+import static org.junit.Assert.*;
 import junit.framework.JUnit4TestAdapter;
 import org.junit.Test;
-import java.io.*
 import java.util.Vector;
 public class TransactionIOTest{
 
-  // test method to get the account id
-  @Test
-  public void TransactionIOTest(){
-    String copyOver;
-    assertEquals("Must be the same", "transactions.trf", copyOver.TransactionIO("transactions.trf"));
-  }
-
+  // test method that reads the transaction file
   @Test
   public void readFileTest(){
-    String readTest;
-    Vector<Transaction> real = new Vector<Transaction>();
-    Transaction trans1 = new Transaction(10, "Billy-Bob Thorton", 00000, 00000.00, "S");
-    Transaction trans2 = new Transaction(02, "Billy-Bob Thorton", 10001, 00275.10, "");
-    Transaction trans3 = new Transaction(02, "Billy-Bob Thorton", 00000, 00275.00, "");
-    Transaction trans4 = new Transaction(00, "Billy-Bob Thorton", 00000, 00000.00, "S");
-    real.add(trans1);
-    real.add(trans2);
-    real.add(trans3);
-    real.add(trans4);
-    readTest.TransactionIO("transactions.trf");
-    assertEquals(real, transTest.readFile());
+    Vector<Transaction> expectTrans = new Vector<Transaction>();
+    Transaction trans1 = new Transaction((byte)10, "Billy-Bob Thornton", 0, 0.0f, "S");
+    Transaction trans2 = new Transaction((byte)2, "Billy-Bob Thornton", 10001, 275.10f, "");
+    Transaction trans3 = new Transaction((byte)2, "Billy-Bob Thornton", 10002, 275.00f, "");
+    Transaction trans4 = new Transaction((byte)0, "Billy-Bob Thornton", 0, 0.0f, "S");
+    expectTrans.add(trans1);
+    expectTrans.add(trans2);
+    expectTrans.add(trans3);
+    expectTrans.add(trans4);
+    TransactionIO transIO = new TransactionIO("transactions.trf");
+    Vector<Transaction> actualTrans = transIO.readFile();
+    for(int i=0;i<expectTrans.size();i++){
+      assertEquals(expectTrans.get(i).getTransCode(),actualTrans.get(i).getTransCode());
+      assertEquals(expectTrans.get(i).getTransName(),actualTrans.get(i).getTransName());
+      assertEquals(expectTrans.get(i).getTransId(),actualTrans.get(i).getTransId());
+      assertEquals(expectTrans.get(i).getValue(),actualTrans.get(i).getValue(),0.0f);
+      assertEquals(expectTrans.get(i).getMisc(),actualTrans.get(i).getMisc());
+    }
   }
 
   public static junit.framework.Test suite(){
-    return new JUnit4TestAdapter(TransactionTest.class);
+    return new JUnit4TestAdapter(TransactionIOTest.class);
   }
 }
