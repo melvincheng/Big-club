@@ -3,11 +3,12 @@ import junit.framework.JUnit4TestAdapter;
 import org.junit.Test;
 
 public class EnableTest{
-  TransactionProcessor transProc = new TransactionProcessor("MasterAccount.txt", "transactions.trf");
+  TransactionProcessor transProc = new TransactionProcessor("MasterAccount.txt", "adminTransactions.trf");
 
   // enable a disabled account
   @Test
-  public void EnableSuccess(){
+  public void enableSuccess(){
+    transProc.process();
     byte code = 9;
     Transaction trans = new Transaction(code,"Billy-Bob Thornton",10003,0,"");
     boolean test = transProc.enable(true,trans);
@@ -16,7 +17,8 @@ public class EnableTest{
 
   // disable an enabled account
   @Test
-  public void DisableSuccess(){
+  public void disableSuccess(){
+    transProc.process();
     byte code = 7;
     Transaction trans = new Transaction(code,"Billy-Bob Thornton",10001,0,"");
     boolean test = transProc.enable(false,trans);
@@ -27,6 +29,7 @@ public class EnableTest{
   // disable a disabled account
   @Test
   public void disableDisabled(){
+    transProc.process();
     byte code = 7;
     Transaction trans = new Transaction(code,"Billy-Bob Thornton",10003,0,"");
     boolean test = transProc.enable(false,trans);
@@ -36,6 +39,7 @@ public class EnableTest{
   // enable an enabled account
   @Test
   public void enableEnabled(){
+    transProc.process();
     byte code = 9;
     Transaction trans = new Transaction(code,"Billy-Bob Thornton",10001,0,"");
     boolean test = transProc.enable(true,trans);

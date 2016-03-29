@@ -3,11 +3,12 @@ import junit.framework.JUnit4TestAdapter;
 import org.junit.Test;
 
 public class CreateTest{
-  TransactionProcessor transProc = new TransactionProcessor("MasterAccount.txt", "transactions.trf");
+  TransactionProcessor transProc = new TransactionProcessor("MasterAccount.txt", "adminTransactions.trf");
 
   // test a valid account
   @Test
   public void createSuccess(){
+    transProc.process();
     byte code = 5;
     Transaction trans = new Transaction(code,"Billy-Bob Thornton",0,300.20f,"");
     boolean test = transProc.create(trans);
@@ -17,6 +18,7 @@ public class CreateTest{
   // test an invalid name
   @Test
   public void createBadName(){
+    transProc.process();
     byte code = 5;
     Transaction trans = new Transaction(code,"11111",10001,300.20f,"");
     boolean test = transProc.create(trans);

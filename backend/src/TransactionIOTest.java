@@ -4,9 +4,10 @@ import org.junit.Test;
 import java.util.Vector;
 public class TransactionIOTest{
 
+
   // test method that reads the transaction file
   @Test
-  public void readFileTest(){
+  public void readFileTestSuccess(){
     Vector<Transaction> expectTrans = new Vector<Transaction>();
     Transaction trans1 = new Transaction((byte)10, "Billy-Bob Thornton", 0, 0.0f, "S");
     Transaction trans2 = new Transaction((byte)2, "Billy-Bob Thornton", 10001, 275.10f, "");
@@ -25,6 +26,12 @@ public class TransactionIOTest{
       assertEquals(expectTrans.get(i).getValue(),actualTrans.get(i).getValue(),0.0f);
       assertEquals(expectTrans.get(i).getMisc(),actualTrans.get(i).getMisc());
     }
+  }
+
+  @Test
+  public void readFileTestFail(){
+    TransactionIO transIO = new TransactionIO("failTransactions.trf");
+    assertEquals(null, transIO.readFile());
   }
 
   public static junit.framework.Test suite(){

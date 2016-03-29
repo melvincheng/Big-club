@@ -2,18 +2,28 @@ import static org.junit.Assert.*;
 import junit.framework.JUnit4TestAdapter;
 import org.junit.Test;
 public class ChangeplanTest{
+  TransactionProcessor transProc = new TransactionProcessor("MasterAccount.txt", "adminTransactions.trf");
   @Test
   public void changeplanTestPass(){
-    TransactionProcessor transProc = new TransactionProcessor("MasterAccount.txt", "transactions.trf");
-    Transaction tranTest = new Transaction((byte)2,"Billy-bob Thornton",10002,200f,"");
+    transProc.process();
+    byte code = 8;
+    Transaction tranTest = new Transaction(code,"Billy-Bob Thornton",10002,200f,"");
     assertEquals(true, transProc.changeplan(tranTest));
   }
 
   @Test
   public void changeplanTestFail(){
-    TransactionProcessor transProc = new TransactionProcessor("MasterAccount.txt", "transactions.trf");
-    Transaction tranTest = new Transaction((byte)2,"Rick",10002,200f,"");
+    transProc.process();
+    byte code = 8;
+    Transaction tranTest = new Transaction(code,"Rick",10009,200f,"");
     assertEquals(false, transProc.changeplan(tranTest));  
+  }
+
+  @Test
+  public void changeplanNotAdminTest(){
+    byte code = 8;
+    Transaction tranTest = new Transaction(code,"Rick",10009,200f,"");
+    assertEquals(false, transProc.changeplan(tranTest));
   }
 
   public static junit.framework.Test suite(){

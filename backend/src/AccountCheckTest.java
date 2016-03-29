@@ -15,21 +15,21 @@ public class AccountCheckTest{
 
   // Account check when account doesn't exist
   @Test
-  public void AccountCheckNoId(){
+  public void accountCheckNoId(){
     boolean test = transProc.accountCheck("Billy-Bob Thornton",42);
     assertEquals(false,test);
   }
 
   // Account check when account holder name is invalid
   @Test
-  public void AccountCheckNoName(){
+  public void accountCheckNoName(){
     boolean test = transProc.accountCheck("Slick Rick",10001);
     assertEquals(false, test);
   }
 
   // account check when account is disabled
   @Test
-  public void AccountCheckNotEnabled(){
+  public void accountCheckNotEnabled(){
     boolean test = transProc.accountCheck("Billy-Bob Thornton",10003);
     assertEquals(false,test);
   }

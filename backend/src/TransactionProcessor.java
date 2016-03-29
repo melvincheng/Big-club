@@ -54,11 +54,9 @@ public class TransactionProcessor{
       }else if(code == 10){
         if(this.logged){
           System.out.println("ERROR: User was already logged in: Transaction "+i);
-          return;
-        }
-        if(trans.getMisc() == "A"){
+        }else if(trans.getMisc().equals("A")){
           this.admin = true;
-        }else if(trans.getMisc() == "S"){
+        }else if(trans.getMisc().equals("S")){
           this.admin = false;
         }
         this.logged = true;
@@ -96,7 +94,7 @@ public class TransactionProcessor{
   }
 
   /**
-   * @brief Checks if the logged in used is an admin
+   * @brief Checks if the logged in used is an admin; required for admin functions
    * @return returns true if the user is admin, false if the user is not
    */
   public boolean adminCheck(){
@@ -249,7 +247,7 @@ public class TransactionProcessor{
         max = key;
       }
     }
-    if(!trans.getTransName().matches("[a-zA-Z/-]+")){
+    if(!trans.getTransName().matches("[a-zA-Z\\-\\s]+")){
       System.out.print("ERROR: Name contains invalid characters");
       return false;
     }
@@ -293,11 +291,20 @@ public class TransactionProcessor{
     if(!adminCheck()){
       return false;
     }
+
     int accountId = trans.getTransId();
-    if(!accountCheck(trans.getTransName(), accountId)){
+    Account account;
+    if(accounts.containsKey(accountId)){
+      account = accounts.get(accountId);
+    }else{
+      System.out.print("ERROR: Account does not exist: ");
       return false;
     }
-    Account account = accounts.get(accountId);
+    if(!account.getName().equals(trans.getTransName())){
+      System.out.print("ERROR: Account holder name is invalid: ");
+      return false;
+    }
+
     if(!willEnable && account.isEnabled()){
       account.setEnabled(false);
       return true;
