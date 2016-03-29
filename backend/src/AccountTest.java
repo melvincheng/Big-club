@@ -50,7 +50,7 @@ public class AccountTest{
 
   // test method to test if account is a student account
   @Test
-  public void IsStudentTest(){
+  public void isStudentTest(){
     Account AccTest = new Account(10002,"Rick",200.20f,true,true,0);
     assertEquals(true,AccTest.isStudent());
   }
