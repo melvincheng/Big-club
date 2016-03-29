@@ -69,7 +69,7 @@ public class AccountIO{
         balance = Float.parseFloat(token);
 
         // parse the plan flag
-        token = input.substring(38,38);
+        token = input.substring(38,39);
         if((token.compareTo("N")) == 0){
           student = false;
         }else{
@@ -170,7 +170,7 @@ public class AccountIO{
       currentpw.close();
       masterpw.close();
     }catch (Exception e){
-      System.err.println("Could not open file HELLO");
+      System.err.println("Error in writing to file");
     }
   }
 }
