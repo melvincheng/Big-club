@@ -3,9 +3,5 @@
 10003 Billy-Bob Thornton   D 00000.00 N 0000
 10004 Billy-Bob Thornton   A 00000.05 N 0000
 99999 Billy-Bob Thornton   A 00000.00 N 0000
-<<<<<<< HEAD
 10100 Billy-Bob Thornton   A 00501.00 S 0000
-00000 END OF FILE          S 00000.00 Q 0000
-=======
 00000 END OF FILE          D 00000.00 N 0000
->>>>>>> c3829b01622da24f1197116cfa95f412ca1b055f

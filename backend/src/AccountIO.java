@@ -89,12 +89,12 @@ public class AccountIO{
       // return the map
       return accounts;
     }catch(Exception e){
-      System.err.println("Error in opening file to read");
+      System.err.println("ERROR: Cannot open file to read");
       return null;
     }
   }
 
-  public void writeFile(Map<Integer,Account> newAccounts){
+  public void writeFile(Map<Integer,Account >newAccounts){
     /*
     * retrieve changed accounts
     * write to a new master accounts file
@@ -170,7 +170,7 @@ public class AccountIO{
       currentpw.close();
       masterpw.close();
     }catch (Exception e){
-      System.err.println("Error in writing to file");
+      
     }
   }
 }
