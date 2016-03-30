@@ -1,6 +1,9 @@
 import static org.junit.Assert.*;
 import junit.framework.JUnit4TestAdapter;
 import org.junit.Test;
+import org.junit.Before;
+import org.junit.After;
+
 
 import java.util.Map;
 import java.util.HashMap;
@@ -9,7 +12,15 @@ import java.util.HashSet;
 
 import java.io.*;
 public class AccountIOTest{
-
+  final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+  @Before
+  public void setupStream(){
+    System.setErr(new PrintStream(outContent));
+  }
+  @After
+  public void cleanStream(){
+    System.setErr(null);
+  }
   // read accounts file correctly
   @Test
   public void readFileTestSuccess(){
@@ -39,21 +50,6 @@ public class AccountIOTest{
       assertEquals(expectAccounts.get(key).getCount(),actualAccounts.get(key).getCount());
     }
   }
-
-  // test a bad file
-  @Test
-  public void readFileTestFail(){
-    AccountIO accIO = new AccountIO("failmasters.trf");
-    assertEquals(null, accIO.readFile());
-  }
-
-  // fail to write file
-  @Test
-  public void writeFileFail(){
-    
-  }
-
-
 
   public static junit.framework.Test suite(){
     return new JUnit4TestAdapter(AccountIOTest.class);

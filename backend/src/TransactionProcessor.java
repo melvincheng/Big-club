@@ -41,7 +41,7 @@ public class TransactionProcessor{
     boolean successful = true;
 
     // if a bad file was read, the program stops
-    if(transactions == null){
+    if(transactions == null || accounts == null){
       return;
     }
     // loops through all the transactions
