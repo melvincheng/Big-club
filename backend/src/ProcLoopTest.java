@@ -18,6 +18,13 @@ public class ProcLoopTest{
     assertEquals(1,transProc.transactions.size());
   }
 
+  // test only 1 iteration of the loop
+  @Test
+  public void twoProc(){
+    TransactionProcessor transProc = new TransactionProcessor("../../resources/MasterAccount.txt", "../../resources/transactionsTwice.trf");
+    assertEquals(2,transProc.transactions.size());
+  }
+
   // test multiple iterations of the loop
   @Test
   public void MultiProc(){
