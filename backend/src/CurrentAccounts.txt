@@ -1,0 +1,7 @@
+99999   Billy-Bob Thornton A 00000.00 N
+10004   Billy-Bob Thornton A 00000.00 N
+10001   Billy-Bob Thornton A 00500.90 N
+10003   Billy-Bob Thornton D 00000.00 N
+10002   Billy-Bob Thornton A 00300.00 N
+10100   Billy-Bob Thornton A 00501.00 S
+00000          END OF FILE D 00000.00 S
